@@ -1,0 +1,87 @@
+CREATE TABLE USER {
+	UserID: 		Integer
+	Name: 			String
+	DateJoined: 	Integer 
+	Age:			Integer
+
+	Primary Key(UserID)
+}
+
+CREATE TABLE IMAGE {
+	ImageID:		Integer
+	Date Added:		Integer
+	ImageURL:		String
+	DisplayOrder:	Integer
+
+	UserID:			Integer 	NOT NULL
+
+	Primary Key(ImageID)
+	Foreign Key(UserID) references Users(UserID)
+}
+
+CREATE TABLE MESSAGE {
+	MessageID:		Integer
+	UserID:			Integer		NOT NULL
+	MatchID:		Integer		NOT NULL
+
+	MessageString:	String 	
+	SendTime:		Integer
+
+	Foreign Key(UserID) References User(UserID)
+	Foreign Key(MatchID) References Match(MatchID)
+
+	Primary Key(MessageID)
+}
+
+CREATE TABLE INTEREST {
+	InterestType: String
+}
+
+CREATE TABLE DATEIDEA {
+	DateID:			Integer
+	Time:			Integer
+	Location:		String
+	Activity:		String
+	Discount:		Integer	
+
+	InterestType:	String 		NOT NULL
+	BusinessID:		Integer		NOT NULL
+
+	Primary Key(DateID, BusinessID, InterestType)
+
+	Foreign Key(InterestType) references Interest(InterestType)
+	Foreign Key(BusinessID) references Business
+}
+
+CREATE TABLE Match {
+	UserID1:		Integer		NOT NULL
+	UserID2:		Integer		NOT NULL
+	MatchID:		Integer
+	
+	Primary Key(MatchID);
+	Foreign Key(UserID1) references User(UserID)
+	Foreign Key(UserID2) references User(UserID)	
+}
+
+CREATE TABLE SuccessfulMatch {
+	MatchID:			Integer
+
+	Primary Key(MatchID)
+	Foreign Key(MatchID) references Match
+}
+
+CREATE TABLE NOTSuccessfulMatch {
+	MatchID:			Integer
+
+	Primary Key(MatchID)
+	Foreign Key(MatchID) references Match
+}
+
+CREATE TABLE BUSINESS {
+	BusinessID:		Integer
+	Name:			String
+	Location		String
+
+	Primary Key(BusinessID)
+}
+

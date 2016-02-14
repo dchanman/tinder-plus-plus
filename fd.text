@@ -1,0 +1,19 @@
+Function Dependencies:
+
+U : User
+M : Match
+SM: SuccessfulMatch
+NM: NoMatch
+Msg: Messages
+DI : Date Idea
+B: Business
+I: Image
+
+User -> Image
+User -> Match
+User -> Message
+Match -> SuccessfulMatch
+Match -> NoMatch
+SucessfulMatch -> DateIdea
+DateIdea -> Business
+DateIdea -> Interest

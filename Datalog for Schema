@@ -6,9 +6,7 @@ Match(MatchID, UserID1, UserID2), Match(MatchID, UserID1', UserID2') -> UserID1 
 Match(MatchID, UserID1, UserID2), Match(MatchID, UserID1', UserID2') -> UserID2 = UserID2'
 
 Message(MessageID, MessageString, SendTime, MatchID, UserID), Message(MessageID, MessageString', SendTime', MatchID', UserID') -> MessageString = MessageString'
-
 Message(MessageID, MessageString, SendTime, MatchID, UserID), Message(MessageID, MessageString', SendTime', MatchID', UserID') -> MatchID = MatchID'
-
 Message(MessageID, MessageString, SendTime, MatchID, UserID), Message(MessageID, MessageString', SendTime', MatchID', UserID') -> UserID = UserID'
 
 SuccessfulMatch(MatchID, UserID1, UserID2), Match(MatchID, UserID1', UserID2') -> UserID1 = UserID1'
@@ -18,23 +16,15 @@ NoMatch(MatchID, UserID1, UserID2), Match(MatchID, UserID1', UserID2') -> UserID
 NoMatch(MatchID, UserID1, UserID2), Match(MatchID, UserID1', UserID2') -> UserID2 = UserID2'
 
 Image(ImageID, DateAdded, ImageURL, DisplayOrder), Image(ImageID, DateAdded', ImageURL', DisplayOrder') -> DateAdded = DateAdded'
-
 Image(ImageID, DateAdded, ImageURL, DisplayOrder), Image(ImageID, DateAdded', ImageURL', DisplayOrder') -> ImageURL = ImageURL'
-
 Image(ImageID, DateAdded, ImageURL, DisplayOrder), Image(ImageID, DateAdded', ImageURL', DisplayOrder') -> DisplayOrder = DisplayOrder'
 
 DateIdea(DateID, Time, Location, Activity, Discount, InterestType, BusinessID), DateIdea(DateID, Time', Location', Activity', Discount' InterestType', BusinessID') -> Time = Time'
-
 DateIdea(DateID, Time, Location, Activity, Discount, InterestType, BusinessID), DateIdea(DateID, Time', Location', Activity', Discount' InterestType', BusinessID') -> Location = Location'
-
 DateIdea(DateID, Time, Location, Activity, Discount, InterestType, BusinessID), DateIdea(DateID, Time', Location', Activity', Discount' InterestType', BusinessID') -> Activity = Activity'
-
 DateIdea(DateID, Time, Location, Activity, Discount, InterestType, BusinessID), DateIdea(DateID, Time', Location', Activity', Discount' InterestType', BusinessID') -> Discount = Discount'
-
 DateIdea(DateID, Time, Location, Activity, Discount, InterestType, BusinessID), DateIdea(DateID, Time', Location', Activity', Discount' InterestType', BusinessID') -> InterestType = InterestType'
-
 DateIdea(DateID, Time, Location, Activity, Discount, InterestType, BusinessID), DateIdea(DateID, Time', Location', Activity', Discount' InterestType', BusinessID') -> BusinessID = BusinessID'
 
 Business(BusinessID, Name, Location), Business(BusinessID, Name', Location') -> Name = Name'
-
 Business(BusinessID, Name, Location), Business(BusinessID, Name', Location') -> Location = Location'

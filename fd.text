@@ -1,4 +1,4 @@
-Function Dependencies:
+Function Dependencies:1
 
 User FD:
 UserID -> DateJoined
@@ -41,3 +41,4 @@ BusinessID -> Name
 BusinessID -> Location
 
 Most of our entities are determined by the ID attached to it. Relatively simple FD's
+

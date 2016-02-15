@@ -1,19 +1,43 @@
 Function Dependencies:
 
-U : User
-M : Match
-SM: SuccessfulMatch
-NM: NoMatch
-Msg: Messages
-DI : Date Idea
-B: Business
-I: Image
+User FD:
+UserID -> DateJoined
+UserID -> ProfileDescription
+UserID -> Age
 
-User -> Image
-User -> Match
-User -> Message
-Match -> SuccessfulMatch
-Match -> NoMatch
-SucessfulMatch -> DateIdea
-DateIdea -> Business
-DateIdea -> Interest
+Match FD:
+MatchID -> UserID1
+MatchID -> UserID2
+UserID1,UserID2 -> MatchID
+
+Message FD:
+MessageID -> MessageString, SendTime, UserID, MatchID
+
+SuccessfulMatch FD:
+MatchID -> UserID1
+MatchID -> UserID2
+UserID1, UserID2 -> MatchID
+
+NoMatch FD:
+MatchID -> UserID1
+MatchID -> UserID2
+UserID1, UserID2 -> MatchID
+
+Image FD:
+ImageID -> DateAdded
+ImageID -> ImageURL
+ImageID -> DisplayOrder
+
+DateIdea FD:
+DateID -> Time
+DateID -> Location
+DateID -> Activity
+DateID -> Discount
+DateID -> BusinessID
+DateID -> InterestType
+
+Business FD:
+BusinessID -> Name
+BusinessID -> Location
+
+Most of our entities are determined by the ID attached to it. Relatively simple FD's

@@ -71,7 +71,7 @@ CREATE TABLE SuccessfulMatch {
 }
 
 CREATE TABLE NOTSuccessfulMatch {
-	MatchID:			Integer
+	MatchID:		Integer
 
 	Primary Key(MatchID)
 	Foreign Key(MatchID) references Match
@@ -85,3 +85,4 @@ CREATE TABLE BUSINESS {
 	Primary Key(BusinessID)
 }
 
+Table is already in BCNF. Main reason for this is that most of the tables are identifiable by ID.

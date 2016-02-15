@@ -1,0 +1,41 @@
+Table Definition
+
+User(UserID, DateJoined, Age, Name, Profile Description)
+Primary Key: UserID
+
+Image(ImageID, DateAddeid, ImageURL, DisplayOrder, UserID)
+Primary Key: ImageID, UserID
+Foreign Key: UserID references from User
+
+Match(UserID1, UserID2, MatchID)
+Primary Key: UserID1, UserID2, MatchID
+Foreign Key: UserID1 references from User, UserID2 references from User
+
+Message(MessageID(?), UserID, MatchID, MessageString, SendTime)
+Primary Key: MessageID, UserID, MatchID
+Foreign Key: UserID references from User, MatchID references from Match
+
+Interest(InterestType,UserID)
+Primary Key: InterestType, UserID
+Foreign Key: UserID references from User
+
+DateIdea(DateID, Time, Location, Activity, Discount, 
+InterestType, BusinessID)
+Primary Key: DateID, BusinessID, InterestType
+Foreign Key: BusinessID references from Business,
+			 InterestType references from Interests
+
+SuccessfulMatch(MatchID, UserID1, UserID2)
+Primary Key: MatchID, UserID1, UserID2
+Foreign Key: UserID1 references from User,
+			 UserID2 references from User
+
+NoMatch(MatchID, UserID1, UserID2)
+Primary Key: MatchID, UserID1, UserID2
+Foreign Key: UserID1 references from User,
+			 UserID2 references from User
+
+Business(BusinessID, Name, Location)
+Primary Key: BusinessID
+Foreign Key: 
+

@@ -1,41 +1,108 @@
-Table Definition
+################################################################################
+# Defined Types
+################################################################################
+For convenience and consistency, we will define the following types here:
+        Time: long - following UNIX timestamp, time in seconds since Jan 1 1970
+        Date: long - following UNIX timestamp, time in seconds since Jan 1 1970
+        URL: char(2083) - following Internet Explorer's URL max char limit
+        
 
-User(UserID, DateJoined, Age, Name, Profile Description)
-Primary Key: UserID
+################################################################################
+# Entity Tables
+################################################################################
 
-Image(ImageID, DateAddeid, ImageURL, DisplayOrder, UserID)
-Primary Key: ImageID, UserID
-Foreign Key: UserID references from User
+User(UserID: Integer, Name: char(30), DateJoined: Date, ProfileDescription: char(500), Age: Integer).
+Primary Key: (UserID)
+Functional Dependencies:
+        UserID -> Name, DateJoined, Profile Description, Age
+                The user ID uniquely identifies a complete user profile
 
-Match(UserID1, UserID2, MatchID)
-Primary Key: UserID1, UserID2, MatchID
-Foreign Key: UserID1 references from User, UserID2 references from User
 
-Message(MessageID(?), UserID, MatchID, MessageString, SendTime)
-Primary Key: MessageID, UserID, MatchID
-Foreign Key: UserID references from User, MatchID references from Match
+Disjoint Union for 'Match':
+SuccessfulMatch(UserID1: Integer, UserID2: Integer).
+UnsuccessfulMatch(UserID1: Integer, UserID2: Integer).
+Primary Key: (UserID1, UserID2)
+Foreign Keys:
+        UserID1 references User
+        UserID2 references User
+Functional Dependencies:
+        None
+        
+        
+Image(UserID: Integer, DisplayOrder: Integer, DateAdded: Date, ImageURL: URL).
+Primary Key: (UserID, DisplayOrder)
+Constraints: DisplayOrder must be between 0-3. Users can only link up to 3 images.
+Foreign Keys:
+        UserID references User
+Functional Dependencies:
+        UserID, DisplayOrder -> DateAdded, ImageURL
+                The UserID and DisplayOrder determine the image link and the date it was added
 
-Interest(InterestType,UserID)
-Primary Key: InterestType, UserID
-Foreign Key: UserID references from User
 
-DateIdea(DateID, Time, Location, Activity, Discount, 
-InterestType, BusinessID)
-Primary Key: DateID, BusinessID, InterestType
-Foreign Key: BusinessID references from Business,
-			 InterestType references from Interests
+Message(MessageID: Integer, SenderUserID: Integer, ReceiverUserID: Integer, MessageString: char(20000), SendTime: Time).
+Primary Key: (MessageID, SenderUserID, ReceiverUserID)
+Foreign Keys:
+        SenderUserID references SuccessfulMatch
+        ReceiverUserID references SuccessfulMatch
+Functional Dependencies:
+        MessageID -> SenderUserID, ReceiverUserID
+                The MessageID can determine the sender and recipient of a message
+        MessageID -> MessageString, SendTime
+                The MessageID determines the message contents and send time
 
-SuccessfulMatch(MatchID, UserID1, UserID2)
-Primary Key: MatchID, UserID1, UserID2
-Foreign Key: UserID1 references from User,
-			 UserID2 references from User
+                        
+Business(BusinessName: char(30), Location: char(50)).
+        Primary Key: (BusinessName)
 
-NoMatch(MatchID, UserID1, UserID2)
-Primary Key: MatchID, UserID1, UserID2
-Foreign Key: UserID1 references from User,
-			 UserID2 references from User
 
-Business(BusinessID, Name, Location)
-Primary Key: BusinessID
-Foreign Key: 
+Interest(InterestType: char(20)).
+Primary Key: (InterestType)
+Functional Dependencies:
+        None
 
+
+Activity(Activity: char(50), BusinessName: char(30), Interest: char(20)).
+Primary Key: (Activity, BusinessName)
+Foreign Keys:
+        BusinessName references Business
+        Interest references Interest
+Functional Dependencies:
+        Activity -> Interest
+                A date idea appeals to a certain interest                
+BCNF Decomposition:
+        ActivityBusiness(Activity: char(50), BusinessName: char(30)).
+        ActivityInterest(Activity: char(50), Interest: char(20)).
+
+ActivityTime(Activity: char(50), BusinessName: char(30), Time: Time, DateLocation: char(50), Discount: int)
+Primary Key: (Activity, Time, DateLocation)
+Foreign Keys:
+        (Activity, BusinessName) references Activity
+Functional Dependencies:
+        Activity, Time, DateLocation -> Discount
+                The activity, time, and location determine possible discounts
+
+################################################################################
+# Relationship Tables
+################################################################################
+InterestedIn(UserID: Integer, Interest: char(20)).
+Primary Key: (UserID, Interest)
+Foreign Keys:
+        UserID references User
+        Interest references Interest
+Functional Dependencies:
+        None
+        
+SuggestedDate(UserID1: Integer, UserID2: Integer, Activity: char(50)).
+Primary Key: (UserID1, UserID2)
+Foreign Keys:
+        UserID1, UserID2 references SuccessfulMatch(UserID1, UserID2)
+        Activity references DateIdea
+Functional Dependencies:
+        UserID1, UserID2 -> Activity
+                The common interests between the users determine a suggested date
+        
+################################################################################
+# Tables
+################################################################################
+All above tables are normalized and are in BCNF unless otherwise mentionned.
+All FDs involve only keys in the LHS. 

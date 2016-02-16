@@ -1,108 +1,107 @@
 CREATE TABLE USER {
-	UserID: 		Integer NOT NULL
-	Name: 			Char(30) NOT NULL
-	DateJoined: 	        Integer NOT NULL
-	Age:			Integer NOT NULL
+	UserID: 		Integer NOT NULL,
+	Name: 			Char(30) NOT NULL,
+	DateJoined: 	        Integer NOT NULL,
+	Age:			Integer NOT NULL,
 
 	Primary Key(UserID)
-}
+};
 
 CREATE TABLE SuccessfulMatch {
-        UserID1:		Integer NOT NULL
-        UserID2:		Integer NOT NULL
+        UserID1:		Integer NOT NULL,
+        UserID2:		Integer NOT NULL,
 
-        Primary Key(UserID1, UserID2);
-        Foreign Key(UserID1) references User(UserID)
-        Foreign Key(UserID2) references User(UserID)	
-}
+        Primary Key(UserID1, UserID2),
+        Foreign Key(UserID1) references User(UserID),
+        Foreign Key(UserID2) references User(UserID)
+};
 
 CREATE TABLE UnsuccessfulMatch {
-        UserID1:		Integer NOT NULL
-        UserID2:		Integer NOT NULL
+        UserID1:		Integer NOT NULL,
+        UserID2:		Integer NOT NULL,
 
-        Primary Key(UserID1, UserID2);
-        Foreign Key(UserID1) references User(UserID)
+        Primary Key(UserID1, UserID2),
+        Foreign Key(UserID1) references User(UserID),
         Foreign Key(UserID2) references User(UserID)
-}
+};
 
 CREATE TABLE Image {
-        UserID:                 Integer NOT NULL
-	Date Added:             Integer NOT NULL
-	ImageURL:		String NOT NULL
-	DisplayOrder:	        Integer NOT NULL
+        UserID:                 Integer NOT NULL,
+	Date Added:             Integer NOT NULL,
+	ImageURL:		Char(2083) NOT NULL,
+	DisplayOrder:	        Integer NOT NULL,
 
-	Primary Key(UserID)
+	Primary Key(UserID),
 	Foreign Key(UserID) references Users(UserID)
-        Check (DisplayOrder >= 1  AND DisplayOrder <= 3)
-}
+};
 
 CREATE TABLE Message {
-	MessageID:		Integer NOT NULL
-	SenderUserID:		Integer NOT NULL
-        ReceiverUserID:		Integer NOT NULL
-	MessageString:	        String NOT NULL
-	SendTime:		Integer NOT NULL
+	MessageID:		Integer NOT NULL,
+	SenderUserID:		Integer NOT NULL,
+        ReceiverUserID:		Integer NOT NULL,
+	MessageChar():	        Char(20000) NOT NULL,
+	SendTime:		Integer NOT NULL,
 
-	Foreign Key(SenderUserID) References User(UserID)
-        Foreign Key(ReceiverUserID) References User(UserID)
+	Foreign Key(SenderUserID) References User(UserID),
+        Foreign Key(ReceiverUserID) References User(UserID),
 	Primary Key(MessageID)
-}
+};
 
 CREATE TABLE Business {
-	BusinessName:		String NOT NULL
-	Location		String
+	BusinessName:		Char(30) NOT NULL,
+	Location		Char(50),
 
 	Primary Key(BusinessID)
-}
+};
 
 CREATE TABLE Interest {
-	InterestType: String NOT NULL
+	InterestType: Char(20) NOT NULL,
         
         Primary Key(InterestType)
-}
+};
 
 CREATE TABLE ActivityBusiness {
-        Activity:		String NOT NULL
-        BusinessName:		String NOT NULL
+        Activity:		Char(50) NOT NULL,
+        BusinessName:		Char(30) NOT NULL,
 
-	Primary Key(Activity, BusinessID)
+	Primary Key(Activity, BusinessID),
 	Foreign Key(BusinessID) references Business
-}
+};
 
 CREATE TABLE ActivityInterest {
-        Activity:		String NOT NULL
-        InterestType:	        String NOT NULL
+        Activity:		Char(50) NOT NULL,
+        InterestType:	        Char(20) NOT NULL,
         
-        Primary Key(Activity)
-        Foreign Key(Activity) references ActivityBusiness(Activity)
+        Primary Key(Activity),
+        Foreign Key(Activity) references ActivityBusiness(Activity),
         Foreign Key(InterestType) references Interest(InterestType)
-}
+};
 
 CREATE TABLE ActivityTime {
-        Activity:               String NOT NULL
-        BusinessName:           String NOT NULL
-        Time:                   String NOT NULL
-        DateLocation:           String NOT NULL
-        Discount:               Integer
+        Activity:               Char(50) NOT NULL,
+        BusinessName:           Char(30) NOT NULL,
+        Time:                   Long NOT NULL,
+        DateLocation:           Char(50) NOT NULL,
+        Discount:               Integer,
         
-        Primary Key(Activity, BusinessName, Time, DateLocation)
+        Primary Key(Activity, BusinessName, Time, DateLocation),
         Foreign Key(Activity, BusinessName) references ActivityBusiness(Activity, BusinessID)
-}
+};
 
 CREATE TABLE InterestedIn {
-        UserID:                 Integer NOT NULL
-        Interest:               String NOT NULL
+        UserID:                 Integer NOT NULL,
+        Interest:               Char(20) NOT NULL,
         
-        Primary Key(UserID, Interest)
-        Foreign Key(UserID) references User(UserID)
+        Primary Key(UserID, Interest),
+        Foreign Key(UserID) references User(UserID),
         Foreign Key(Interest) references Interest(InterestType)
-}
+};
 
 CREATE TABLE SuggestedDate {
-        UserID1:                Integer NOT NULL
-        UserID2:                Integer NOT NULL
-        Activity:               String NOT NULL
+        UserID1:                Integer NOT NULL,
+        UserID2:                Integer NOT NULL,
+        Activity:               Char(50) NOT NULL,
         
-        Primary Key(UserID1, UserID2)
+        Primary Key(UserID1, UserID2),
         Foreign Key(UserID1, UserID2) references SuccessfulMatch(UserID1, UserID2)
-} 
+};

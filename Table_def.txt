@@ -81,7 +81,16 @@ Functional Dependencies:
                 A date idea appeals to a certain interest                
 BCNF Decomposition:
         ActivityBusiness(Activity: char(50), BusinessName: char(30)).
+                Primary Keys: (Activity, BusinessName)
+                Foreign Keys:
+                        Activity references Activity
+                        BusinessName references Business
         ActivityInterest(Activity: char(50), Interest: char(20)).
+                Primary Keys: (Activity)
+                Foreign Keys:
+                        Activity references Activity
+                        Interest references Interest
+
 
 ActivityTime(Activity: char(50), BusinessName: char(30), Time: Time, DateLocation: char(50), Discount: int)
 Primary Key: (Activity, Time, DateLocation)
@@ -102,6 +111,7 @@ Foreign Keys:
         Interest references Interest
 Functional Dependencies:
         None
+
         
 SuggestedDate(UserID1: Integer, UserID2: Integer, Activity: char(50)).
 Primary Key: (UserID1, UserID2)
@@ -113,8 +123,9 @@ Functional Dependencies:
         UserID1, UserID2 -> Activity
                 The common interests between the users determine a suggested date
         
+        
 ################################################################################
-# Tables
+# BCNF/3NF Normalization
 ################################################################################
 All above tables are normalized and are in BCNF unless otherwise mentionned.
 All FDs involve only keys in the LHS. 

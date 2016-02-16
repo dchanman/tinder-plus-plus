@@ -11,11 +11,11 @@ For convenience and consistency, we will define the following types here:
 # Entity Tables
 ################################################################################
 
-User(UserID: Integer, Name: char(30), DateJoined: Date, ProfileDescription: char(500), Age: Integer).
+User(UserID: Integer, Name: char(30), DateJoined: Date, ProfileDescription: char(500), Age: Integer, Gender: char(1), Preference: char(1)).
 Primary Key: (UserID)
 Candidate Keys: (UserID)
 Functional Dependencies:
-        UserID -> Name, DateJoined, Profile Description, Age
+        UserID -> Name, DateJoined, Profile Description, Age, Gender, Preference
                 The user ID uniquely identifies a complete user profile
 
 

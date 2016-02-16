@@ -1,8 +1,10 @@
 CREATE TABLE USER {
 	UserID: 		Integer NOT NULL,
 	Name: 			Char(30) NOT NULL,
-	DateJoined: 	        Integer NOT NULL,
+	DateJoined: 	        Long NOT NULL,
 	Age:			Integer NOT NULL,
+        Gender:                 Char(1) NOT NULL,
+        Preference:             Char(1) NOT NULL,
 
 	Primary Key(UserID)
 };
@@ -13,7 +15,8 @@ CREATE TABLE SuccessfulMatch {
 
         Primary Key(UserID1, UserID2),
         Foreign Key(UserID1) references User(UserID),
-        Foreign Key(UserID2) references User(UserID)
+        Foreign Key(UserID2) references User(UserID),
+        Check (UserID1 < UserID2)
 };
 
 CREATE TABLE UnsuccessfulMatch {
@@ -22,12 +25,13 @@ CREATE TABLE UnsuccessfulMatch {
 
         Primary Key(UserID1, UserID2),
         Foreign Key(UserID1) references User(UserID),
-        Foreign Key(UserID2) references User(UserID)
+        Foreign Key(UserID2) references User(UserID),
+        Check (UserID1 < UserID2)
 };
 
 CREATE TABLE Image {
         UserID:                 Integer NOT NULL,
-	Date Added:             Integer NOT NULL,
+	DateAdded:             Long NOT NULL,
 	ImageURL:		Char(2083) NOT NULL,
 	DisplayOrder:	        Integer NOT NULL,
 
@@ -40,10 +44,14 @@ CREATE TABLE Message {
 	SenderUserID:		Integer NOT NULL,
         ReceiverUserID:		Integer NOT NULL,
 	MessageChar():	        Char(20000) NOT NULL,
-	SendTime:		Integer NOT NULL,
+	SendTime:		Long NOT NULL,
 
-	Foreign Key(SenderUserID) References User(UserID),
-        Foreign Key(ReceiverUserID) References User(UserID),
+        if (SenderUserID < ReceiverUserID)
+                Foreign Key (SenderUserId, ReceiverUserID) references SuccessfulMatch(UserID1, UserID2)
+        else
+                Foreign Key (ReceiverUserID, SenderUserID) references SuccessfulMatch(UserID1, UserID2)
+        end if;
+        
 	Primary Key(MessageID)
 };
 
@@ -80,7 +88,7 @@ CREATE TABLE ActivityInterest {
 CREATE TABLE ActivityTime {
         Activity:               Char(50) NOT NULL,
         BusinessName:           Char(30) NOT NULL,
-        Time:                   Long NOT NULL,
+        Time:                   Char(5) NOT NULL,
         DateLocation:           Char(50) NOT NULL,
         Discount:               Integer,
         

@@ -13,6 +13,7 @@ For convenience and consistency, we will define the following types here:
 
 User(UserID: Integer, Name: char(30), DateJoined: Date, ProfileDescription: char(500), Age: Integer).
 Primary Key: (UserID)
+Candidate Keys: (UserID)
 Functional Dependencies:
         UserID -> Name, DateJoined, Profile Description, Age
                 The user ID uniquely identifies a complete user profile
@@ -22,6 +23,7 @@ Disjoint Union for 'Match':
 SuccessfulMatch(UserID1: Integer, UserID2: Integer).
 UnsuccessfulMatch(UserID1: Integer, UserID2: Integer).
 Primary Key: (UserID1, UserID2)
+Candidate Keys: (UserID1, UserID2)
 Foreign Keys:
         UserID1 references User
         UserID2 references User
@@ -31,6 +33,7 @@ Functional Dependencies:
         
 Image(UserID: Integer, DisplayOrder: Integer, DateAdded: Date, ImageURL: URL).
 Primary Key: (UserID, DisplayOrder)
+Candidate Keys: (UserID, DisplayOrder)
 Constraints: DisplayOrder must be between 0-3. Users can only link up to 3 images.
 Foreign Keys:
         UserID references User
@@ -41,6 +44,7 @@ Functional Dependencies:
 
 Message(MessageID: Integer, SenderUserID: Integer, ReceiverUserID: Integer, MessageString: char(20000), SendTime: Time).
 Primary Key: (MessageID, SenderUserID, ReceiverUserID)
+Candidate Keys: (MessageID, SenderUserID, ReceiverUserID), (MessageID, SenderUserID, SendTime)
 Foreign Keys:
         SenderUserID references SuccessfulMatch
         ReceiverUserID references SuccessfulMatch
@@ -53,6 +57,7 @@ Functional Dependencies:
                         
 Business(BusinessName: char(30), Location: char(50)).
 Primary Key: (BusinessName)
+Candidate Keys: (BusinessName)
 Functional Dependencies:
         BusinessName -> Location
                 The business determines its location
@@ -60,12 +65,14 @@ Functional Dependencies:
 
 Interest(InterestType: char(20)).
 Primary Key: (InterestType)
+Candidate Keys: (InterestType)
 Functional Dependencies:
         None
 
 
 Activity(Activity: char(50), BusinessName: char(30), Interest: char(20)).
 Primary Key: (Activity, BusinessName)
+Candidate Key: (Activity, BusinessName)
 Foreign Keys:
         BusinessName references Business
         Interest references Interest
@@ -89,6 +96,7 @@ Functional Dependencies:
 ################################################################################
 InterestedIn(UserID: Integer, Interest: char(20)).
 Primary Key: (UserID, Interest)
+Candidate Keys: (UserID, Interest)
 Foreign Keys:
         UserID references User
         Interest references Interest
@@ -97,6 +105,7 @@ Functional Dependencies:
         
 SuggestedDate(UserID1: Integer, UserID2: Integer, Activity: char(50)).
 Primary Key: (UserID1, UserID2)
+Candidate Keys: (UserID1, UserID2)
 Foreign Keys:
         UserID1, UserID2 references SuccessfulMatch(UserID1, UserID2)
         Activity references DateIdea

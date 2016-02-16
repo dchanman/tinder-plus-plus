@@ -52,7 +52,10 @@ Functional Dependencies:
 
                         
 Business(BusinessName: char(30), Location: char(50)).
-        Primary Key: (BusinessName)
+Primary Key: (BusinessName)
+Functional Dependencies:
+        BusinessName -> Location
+                The business determines its location
 
 
 Interest(InterestType: char(20)).

@@ -2,6 +2,7 @@ CREATE TABLE USER {
 	UserID: 		Integer NOT NULL,
 	Name: 			Char(30) NOT NULL,
 	DateJoined: 	        Long NOT NULL,
+	Location:		Char(30) NOT NULL,
 	Age:			Integer NOT NULL,
         Gender:                 Char(1) NOT NULL,
         Preference:             Char(1) NOT NULL,

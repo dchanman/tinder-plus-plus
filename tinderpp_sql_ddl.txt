@@ -77,6 +77,16 @@ CREATE TABLE Interest {
         Primary Key(InterestType)
 };
 
+CREATE TABLE InterestedIn {
+	InterestType: Char(20) NOT NULL,
+	UserID: Integer NOT NULL,
+	Primary Key(InterestType, UserID),
+	Foreign Key(InterestType) references Interest(InterestType)
+		ON DELETE CASCADE,
+	Foreign Key(UserID) references User(UserID)
+		ON DELETE CASCADE
+};
+
 
 CREATE TABLE ActivityTime {
         Activity:               Char(50) NOT NULL,

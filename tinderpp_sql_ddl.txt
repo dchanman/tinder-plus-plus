@@ -16,7 +16,9 @@ CREATE TABLE SuccessfulMatch {
 
         Primary Key(UserID1, UserID2),
         Foreign Key(UserID1) references User(UserID),
+                ON DELETE CASCADE
         Foreign Key(UserID2) references User(UserID),
+                ON DELETE CASCADE
         Check (UserID1 < UserID2)
 };
 
@@ -26,18 +28,22 @@ CREATE TABLE UnsuccessfulMatch {
 
         Primary Key(UserID1, UserID2),
         Foreign Key(UserID1) references User(UserID),
+                ON DELETE CASCADE
         Foreign Key(UserID2) references User(UserID),
+                ON DELETE CASCADE
         Check (UserID1 < UserID2)
 };
 
 CREATE TABLE Image {
         UserID:                 Integer NOT NULL,
 	DateAdded:             Long NOT NULL,
+        ImageId:                Integer NOT NULL,
 	ImageURL:		Char(2083) NOT NULL,
 	DisplayOrder:	        Integer NOT NULL,
 
-	Primary Key(UserID),
+	Primary Key(UserID, ImageId),
 	Foreign Key(UserID) references Users(UserID)
+                ON DELETE CASCADE
 };
 
 CREATE TABLE Message {
@@ -49,15 +55,17 @@ CREATE TABLE Message {
 
         if (SenderUserID < ReceiverUserID)
                 Foreign Key (SenderUserId, ReceiverUserID) references SuccessfulMatch(UserID1, UserID2)
+                        ON DELETE CASCADE
         else
                 Foreign Key (ReceiverUserID, SenderUserID) references SuccessfulMatch(UserID1, UserID2)
+                        ON DELETE CASCADE
         end if;
         
 	Primary Key(MessageID)
 };
 
 CREATE TABLE Business {
-	BusinessName:		Char(30) NOT NULL,
+	BusinessID:		Char(30) NOT NULL,
 	Location		Char(50),
 
 	Primary Key(BusinessID)
@@ -69,32 +77,19 @@ CREATE TABLE Interest {
         Primary Key(InterestType)
 };
 
-CREATE TABLE ActivityBusiness {
-        Activity:		Char(50) NOT NULL,
-        BusinessName:		Char(30) NOT NULL,
-
-	Primary Key(Activity, BusinessID),
-	Foreign Key(BusinessID) references Business
-};
-
-CREATE TABLE ActivityInterest {
-        Activity:		Char(50) NOT NULL,
-        InterestType:	        Char(20) NOT NULL,
-        
-        Primary Key(Activity),
-        Foreign Key(Activity) references ActivityBusiness(Activity),
-        Foreign Key(InterestType) references Interest(InterestType)
-};
 
 CREATE TABLE ActivityTime {
         Activity:               Char(50) NOT NULL,
-        BusinessName:           Char(30) NOT NULL,
+        BusinessID:           Char(30) NOT NULL,
         Time:                   Char(5) NOT NULL,
         DateLocation:           Char(50) NOT NULL,
         Discount:               Integer,
         
-        Primary Key(Activity, BusinessName, Time, DateLocation),
-        Foreign Key(Activity, BusinessName) references ActivityBusiness(Activity, BusinessID)
+        Primary Key(Activity, BusinessID, Time, DateLocation),
+        Foreign Key(BusinessID) references Business(Name),
+                ON DELETE CASCADE
+        Foreign
+
 };
 
 CREATE TABLE InterestedIn {
@@ -106,11 +101,18 @@ CREATE TABLE InterestedIn {
         Foreign Key(Interest) references Interest(InterestType)
 };
 
-CREATE TABLE SuggestedDate {
-        UserID1:                Integer NOT NULL,
-        UserID2:                Integer NOT NULL,
-        Activity:               Char(50) NOT NULL,
+CREATE TABLE SuggestedBy{
+        Time:                   Date,
+        Location:               Char(50),
+        Discount:               Char(50),
+        ActivityName:               Char(50) NOT NULL,
+        BusinessName:           Char(50) NOT NULL,
         
-        Primary Key(UserID1, UserID2),
-        Foreign Key(UserID1, UserID2) references SuccessfulMatch(UserID1, UserID2)
+        Primary Key(Time, Location, Activity, BusinessName),
+        Foreign Key(ActivityName) references Activity(ActivityName),
+                ON DELETE CASCADE
+        Foreign Key(Time, Location) references ActivityTime(Time, Location),
+                ON DELETE CASCADE
+        Foreign Key(BusinessName) references Business(BusinessName)
+                ON DELETE CASCADE
 };

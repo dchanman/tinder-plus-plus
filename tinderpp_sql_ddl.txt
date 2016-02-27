@@ -6,6 +6,7 @@ CREATE TABLE USER (
         Age:            Integer NOT NULL,
         Gender:                 Char(1) NOT NULL,
         Preference:             Char(1) NOT NULL,
+        PasswordHash:    Char(48),
 
         Primary Key(UserID)
 );

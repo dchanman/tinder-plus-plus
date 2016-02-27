@@ -55,7 +55,7 @@ Functional Dependencies:
                 The MessageID determines the message contents and send time
 
                         
-Business(BusinessName: char(30), Location: char(50)).
+Business(BusinessName: char(30), Location: char(50), PasswordHash: char(48)).
 Primary Key: (BusinessName)
 Candidate Keys: (BusinessName)
 Functional Dependencies:

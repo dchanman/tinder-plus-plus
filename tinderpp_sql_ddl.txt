@@ -67,6 +67,7 @@ CREATE TABLE Message (
 CREATE TABLE Business (
         BusinessID:        Char(30) NOT NULL,
         Location        Char(50),
+        PasswordHash:    Char(48),
 
         Primary Key(BusinessID)
 );

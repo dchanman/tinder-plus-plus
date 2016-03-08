@@ -9,106 +9,103 @@ DROP TABLE UnsuccessfulMatch;
 DROP TABLE SuccessfulMatch;
 DROP TABLE Users;
 
-
 CREATE TABLE Users
 (
-UserID Integer NOT NULL,
-Name Char(30) NOT NULL,
+UserID INTEGER NOT NULL,
+Name CHAR(30) NOT NULL,
 DateJoined Long NOT NULL,
-Location Char(30) NOT NULL,
-Age Integer NOT NULL,
-Gender Char(1) NOT NULL,
-Preference Char(1) NOT NULL,
-PasswordHash Char(48),
+Location CHAR(30) NOT NULL,
+Age INTEGER NOT NULL,
+Gender CHAR(1) NOT NULL,
+Preference CHAR(1) NOT NULL,
+PasswordHash CHAR(48),
 PRIMARY KEY (UserID)
 );
 
 CREATE TABLE SuccessfulMatch
 (
-UserID1 Integer NOT NULL,
-UserID2 Integer NOT NULL,
-Primary Key (UserID1, UserID2),
-Foreign Key (UserID1) references Users(UserID) ON DELETE CASCADE,
-Foreign Key (UserID2) references Users(UserID) ON DELETE CASCADE,
+UserID1 INTEGER NOT NULL,
+UserID2 INTEGER NOT NULL,
+PRIMARY KEY (UserID1, UserID2),
+FOREIGN KEY (UserID1) REFERENCES Users(UserID) ON DELETE CASCADE,
+FOREIGN KEY (UserID2) REFERENCES Users(UserID) ON DELETE CASCADE,
 Check (UserID1 < UserID2)
 );
 
 CREATE TABLE UnsuccessfulMatch
 (
-UserID1 Integer NOT NULL,
-UserID2 Integer NOT NULL,
-Primary Key (UserID1, UserID2),
-Foreign Key (UserID1) references Users(UserID) ON DELETE CASCADE,
-Foreign Key (UserID2) references Users(UserID) ON DELETE CASCADE,
+UserID1 INTEGER NOT NULL,
+UserID2 INTEGER NOT NULL,
+PRIMARY KEY (UserID1, UserID2),
+FOREIGN KEY (UserID1) REFERENCES Users(UserID) ON DELETE CASCADE,
+FOREIGN KEY (UserID2) REFERENCES Users(UserID) ON DELETE CASCADE,
 Check (UserID1 < UserID2)
 );
 
 CREATE TABLE Image
 (
-UserID Integer NOT NULL,
-DateAdded Long NOT NULL,
-ImageURL Char(2000) NOT NULL,
-DisplayOrder Integer NOT NULL,
-Primary Key (UserID),
-Foreign Key (UserID) references Users(UserID)
-ON DELETE CASCADE
+UserID INTEGER NOT NULL,
+DateAdded DATE NOT NULL,
+ImageURL CHAR(2000) NOT NULL,
+DisplayOrder INTEGER NOT NULL,
+PRIMARY KEY (UserID),
+FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
 CREATE TABLE Message
 (
-MessageID Integer NOT NULL,
-SenderUserID Integer NOT NULL,
-ReceiverUserID Integer NOT NULL,
-MessageChar Char(2000) NOT NULL,
-SendScheduledTime Long NOT NULL,
-Foreign Key (SenderUserId) references Users(UserID) ON DELETE CASCADE,
-Foreign Key (ReceiverUserID) references Users(UserID) ON DELETE CASCADE,
-Primary Key (MessageID)
+MessageID INTEGER NOT NULL,
+SenderUserID INTEGER NOT NULL,
+ReceiverUserID INTEGER NOT NULL,
+MessageChar CHAR(2000) NOT NULL,
+SendScheduledTime TIMESTAMP NOT NULL,
+FOREIGN KEY (SenderUserId) REFERENCES Users(UserID) ON DELETE CASCADE,
+FOREIGN KEY (ReceiverUserID) REFERENCES Users(UserID) ON DELETE CASCADE,
+PRIMARY KEY (MessageID)
 );
 
 CREATE TABLE Business
 (
-BusinessID Char(30) NOT NULL,
-Location Char(50),
-PasswordHash Char(48),
-Primary Key (BusinessID)
+BusinessID CHAR(30) NOT NULL,
+Location CHAR(50),
+PasswordHash CHAR(48),
+PRIMARY KEY (BusinessID)
 );
 
 CREATE TABLE Interest
 (
-InterestType Char(20) NOT NULL,
-Primary Key (InterestType)
+InterestType CHAR(20) NOT NULL,
+PRIMARY KEY (InterestType)
 );
 
 CREATE TABLE ActivityTime
 (
-Activity Char(50) NOT NULL,
-BusinessName Char(30) NOT NULL,
-ScheduledTime Date NOT NULL,
-DateLocation Char(50) NOT NULL,
-Discount Integer,
-Primary Key (Activity, BusinessName, ScheduledTime, DateLocation),
-Foreign Key (BusinessName) references Business(BusinessID) ON DELETE CASCADE
+Activity CHAR(50) NOT NULL,
+BusinessName CHAR(30) NOT NULL,
+ScheduledTime DATE NOT NULL,
+DateLocation CHAR(50) NOT NULL,
+Discount INTEGER,
+PRIMARY KEY (Activity, BusinessName, ScheduledTime, DateLocation),
+FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE
 );
 
 CREATE TABLE InterestedIn
 (
-UserID Integer NOT NULL,
-Interest Char(20) NOT NULL,
-Primary Key (UserID, Interest),
-Foreign Key (UserID) references Users(UserID) ON DELETE CASCADE,
-Foreign Key (Interest) references Interest(InterestType) ON DELETE CASCADE
+UserID INTEGER NOT NULL,
+Interest CHAR(20) NOT NULL,
+PRIMARY KEY (UserID, Interest),
+FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
+FOREIGN KEY (Interest) REFERENCES Interest(InterestType) ON DELETE CASCADE
 );
 
 CREATE TABLE SuggestedBy
 (
 ScheduledTime Date,
-Location Char(50),
-Discount Char(50),
-ActivityName Char(50) NOT NULL,
-BusinessName Char(30) NOT NULL,
-Primary Key (ScheduledTime, Location, ActivityName, BusinessName),
-Foreign Key (ActivityName, BusinessName, ScheduledTime, Location) references ActivityTime(Activity, BusinessName, ScheduledTime, DateLocation) ON DELETE CASCADE,
-Foreign Key (BusinessName) references Business(BusinessID)
-ON DELETE CASCADE
+Location CHAR(50),
+Discount CHAR(50),
+ActivityName CHAR(50) NOT NULL,
+BusinessName CHAR(30) NOT NULL,
+PRIMARY KEY (ScheduledTime, Location, ActivityName, BusinessName),
+FOREIGN KEY (ActivityName, BusinessName, ScheduledTime, Location) REFERENCES ActivityTime(Activity, BusinessName, ScheduledTime, DateLocation) ON DELETE CASCADE,
+FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE
 );

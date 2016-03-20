@@ -1,27 +1,54 @@
-<html>
- 	<head>
-  		<title>Welcome to Tinder++</title>
-	</head>
- 	<body>
-		<p>Tinder++ Main Page</p><br>
-		<p>UserID:<p><br>
-		<form method="POST" action="newuser.php">
-			UserID: <input type="text" name="userId_text" size="6"><br>
-			Name: <input type="text" name="name_text" size="6"><br>
-			Password: <input type="password" name="password_text" size="6"><br>
-			Confirm Password: <input type="password" name="confirm_password_text" size="6"><br>
+<!--Test Oracle file for UBC CPSC304 2011 Winter Term 2
+  Created by Jiemin Zhang
+  Modified by Simona Radu
+  This file shows the very basics of how to execute PHP commands
+  on Oracle.  
+  specifically, it will drop a table, create a table, insert values
+  update values, and then query for values
+ 
+  IF YOU HAVE A TABLE CALLED "tab1" IT WILL BE DESTROYED
 
-			Age: <input type="text" name="age_text" size='6'><br>
-			Location: <input type="text" name="location_text" size="6"><br>
-			Gender: <br>
-			<input type="radio" name="gender" value="male"> Male<br>
-			<input type="radio" name="gender" value="female"> Female<br>
-			Preference: <br>
-			Men: <input type="checkbox" name="interestedInMen">
-			Women: <input type="checkbox" name="interestedInWomen">
-			<input type="submit" value="Sign Up!" name="signup">
-	</body>
-</html>
+  The script assumes you already have a server set up
+  All OCI commands are commands to the Oracle libraries
+  To get the file to work, you must place it somewhere where your
+  Apache server can run it, and you must rename it to have a ".php"
+  extension.  You must also change the username and password on the 
+  OCILogon below to be your ORACLE username and password -->
+
+<p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
+<form method="POST" action="oracle-test.php">
+   
+<p><input type="submit" value="Reset" name="reset"></p>
+</form>
+
+<p>Insert values into tab1 below:</p>
+<p><font size="2"> Number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Name</font></p>
+<form method="POST" action="oracle-test.php">
+<!--refresh page when submit-->
+
+   <p><input type="text" name="insNo" size="6"><input type="text" name="insName" 
+size="18">
+<!--define two variables to pass the value-->
+      
+<input type="submit" value="insert" name="insertsubmit"></p>
+</form>
+<!-- create a form to pass the values. See below for how to 
+get the values--> 
+
+<p> Update the name by inserting the old and new values below: </p>
+<p><font size="2"> Old Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+New Name</font></p>
+<form method="POST" action="oracle-test.php">
+<!--refresh page when submit-->
+
+   <p><input type="text" name="oldName" size="6"><input type="text" name="newName" 
+size="18">
+<!--define two variables to pass the value-->
+      
+<input type="submit" value="update" name="updatesubmit"></p>
+<input type="submit" value="run hardcoded queries" name="dostuff"></p>
+</form>
 
 <?php
 
@@ -109,133 +136,70 @@ function printResult($result) { //prints results from a select statement
 // Connect Oracle...
 if ($db_conn) {
 
-
-	if (array_key_exists('signup', $_POST)) {
+	if (array_key_exists('reset', $_POST)) {
 		// Drop old table...
-		// $tuple = array (
-		// 	":userId_text" => $_POST['userId_text'],
-		// 	":name_text" => $_POST['name_text'],
-		// 	":password_text" => $_POST['password_text'],
-		// 	":confirm_password_text" => $_POST['confirm_password_text'],
-		// 	":password_hash" => '',
-		// 	":name_text" => $_POST['name_text'],
-		// 	":gender" => $_POST['gender'],
-		// 	":location_text" => $_POST['location_text'],
-		// 	":preference" => '',
-		// 	":interestedInMen" => $_POST['interestedInMen'],
-		// 	":interestedInWomen" => $_POST['interestedInWomen'],
-		// 	":date_joined" => date("m.d.y");
-		// )
+		echo "<br> dropping table <br>";
+		executePlainSQL("Drop table tab1");
 
-		// if($tuple["interestedInMen"]){
-		// 	$tuple["preference"] .= "m";
-		// }	
+		// Create new table...
+		echo "<br> creating new table <br>";
+		executePlainSQL("create table tab1 (nid number, name varchar2(30), primary key (nid))");
+		OCICommit($db_conn);
 
-		// if($tuple["interestedInWomen"]){
-		// 	$tuple["preference"] .= "f";
-		// }		
-
-
-		// if($tuple[':password_text'] != $tuple[':confirm_password_text']){
-		// 	break;
-		// }
-
-		// $tuple[':password_hash'] = password_hash($tuple[':password_text'], PASSWORD_DEFAULT);
-
-		// executePlainSQL("INSERT INTO users (USERID, NAME, DATEJOINED, LOCATION, AGE, GENDER, PREFERENCE, PASSWORDHASH) 
-		// 	VALUES (:userId_text, :name_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $tuple);
-
-		// // Create new table...
-		// echo "<br> creating new user <br>";
-		// OCICommit($db_conn);
 	} else
-		if (array_key_exists('reset', $_POST)) {
-			// Drop old table...
-			echo "<br> dropping table <br>";
-			executePlainSQL("Drop table tab1");
-
-			// Create new table...
-			echo "<br> creating new table <br>";
-			executePlainSQL("create table tab1 (nid number, name varchar2(30), primary key (nid))");
+		if (array_key_exists('insertsubmit', $_POST)) {
+			//Getting the values from user and insert data into the table
+			$tuple = array (
+				":bind1" => $_POST['insNo'],
+				":bind2" => $_POST['insName']
+			);
+			$alltuples = array (
+				$tuple
+			);
+			executeBoundSQL("insert into tab1 values (:bind1, :bind2)", $alltuples);
 			OCICommit($db_conn);
 
 		} else
-			if (array_key_exists('insertsubmit', $_POST)) {
-				//Getting the values from user and insert data into the table
+			if (array_key_exists('updatesubmit', $_POST)) {
+				// Update tuple using data from user
 				$tuple = array (
-					":bind1" => $_POST['insNo'],
-					":bind2" => $_POST['insName']
+					":bind1" => $_POST['oldName'],
+					":bind2" => $_POST['newName']
 				);
 				$alltuples = array (
 					$tuple
 				);
-				executeBoundSQL("insert into tab1 values (:bind1, :bind2)", $alltuples);
+				executeBoundSQL("update tab1 set name=:bind2 where name=:bind1", $alltuples);
 				OCICommit($db_conn);
 
 			} else
-				if (array_key_exists('updatesubmit', $_POST)) {
-					// Update tuple using data from user
-					$tuple = array (
-						":bind1" => $_POST['oldName'],
-						":bind2" => $_POST['newName']
+				if (array_key_exists('dostuff', $_POST)) {
+					// Insert data into table...
+					executePlainSQL("insert into tab1 values (10, 'Frank')");
+					// Inserting data into table using bound variables
+					$list1 = array (
+						":bind1" => 6,
+						":bind2" => "All"
 					);
-					$alltuples = array (
-						$tuple
+					$list2 = array (
+						":bind1" => 7,
+						":bind2" => "John"
 					);
-					executeBoundSQL("update tab1 set name=:bind2 where name=:bind1", $alltuples);
+					$allrows = array (
+						$list1,
+						$list2
+					);
+					executeBoundSQL("insert into tab1 values (:bind1, :bind2)", $allrows); //the function takes a list of lists
+					// Update data...
+					//executePlainSQL("update tab1 set nid=10 where nid=2");
+					// Delete data...
+					//executePlainSQL("delete from tab1 where nid=1");
 					OCICommit($db_conn);
-
-				} else
-					if (array_key_exists('dostuff', $_POST)) {
-						// Insert data into table...
-						executePlainSQL("insert into tab1 values (10, 'Frank')");
-						// Inserting data into table using bound variables
-						$list1 = array (
-							":bind1" => 6,
-							":bind2" => "All"
-						);
-						$list2 = array (
-							":bind1" => 7,
-							":bind2" => "John"
-						);
-						$allrows = array (
-							$list1,
-							$list2
-						);
-						executeBoundSQL("insert into tab1 values (:bind1, :bind2)", $allrows); //the function takes a list of lists
-						// Update data...
-						//executePlainSQL("update tab1 set nid=10 where nid=2");
-						// Delete data...
-						//executePlainSQL("delete from tab1 where nid=1");
-						OCICommit($db_conn);
-					} else
-						if (array_key_exists('dostuff', $_POST)) {
-							// Insert data into table...
-							executePlainSQL("insert into tab1 values (10, 'Frank')");
-							// Inserting data into table using bound variables
-							$list1 = array (
-								":bind1" => 6,
-								":bind2" => "All"
-							);
-							$list2 = array (
-								":bind1" => 7,
-								":bind2" => "John"
-							);
-							$allrows = array (
-								$list1,
-								$list2
-							);
-							executeBoundSQL("insert into tab1 values (:bind1, :bind2)", $allrows); //the function takes a list of lists
-							// Update data...
-							//executePlainSQL("update tab1 set nid=10 where nid=2");
-							// Delete data...
-							//executePlainSQL("delete from tab1 where nid=1");
-							OCICommit($db_conn);
-						}
+				}
 
 	if ($_POST && $success) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
-		header("location: newuser.php");
+		header("location: oracle-test.php");
 	} else {
 		// Select data...
 		$result = executePlainSQL("select * from tab1");

@@ -194,7 +194,7 @@ if ($db_conn) {
 			$tuple
 		);
 
-		executeBoundSQL("INSERT INTO users VALUES (:username_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
+		executeBoundSQL("INSERT INTO users VALUES (1111111, :username_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
 
 		// Create new table...
 		echo "<br> creating new user <br>";
@@ -203,7 +203,9 @@ if ($db_conn) {
 
 	if ($_POST && $success) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
-		header("location: tinder-test.php");
+		$page = $_SERVER['PHP_SELF'];
+		$sec = "10";
+		header("Refresh: $sec; url=$page");
 	} else {
 		// Select data...
 		$result = executePlainSQL("select * from tab1");

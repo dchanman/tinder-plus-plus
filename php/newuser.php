@@ -6,19 +6,18 @@
 		<p>Tinder++ Main Page</p><br>
 		<p>UserID:<p><br>
 		<form method="POST" action="newuser.php">
-			UserID: <input type="text" name="userId_text" size="6"><br>
-			Name: <input type="text" name="name_text" size="6"><br>
+			Username: <input type="text" name="username_text" size="6"><br>
 			Password: <input type="password" name="password_text" size="6"><br>
 			Confirm Password: <input type="password" name="confirm_password_text" size="6"><br>
 
 			Age: <input type="text" name="age_text" size='6'><br>
 			Location: <input type="text" name="location_text" size="6"><br>
 			Gender: <br>
-			<input type="radio" name="gender" value="male"> Male<br>
-			<input type="radio" name="gender" value="female"> Female<br>
+			<input type="radio" name="gender" value="m"> Male<br>
+			<input type="radio" name="gender" value="f"> Female<br>
 			Preference: <br>
-			Men: <input type="checkbox" name="interestedInMen">
-			Women: <input type="checkbox" name="interestedInWomen">
+			Men: <input type="checkbox" name="interestedInMen" value=1>
+			Women: <input type="checkbox" name="interestedInWomen" value=1>
 			<input type="submit" value="Sign Up!" name="signup">
 	</body>
 </html>
@@ -112,42 +111,51 @@ if ($db_conn) {
 
 	if (array_key_exists('signup', $_POST)) {
 		// Drop old table...
-		// $tuple = array (
-		// 	":userId_text" => $_POST['userId_text'],
-		// 	":name_text" => $_POST['name_text'],
-		// 	":password_text" => $_POST['password_text'],
-		// 	":confirm_password_text" => $_POST['confirm_password_text'],
-		// 	":password_hash" => '',
-		// 	":name_text" => $_POST['name_text'],
-		// 	":gender" => $_POST['gender'],
-		// 	":location_text" => $_POST['location_text'],
-		// 	":preference" => '',
-		// 	":interestedInMen" => $_POST['interestedInMen'],
-		// 	":interestedInWomen" => $_POST['interestedInWomen'],
-		// 	":date_joined" => date("m.d.y");
-		// )
-
-		// if($tuple["interestedInMen"]){
-		// 	$tuple["preference"] .= "m";
-		// }	
-
-		// if($tuple["interestedInWomen"]){
-		// 	$tuple["preference"] .= "f";
-		// }		
+		$tuple = array (
+			":userId_text" => 11112,
+			":username_text" => $_POST['username_text'],
+			":password_text" => $_POST['password_text'],
+			":confirm_password_text" => $_POST['confirm_password_text'],
+			":password_hash" => '',
+			":username_text" => $_POST['username_text'],
+			":gender" => $_POST['gender'],
+			":age_text" => 69,
+			":location_text" => $_POST['location_text'],
+			":preference" => '',
+			":interestedInMen" => $_POST['interestedInMen'],
+			":interestedInWomen" => $_POST['interestedInWomen'],
+			":date_joined" => 6060
+			//date("m.d.y")
+		);
 
 
-		// if($tuple[':password_text'] != $tuple[':confirm_password_text']){
-		// 	break;
-		// }
+		if($_POST['interestedInMen'] == 1) {
+			$tuple["preference"] .= "m";
+		}	
 
-		// $tuple[':password_hash'] = password_hash($tuple[':password_text'], PASSWORD_DEFAULT);
+		if($_POST['interestedInWomen'] == 1) {
+			$tuple["preference"] .= "f";
+		}		
 
-		// executePlainSQL("INSERT INTO users (USERID, NAME, DATEJOINED, LOCATION, AGE, GENDER, PREFERENCE, PASSWORDHASH) 
-		// 	VALUES (:userId_text, :name_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $tuple);
 
-		// // Create new table...
-		// echo "<br> creating new user <br>";
-		// OCICommit($db_conn);
+		if($tuple[':password_text'] != $tuple[':confirm_password_text']){
+			break;
+		}
+
+
+		$tuple[':password_hash'] = "asdfadsfdaf";
+		//password_hash($tuple[':password_text'], PASSWORD_DEFAULT);
+
+
+		$alltuples = array (
+			$tuple
+		);
+
+		executeBoundSQL("INSERT INTO users VALUES (:userId_text, :username_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
+
+		// Create new table...
+		echo "<br> creating new user <br>";
+		OCICommit($db_conn);
 	} else
 		if (array_key_exists('reset', $_POST)) {
 			// Drop old table...

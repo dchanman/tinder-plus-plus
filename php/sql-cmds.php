@@ -153,6 +153,52 @@ if ($db_conn) {
 		// Delete data...
 		//executePlainSQL("delete from tab1 where nid=1");
 		OCICommit($db_conn);
+	} else if (array_key_exists('signup', $_POST)) {
+		// Drop old table...
+		$tuple = array (
+			":username_text" => $_POST['username_text'],
+			":password_text" => $_POST['password_text'],
+			":confirm_password_text" => $_POST['confirm_password_text'],
+			":password_hash" => '',
+			":username_text" => $_POST['username_text'],
+			":gender" => $_POST['gender'],
+			":age_text" => 69,
+			":location_text" => $_POST['location_text'],
+			":preference" => '',
+			":interestedInMen" => $_POST['interestedInMen'],
+			":interestedInWomen" => $_POST['interestedInWomen'],
+			":date_joined" => 6060
+			//date("m.d.y")
+		);
+
+
+		if($_POST['interestedInMen'] == 1) {
+			$tuple["preference"] .= "m";
+		}	
+
+		if($_POST['interestedInWomen'] == 1) {
+			$tuple["preference"] .= "f";
+		}		
+
+
+		if($tuple[':password_text'] != $tuple[':confirm_password_text']){
+			break;
+		}
+
+
+		$tuple[':password_hash'] = "asdfadsfdaf";
+		//password_hash($tuple[':password_text'], PASSWORD_DEFAULT);
+
+
+		$alltuples = array (
+			$tuple
+		);
+
+		executeBoundSQL("INSERT INTO users VALUES (:username_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
+
+		// Create new table...
+		echo "<br> creating new user <br>";
+		OCICommit($db_conn);
 	}
 
 	if ($_POST && $success) {

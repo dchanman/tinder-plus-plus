@@ -112,7 +112,6 @@ if ($db_conn) {
 	if (array_key_exists('signup', $_POST)) {
 		// Drop old table...
 		$tuple = array (
-			":userId_text" => 11112,
 			":username_text" => $_POST['username_text'],
 			":password_text" => $_POST['password_text'],
 			":confirm_password_text" => $_POST['confirm_password_text'],
@@ -151,7 +150,7 @@ if ($db_conn) {
 			$tuple
 		);
 
-		executeBoundSQL("INSERT INTO users VALUES (:userId_text, :username_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
+		executeBoundSQL("INSERT INTO users VALUES (:username_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
 
 		// Create new table...
 		echo "<br> creating new user <br>";

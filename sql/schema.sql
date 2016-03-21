@@ -8,6 +8,8 @@ DROP TABLE Image;
 DROP TABLE UnsuccessfulMatch;
 DROP TABLE SuccessfulMatch;
 DROP TABLE Users;
+DROP SEQUENCE User_sequence;
+DROP TRIGGER User_trigger;
 
 CREATE TABLE Users
 (
@@ -21,6 +23,11 @@ Preference CHAR(2) NOT NULL,
 PasswordHash CHAR(48),
 PRIMARY KEY (UserID)
 );
+
+CREATE SEQUENCE User_sequence
+START WITH 1
+INCREMENT BY 1;
+
 
 CREATE TABLE SuccessfulMatch
 (

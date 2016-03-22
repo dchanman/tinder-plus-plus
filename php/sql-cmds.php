@@ -25,11 +25,9 @@ function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL com
 		$e = oci_error($statement); // For OCIExecute errors pass the statementhandle
 		echo htmlentities($e['message']);
 		$success = False;
-	} else {
-		
 	}
-	return $statement;
 
+	return $statement;
 }
 
 function executeBoundSQL($cmdstr, $list) {
@@ -77,9 +75,10 @@ function executeBoundSQL($cmdstr, $list) {
  */
 function runSQLScript($filename) {
 	/* explode is equivalent to Java's 'String.split()' function */
-	$cmds = explode(";", file_get_contents('sql/cmds.sql'));
+	$cmds = explode(";", file_get_contents($filename));
 	foreach ($cmds as &$sqlcmd) {
 		executePlainSQL($sqlcmd);
+		OCICommit($db_conn);
 	}
 }
 
@@ -114,11 +113,8 @@ if ($db_conn) {
 
 	if (array_key_exists('reset', $_POST)) {
 		// Drop old table and create new one
-		echo "<br> dropping table, creating new table <br>";
-		runSQLScript(sql/cmds.sql);
-		runSQLScript(sql/schema.sql);
-
-		OCICommit($db_conn);
+		echo "<br> dropping table, creating new tables... <br>";
+		runSQLScript('sql/schema.sql');
 
 	} else if (array_key_exists('insertsubmit', $_POST)) {
 			//Getting the values from user and insert data into the table
@@ -146,30 +142,14 @@ if ($db_conn) {
 
 	} else if (array_key_exists('dostuff', $_POST)) {
 		// Insert data into table...
-		executePlainSQL("insert into tab1 values (10, 'Frank')");
-		// Inserting data into table using bound variables
-		$list1 = array (
-			":bind1" => 6,
-			":bind2" => "All"
-		);
-		$list2 = array (
-			":bind1" => 7,
-			":bind2" => "John"
-		);
-		$allrows = array (
-			$list1,
-			$list2
-		);
-		executeBoundSQL("insert into tab1 values (:bind1, :bind2)", $allrows); //the function takes a list of lists
-		// Update data...
-		//executePlainSQL("update tab1 set nid=10 where nid=2");
-		// Delete data...
-		//executePlainSQL("delete from tab1 where nid=1");
+		echo "inserting sample data into db...";
+		runSQLScript('sql/sample.sql');
 		OCICommit($db_conn);
 	} else if (array_key_exists('signup', $_POST)) {
 		// Drop old table...
 		$tuple = array (
 			":username_text" => $_POST['username_text'],
+			":name_text" => $_POST['name_text'],
 			":password_text" => $_POST['password_text'],
 			":confirm_password_text" => $_POST['confirm_password_text'],
 			":password_hash" => '',
@@ -209,9 +189,9 @@ if ($db_conn) {
 			$tuple
 		);
 
-		$nextOpenUserID = rand();
-
-		executeBoundSQL("INSERT INTO users VALUES ($nextOpenUserID, :username_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
+		/* UserIDSequence.nextval automatically gets the next available user ID for us from the database */
+		/* Note that if the insert fails, we still increment the sequence... lol */
+		executeBoundSQL("INSERT INTO users VALUES (UserIDSequence.nextval, :username_text, :name_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
 
 		// Create new table...
 		echo "<br> creating new user <br>";

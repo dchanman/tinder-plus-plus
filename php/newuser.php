@@ -7,6 +7,7 @@
 		<p>UserID:<p><br>
 		<form method="POST" action="newuser.php">
 			Username: <input type="text" name="username_text" size="6"><br>
+			Name: <input type="text" name="name_text" size="6"><br>
 			Password: <input type="password" name="password_text" size="6"><br>
 			Confirm Password: <input type="password" name="confirm_password_text" size="6"><br>
 

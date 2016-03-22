@@ -22,33 +22,7 @@
 <p><input type="submit" value="Reset" name="reset"></p>
 </form>
 
-<p>Insert values into tab1 below:</p>
-<p><font size="2"> Number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-Name</font></p>
-<form method="POST" action="tinder-test.php">
-<!--refresh page when submit-->
-
-   <p><input type="text" name="insNo" size="6"><input type="text" name="insName" 
-size="18">
-<!--define two variables to pass the value-->
-      
-<input type="submit" value="insert" name="insertsubmit"></p>
-</form>
-<!-- create a form to pass the values. See below for how to 
-get the values--> 
-
-<p> Update the name by inserting the old and new values below: </p>
-<p><font size="2"> Old Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-New Name</font></p>
-<form method="POST" action="tinder-test.php">
-<!--refresh page when submit-->
-
-   <p><input type="text" name="oldName" size="6"><input type="text" name="newName" 
-size="18">
-<!--define two variables to pass the value-->
-      
-<input type="submit" value="update" name="updatesubmit"></p>
-<input type="submit" value="run hardcoded queries" name="dostuff"></p>
+<input type="submit" value="Generate Sample Data" name="dostuff"></p>
 </form>
 
 <?php

@@ -1,0 +1,323 @@
+Project: Tinder++
+Derek Chan 33184128
+Emmett Tan 37087129
+Peter Chung 38777124
+
+Platform:
+The CS Ugrad Oracle installation and PHP Apache
+
+Functionality and SQL Queries:
+	Users will be able to:
+- Make a new account
+Parameters: (Name, DateJoined, Location, Age, Gender, Preference, pHash)
+		INSERT INTO User 
+(UserID, Name, DateJoined, Location, Age, Gender, Preference, PasswordHash)
+VALUES
+({userID}, {Name}, {DateJoined}, {Location}, {Age}, {Gender}, {Preference}, {pHash});
+
+Log in
+Parameters: (userID, pHash)
+		SELECT userID FROM Users WHERE
+		userID={userID} AND 
+		passwordHash={pHash};
+
+
+- Find all suitable users who aren’t already in user1’s list of matches
+Parameters: (userID, userGender)
+	SELECT userID FROM Users WHERE gender IN
+	(SELECT preference from Users WHERE userID =  {userID})
+INTERSECT
+SELECT userID FROM Users WHERE preference IN
+	(SELECT gender FROM Users WHERE userID = {userID})
+EXCEPT
+SELECT userID2 FROM Matches WHERE userID1 IN
+	(SELECT userID FROM Users WHERE userID = {userID})
+OR IN (SELECT userID1 from Matches WHERE userID2 IN 	
+(SELECT userID FROM Users WHERE userID = {userID});
+		
+- get successful matches for one user, user1
+Parameters: (userID)
+SELECT userID2 from SuccessfulMatches SM WHERE {userID} is SM.userID
+	UNION
+SELECT userID1 from SuccessfulMatches SM WHERE {userID} is SM.userID;
+		
+- get list of interests common between two users user1 and user2
+Parameters: (user1, user2)
+SELECT interesttype from InterestedIn WHERE UserID = {user1}.userID
+INTERSECT
+SELECT interesttype from InterestedIn WHERE UserID = {user2}.userID;
+
+
+- update location for user
+Parameters: (userID, location)
+UPDATE Users SET location={location} WHERE UserID = {userID};
+
+- add/update photo
+Parameters: (userID, currentDate, imageURL, displayOrder)
+		INSERT into Image (UserID, DateAdded, ImageURL, DisplayOrder)
+		VALUES ({userID}, {currentDate}, {imageURL}, {displayOrder})
+		ON DUPLICATE KEY UPDATE
+			currentDate = VALUES( {currentDate}),
+			imageURL = VALUES({imageURL});
+		
+- delete photo
+Parameters: (userID, displayOrder)
+DELETE FROM Image WHERE UserID = {userID} AND displayOrder = {displayOrder};
+
+
+- unmatch a successfulmatch - same as blocking user
+Parameters: (userID, blockThisUserID)
+if ({userId} < {blockThisUserID})
+INSERT into UnsuccessfulMatch (UserID1, UserID2)
+VALUES ({userID}, {blockThisUserID});
+else
+INSERT into UnsuccessfulMatch (UserID1, UserID2)
+VALUES ({userID}, {blockThisUserID});
+DELETE FROM SuccessfulMatch WHERE
+(UserID1 = {userID} and UserID2 =  {blockThisUserID})
+OR
+(UserID2 = {userID} and UserID1 =  {blockThisUserID});
+
+
+- delete account
+Parameters: (userID)
+DELETE FROM Users WHERE UserID = {userID}
+
+- send a message to another user in a match
+Parameters: (senderID, receiverID, messageString, currentTime)
+INSERT into Messages(messageString, currentTime, senderID, receiverID)
+values (MessageString, SendTime, UserID1, UserID2)
+
+note: our schema for Messages will have the key messageID be an AUTO_INCREMENT field
+
+	Businesses will be able to:
+		Make a new account
+Parameters: (bName, location, pHash)
+		INSERT INTO Business 
+(BusinessName, Location, PasswordHash)
+VALUES
+({bName}, {location}, {pHash});
+
+Log in
+Parameters: (bName, pHash)
+		SELECT bName FROM Business WHERE
+		BusinessName={bName} AND 
+		PasswordHash={pHash};
+
+- get list of matches who have users with particular interests at a certain location
+Parameters: (interest, location)
+		
+		SELECT user1, user2 FROM Matches WHERE
+	(
+user1 IN
+	(SELECT userID FROM Users WHERE location={location})
+	AND
+	user2 IN
+	(SELECT userID FROM Users WHERE location={location})
+)
+	AND
+	(
+		user1 IN
+	(SELECT userID FROM InterestedIn WHERE Interest={interest})
+	AND
+	user2 IN
+	(SELECT userID FROM InterestedIn WHERE Interest={interest})
+	)
+		
+- provide activities with discounts
+Parameters: (businessName, activityName, time, location, discount)
+INSERT into ActivityTimes(Time, Location, Discount, ActivityName, BusinessName)
+VALUES(time, location, discount, activityName, businessName)
+ON DUPLICATE KEY UPDATE
+	discount = VALUES(discount)
+
+Data Stored:
+Users
+Images
+Businesses
+Interests
+Activities/Dates
+Personal Messages
+
+Database Schema:
+CREATE TABLE USER (
+        UserID:         Integer NOT NULL AUTO_INCREMENT,
+        Name:             Char(30) NOT NULL,
+        DateJoined:             Long NOT NULL,
+        Location:        Char(30) NOT NULL,
+        Age:            Integer NOT NULL,
+        Gender:                 Char(1) NOT NULL,
+        Preference:             Char(1) NOT NULL,
+        PasswordHash:    Char(48),
+
+        Primary Key(UserID)
+);
+
+CREATE TABLE Ratings (
+        MatcherUserID:         Integer NOT NULL,
+        MatchingUserID:         Integer NOT NULL,
+        Result:                 BOOLEAN NOT NULL,
+        
+        Primary Key (MatcherUserID, MatchingUserID),
+        Foreign Key (MatcherUserID) references User(UserID)
+                ON DELETE CASCADE,
+        Foreign Key (MatchingUserID) references User(UserID)
+                ON DELETE CASCADE
+);
+
+CREATE TRIGGER DetectMatch ON Ratings
+FOR INSERT AS
+BEGIN
+        INSERT INTO SuccessfulMatch (UserID1, UserID2)
+        SELECT MatcherUserID, MatchingUserID FROM INSERTED I WHERE
+        (
+                SELECT MatcherUserID, MatchingUserID FROM Ratings R WHERE
+                I.MatchingUserID=R.MatcherUserID AND
+                R.MatchingUserID=I.MatcherUserID AND
+                I.Result=TRUE AND
+                R.Result=TRUE
+        )
+END;
+
+CREATE TABLE SuccessfulMatch (
+        UserID1:        Integer NOT NULL,
+        UserID2:        Integer NOT NULL,
+
+        Primary Key(UserID1, UserID2),
+        Foreign Key(UserID1) references User(UserID)
+                ON DELETE CASCADE,
+        Foreign Key(UserID2) references User(UserID)
+                ON DELETE CASCADE,
+        Check (UserID1 < UserID2)
+);
+
+CREATE TABLE UnsuccessfulMatch (
+        UserID1:        Integer NOT NULL,
+        UserID2:        Integer NOT NULL,
+
+        Primary Key(UserID1, UserID2),
+        Foreign Key(UserID1) references User(UserID),
+                ON DELETE CASCADE
+        Foreign Key(UserID2) references User(UserID),
+                ON DELETE CASCADE
+        Check (UserID1 < UserID2)
+);
+
+CREATE TABLE Image (
+        UserID:                 Integer NOT NULL,
+        DateAdded:             Long NOT NULL,
+        ImageURL:        Char(2083) NOT NULL,
+        DisplayOrder:            Integer NOT NULL,
+
+        Primary Key(UserID),
+        Foreign Key(UserID) references Users(UserID)
+                ON DELETE CASCADE
+);
+
+CREATE TABLE Message (
+        MessageID:        Integer NOT NULL AUTO_INCREMENT,
+        SenderUserID:        Integer NOT NULL,
+        ReceiverUserID:        Integer NOT NULL,
+        MessageChar():            Char(20000) NOT NULL,
+        SendTime:        Long NOT NULL,
+
+        if (SenderUserID < ReceiverUserID)
+                Foreign Key (SenderUserId, ReceiverUserID) references SuccessfulMatch(UserID1, UserID2)
+                        ON DELETE CASCADE
+        else
+                Foreign Key (ReceiverUserID, SenderUserID) references SuccessfulMatch(UserID1, UserID2)
+                        ON DELETE CASCADE
+        end if;
+        
+        Primary Key(MessageID)
+);
+
+CREATE TABLE Business (
+        BusinessID:        Char(30) NOT NULL,
+        Location        Char(50),
+        PasswordHash:    Char(48),
+
+        Primary Key(BusinessID)
+);
+
+CREATE TABLE Interest (
+        InterestType: Char(20) NOT NULL,
+        
+        Primary Key(InterestType)
+);
+
+CREATE TABLE ActivityTime (
+        Activity:               Char(50) NOT NULL,
+        BusinessName:           Char(30) NOT NULL,
+        Time:                   Char(5) NOT NULL,
+        DateLocation:           Char(50) NOT NULL,
+        Discount:               Integer,
+        
+        Primary Key(Activity, BusinessName, Time, DateLocation),
+        Foreign Key(BusinessName) references Business(Name),
+                ON DELETE CASCADE
+);
+
+CREATE TABLE InterestedIn (
+        UserID:                 Integer NOT NULL,
+        Interest:               Char(20) NOT NULL,
+        
+        Primary Key(UserID, Interest),
+        Foreign Key(UserID) references User(UserID)
+            ON DELETE CASCADE,
+        Foreign Key(Interest) references Interest(InterestType)
+            ON DELETE CASCADE
+);
+
+CREATE TABLE SuggestedBy (
+        Time:                   Date,
+        Location:               Char(50),
+        Discount:               Char(50),
+        ActivityName:               Char(50) NOT NULL,
+        BusinessName:           Char(50) NOT NULL,
+        
+        Primary Key(Time, Location, Activity, BusinessName),
+        Foreign Key(ActivityName) references Activity(ActivityName),
+                ON DELETE CASCADE
+        Foreign Key(Time, Location) references ActivityTime(Time, Location),
+                ON DELETE CASCADE
+        Foreign Key(BusinessName) references Business(BusinessName)
+                ON DELETE CASCADE
+);
+
+
+
+Division of labor
+For a more comprehensive breakdown, please see our GitHub Issues page:
+https://github.com/dchanman/tinder-plus-plus/issues
+
+Derek Chan
+Create tables and relations in SQL
+Frontend interface for chat
+Implement queries/actions
+Find all suitable users who aren’t already in user1’s list of matches
+get successful matches for one user, user1
+get list of interests common between two users user1 and user2
+
+Emmett Tan
+Make the backend (Java -> query)
+Implementing queries/actions
+update location for user
+add/update photo
+delete photo
+unmatch a successfulmatch - same as blocking user
+Write tests
+
+Peter Chung
+Make frontend for matching (the swiping part of tinder)
+Make frontend for browsing date ideas
+Implementing queries/actions
+delete account
+send a message to another user in a match
+get list of matches who have users with particular interests at a certain location
+provide activities with discounts
+
+
+
+
+

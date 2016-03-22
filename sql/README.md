@@ -38,3 +38,4 @@ You might see some errors about dropping tables that don't exist. That's fine. A
 * Quit the Oracle shell with `QUIT`
 * You can run SQL DDL commands as we learned in class
 * `describe TABLENAME` shows you how tables are defined. Try `describe Users` or `describe SuggestedBy` as an example.
+

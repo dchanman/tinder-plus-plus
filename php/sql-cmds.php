@@ -26,7 +26,7 @@ function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL com
 		echo htmlentities($e['message']);
 		$success = False;
 	} else {
-
+		
 	}
 	return $statement;
 
@@ -83,14 +83,28 @@ function runSQLScript($filename) {
 	}
 }
 
-function printResult($result) { //prints results from a select statement
-	echo "<br>Got data from table tab1:<br>";
-	echo "<table>";
-	echo "<tr><th>ID</th><th>Name</th></tr>";
+function printTableAttrs($tablename) {
 
-	while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
-		echo "<tr><td>" . $row["NID"] . "</td><td>" . $row["NAME"] . "</td></tr>"; //or just use "echo $row[0]" 
+}
+
+function printResult($result) { //prints results from a select statement
+	echo "<br>Got data from table users:<br>";
+	echo "<table>";
+
+	$ncols = oci_num_fields($result);
+	for ($i = 1; $i <= $ncols; $i++) {
+		$colname = oci_field_name($result, $i);
+		echo "<th><b>" . htmlentities($colname, ENT_QUOTES) . "</b><?/th>\n";
 	}
+
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	    echo "<tr>\n";
+	    foreach ($row as $item) {
+	        echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES):" ")."</td>\n";
+	    }
+	    echo "</tr>\n";
+	}
+
 	echo "</table>";
 
 }
@@ -99,7 +113,6 @@ function printResult($result) { //prints results from a select statement
 if ($db_conn) {
 
 	if (array_key_exists('reset', $_POST)) {
-		debug_to_console("Hello asdf");
 		// Drop old table and create new one
 		echo "<br> dropping table, creating new table <br>";
 		runSQLScript(sql/cmds.sql);
@@ -162,12 +175,12 @@ if ($db_conn) {
 			":password_hash" => '',
 			":username_text" => $_POST['username_text'],
 			":gender" => $_POST['gender'],
-			":age_text" => 69,
+			":age_text" => $_POST['age_text'],
 			":location_text" => $_POST['location_text'],
 			":preference" => '',
 			":interestedInMen" => $_POST['interestedInMen'],
 			":interestedInWomen" => $_POST['interestedInWomen'],
-			":date_joined" => 6060
+			":date_joined" => date("m.d.Y")
 			//date("m.d.y")
 		);
 
@@ -182,7 +195,9 @@ if ($db_conn) {
 
 
 		if($tuple[':password_text'] != $tuple[':confirm_password_text']){
-			break;
+			echo "Passwords don't match";
+			printResult($result);
+			return;
 		}
 
 
@@ -194,7 +209,9 @@ if ($db_conn) {
 			$tuple
 		);
 
-		executeBoundSQL("INSERT INTO users VALUES (1111111, :username_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
+		$nextOpenUserID = rand();
+
+		executeBoundSQL("INSERT INTO users VALUES ($nextOpenUserID, :username_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
 
 		// Create new table...
 		echo "<br> creating new user <br>";
@@ -204,12 +221,11 @@ if ($db_conn) {
 	if ($_POST && $success) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
 		$page = $_SERVER['PHP_SELF'];
-		$sec = "10";
+		$sec = "1";
 		header("Refresh: $sec; url=$page");
 	} else {
 		// Select data...
-		$result = executePlainSQL("select * from tab1");
-		printResult($result);
+		$result = executePlainSQL("select * from Users");
 	}
 
 	//Commit to save changes...
@@ -219,6 +235,7 @@ if ($db_conn) {
 	$e = OCI_Error(); // For OCILogon errors pass no handle
 	echo htmlentities($e['message']);
 }
+printResult($result);
 
 function debug_to_console( $data ) {
 

@@ -7,6 +7,7 @@ DROP TABLE Message;
 DROP TABLE Image;
 DROP TABLE UnsuccessfulMatch;
 DROP TABLE SuccessfulMatch;
+DROP SEQUENCE UserIDSequence;
 DROP TABLE Users;
 
 CREATE TABLE Users
@@ -22,6 +23,12 @@ Preference CHAR(1) NOT NULL,
 PasswordHash CHAR(48),
 PRIMARY KEY (UserID)
 );
+
+CREATE SEQUENCE UserIDSequence
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOMAXVALUE; 
 
 CREATE TABLE SuccessfulMatch
 (

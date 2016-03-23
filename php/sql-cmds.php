@@ -181,7 +181,7 @@ if ($db_conn) {
 		}
 
 
-		$tuple[':password_hash'] = "asdfadsfdaf";
+		$tuple[':password_hash'] = crypt($tuple[':password_text']);
 		//password_hash($tuple[':password_text'], PASSWORD_DEFAULT);
 
 

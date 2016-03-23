@@ -9,7 +9,6 @@ DROP TABLE UnsuccessfulMatch;
 DROP TABLE SuccessfulMatch;
 DROP SEQUENCE UserIDSequence;
 DROP TABLE Users;
-
 CREATE TABLE Users
 (
 UserID INTEGER NOT NULL,
@@ -116,4 +115,4 @@ BusinessName CHAR(30) NOT NULL,
 PRIMARY KEY (ScheduledTime, Location, ActivityName, BusinessName),
 FOREIGN KEY (ActivityName, BusinessName, ScheduledTime, Location) REFERENCES ActivityTime(Activity, BusinessName, ScheduledTime, DateLocation) ON DELETE CASCADE,
 FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE
-)
+);

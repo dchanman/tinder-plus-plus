@@ -191,7 +191,7 @@ if ($db_conn) {
 		// Create new table...
 		echo "<br> creating new user <br>";
 		OCICommit($db_conn);
-	} elseif(array_key_exists('updateLoc', $_POST)){
+	}else if(array_key_exists('updateLoc', $_POST)){
 		$tuple = array(
 			// assuming the profile page is already implemented and input name for new location is newLoc
 			":bind1" => $_POST['userID'],
@@ -200,7 +200,7 @@ if ($db_conn) {
 		$alltuples = array(
 			$tuple
 			);
-		executeBoundSQL("update user set location=:bind2 where userID=:bind1", $alltuples);
+		executeBoundSQL("update Users set location=:bind2 where userID=:bind1", $alltuples);
 		OCICommit($db_conn);
 	}else if(array_key_exists('UserLogin', $_POST)){
 		// declare control variable

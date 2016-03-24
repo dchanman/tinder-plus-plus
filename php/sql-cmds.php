@@ -174,7 +174,6 @@ if ($db_conn) {
 
 
 
-
 		if($tuple[':password_text'] != $tuple[':confirm_password_text']){
 			echo "Passwords don't match";
 			printResult($result);
@@ -187,10 +186,8 @@ if ($db_conn) {
 			return;
 		}
 
-
 		$tuple[':password_hash'] = crypt($tuple[':password_text']);
 		//password_hash($tuple[':password_text'], PASSWORD_DEFAULT);
-
 
 		$alltuples = array (
 			$tuple
@@ -202,6 +199,17 @@ if ($db_conn) {
 
 		// Create new table...
 		echo "<br> creating new user <br>";
+		OCICommit($db_conn);
+	}else if(array_key_exists('updateLoc', $_POST)){
+		$tuple = array(
+			// assuming the profile page is already implemented and input name for new location is newLoc
+			":bind1" => $_POST['userID'],
+			":bind2" => $_POST['newLoc']
+			);
+		$alltuples = array(
+			$tuple
+			);
+		executeBoundSQL("update Users set location=:bind2 where userID=:bind1", $alltuples);
 		OCICommit($db_conn);
 	}
 

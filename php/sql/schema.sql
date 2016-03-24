@@ -53,11 +53,12 @@ Check (UserID1 < UserID2)
 CREATE TABLE Image
 (
 UserID INTEGER NOT NULL,
-DateAdded DATE NOT NULL,
+DateAdded DATE DEFAULT(SYSDATE) NOT NULL,
 ImageURL CHAR(2000) NOT NULL,
 DisplayOrder INTEGER NOT NULL,
-PRIMARY KEY (UserID),
-FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
+PRIMARY KEY (UserID, DisplayOrder),
+FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
+CONSTRAINT CheckDisplayOrder CHECK (DisplayOrder > 0 AND DisplayOrder < 4)
 );
 
 CREATE TABLE Message
@@ -117,4 +118,4 @@ BusinessName CHAR(30) NOT NULL,
 PRIMARY KEY (ScheduledTime, Location, ActivityName, BusinessName),
 FOREIGN KEY (ActivityName, BusinessName, ScheduledTime, Location) REFERENCES ActivityTime(Activity, BusinessName, ScheduledTime, DateLocation) ON DELETE CASCADE,
 FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE
-);
+)

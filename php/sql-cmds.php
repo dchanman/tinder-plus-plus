@@ -191,17 +191,34 @@ if ($db_conn) {
 		// Create new table...
 		echo "<br> creating new user <br>";
 		OCICommit($db_conn);
-	} else if(array_key_exists('UserSubmit', $_POST)){
+	} elseif(array_key_exists('updateLoc', $_POST)){
+		$tuple = array(
+			// assuming the profile page is already implemented and input name for new location is newLoc
+			":bind1" => $_POST['location'],
+			":bind2" => $_POST['newLoc']
+			);
+		$alltuples = array(
+			$tuple
+			);
+		executeBoundSQL("update user set location=:bind2 where location=:bind1", $alltuples);
+		OCICommit($db_conn);
+	}else if(array_key_exists('UserLogin', $_POST)){
 		// declare control variable
 		$valid_user = false;
 
 		$inputname = $_POST['userName'];
 		$inputpwd = $_POST['userPwd'];
 
-		$s = executePlainSQL("select UserName
-								from Users 
-								where UserName = '$inputname' AND PasswordHash = '$inputpwd'");
-
+		$s = executePlainSQL("select Age
+						from Users 
+						where UserName = '$inputname' AND PasswordHash = '$inputpwd'");
+		if($success){
+			echo "$s</br>";
+			echo "valid user";
+		}
+		else{
+			echo "Username or Password is incorrect. Please try again.";
+		}
 		// if(oci_fetch($s)){
 		// 	$valid_user = true;
 		// 	echo "valid user";
@@ -225,7 +242,8 @@ if ($db_conn) {
 		echo "</br>";
 		// echo "the result is ". ($result);
 		echo "</br>";
-	} else if(array_key_exists('BusinessSubmit', $_POST)){
+		OCICommit($db_conn);
+	} else if(array_key_exists('BusinessLogin', $_POST)){
 		// business logging in
 		$businessname = $_POST['businessName'];
 		$businesspwd = $_POST['businessPwd'];

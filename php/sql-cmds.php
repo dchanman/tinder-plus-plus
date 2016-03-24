@@ -145,6 +145,15 @@ if ($db_conn) {
 		echo "inserting sample data into db...";
 		runSQLScript('sql/sample.sql');
 		OCICommit($db_conn);
+	} else if (array_key_exists('login', $_POST)) {
+		echo "logging in...";
+		
+		$user = array(
+			'userid' => $id,
+			'username' => $username,
+			'login' => $login,
+		);
+		setcookie("loginCredentials", $user, time() * 7200);
 	} else if (array_key_exists('signup', $_POST)) {
 		// Drop old table...
 		$tuple = array (

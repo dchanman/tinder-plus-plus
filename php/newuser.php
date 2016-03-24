@@ -3,7 +3,7 @@
   		<title>Welcome to Tinder++</title>
 	</head>
  	<body>
-		<p>Tinder++ Main Page</p><br>
+		<p>Tinder++ Signup!</p><br>
 		<p>UserID:<p><br>
 		<form method="POST" action="newuser.php">
 			Username: <input type="text" name="username_text" size="6"><br>

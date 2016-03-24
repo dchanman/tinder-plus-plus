@@ -3,16 +3,13 @@
 //this tells the system that it's no longer just parsing 
 //html; it's now parsing PHP
 
-global $success;
-global $db_conn;
-
 $success = True; //keep track of errors so it redirects the page only if there are no errors
 //$db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
 $db_conn = OCILogon("ora_o6z8", "a33184128", "ug");
 
 function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
 	//echo "<br>running ".$cmdstr."<br>";
-	//global $db_conn, $success;
+	global $db_conn, $success;
 	$statement = OCIParse($db_conn, $cmdstr); //There is a set of comments at the end of the file that describe some of the OCI specific functions and how they work
 
 	if (!$statement) {
@@ -41,7 +38,7 @@ function executeBoundSQL($cmdstr, $list) {
 	 using bind variables can make the statement be shared and just 
 	 parsed once. This is also very useful in protecting against SQL injection. See example code below for       how this functions is used */
 
-	//global $db_conn, $success;
+	global $db_conn, $success;
 	$statement = OCIParse($db_conn, $cmdstr);
 
 	if (!$statement) {
@@ -68,7 +65,6 @@ function executeBoundSQL($cmdstr, $list) {
 			$success = False;
 		}
 	}
-
 }
 
 /**
@@ -81,18 +77,20 @@ function runSQLScript($filename) {
 	/* explode is equivalent to Java's 'String.split()' function */
 	$cmds = explode(";", file_get_contents($filename));
 	foreach ($cmds as &$sqlcmd) {
-		executePlainSQL($sqlcmd);
-		OCICommit($db_conn);
+		if (preg_match('([a-zA-Z])', $sqlcmd)) {
+			executePlainSQL($sqlcmd);
+		}
 	}
 }
 
 function printTable($table) {
 	$result = executePlainSQL("select * from $table");
+	echo "<br>Got data from table $table:<br>";
 	printResult($result);
 }
 
-function printResult($result) { //prints results from a select statement
-	echo "<br>Got data from table users:<br>";
+/* Prints results from a select statement */
+function printResult($result) {
 	echo "<table>";
 
 	$ncols = oci_num_fields($result);
@@ -110,17 +108,6 @@ function printResult($result) { //prints results from a select statement
 	}
 
 	echo "</table>";
-
-}
-
-function debug_to_console( $data ) {
-
-    if ( is_array( $data ) )
-        $output = "<script>console.log( 'Debug Objects: " . implode( ',', $data) . "' );</script>";
-    else
-        $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
-
-    echo $output;
 }
 /* OCILogon() allows you to log onto the Oracle database
      The three arguments are the username, password, and database

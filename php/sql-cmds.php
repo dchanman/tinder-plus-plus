@@ -192,10 +192,24 @@ if ($db_conn) {
 		echo "<br> creating new user <br>";
 		OCICommit($db_conn);
 	} else if(array_key_exists('UserSubmit', $_POST)){
-		$username = $_POST['username'];
-		$userpwd = crypt($_POST['userPwd']);
+		// declare control variable
+		$valid_user = false;
 
-		$result = executePlainSQL("select * from Users where PasswordHash = $userpwd");
+		$inputname = $_POST['userName'];
+		$inputpwd = $_POST['userPwd'];
+
+		$s = executePlainSQL("select UserName
+								from Users 
+								where UserName = '$inputname' AND PasswordHash = '$inputpwd'");
+
+		// if(oci_fetch($s)){
+		// 	$valid_user = true;
+		// 	echo "valid user";
+		// }else
+		// 	echo "Username or Password is incorrect. Please try again.";
+		// }
+
+		// $result = executePlainSQL("select * from Users where PasswordHash = $userpwd");
 		// $valid = executePlainSQL(
 		// 	"select UserID
 		// 	from Users
@@ -204,12 +218,12 @@ if ($db_conn) {
 		// $username = executePlainSQL("select username
 		// 				 from User
 		// 				 where UserName =  AND PasswordHash = ");
-		echo "user logging in</br>";
+		echo "</br>user logging in</br>";
 		echo ($_POST['username']);
 		echo "</br>";
 		echo ($_POST['userPwd']);
 		echo "</br>";
-		echo "the result is ". ($result);
+		// echo "the result is ". ($result);
 		echo "</br>";
 	} else if(array_key_exists('BusinessSubmit', $_POST)){
 		// business logging in

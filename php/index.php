@@ -1,14 +1,14 @@
 <?php
-include ('login.php');
+// include ('login.php');
 
-if(isset($_SESSION['login_user'])){
-header("location: profile.php");
-}
+// if(isset($_SESSION['login_user'])){
+// header("location: profile.php");
+// }
 
 ?>
 <html>
  	<head>
-  		<title>Login to Continue</title>
+  		<title>Tinder++</title>
 	</head>
  	<body>
  		<p>Welcome to Tinder++ </br>

@@ -165,7 +165,6 @@ if ($db_conn) {
 
 
 
-
 		if($tuple[':password_text'] != $tuple[':confirm_password_text']){
 			echo "Passwords don't match";
 			printResult($result);
@@ -178,10 +177,8 @@ if ($db_conn) {
 			return;
 		}
 
-
 		$tuple[':password_hash'] = crypt($tuple[':password_text']);
 		//password_hash($tuple[':password_text'], PASSWORD_DEFAULT);
-
 
 		$alltuples = array (
 			$tuple
@@ -194,6 +191,31 @@ if ($db_conn) {
 		// Create new table...
 		echo "<br> creating new user <br>";
 		OCICommit($db_conn);
+	} else if(array_key_exists('UserSubmit', $_POST)){
+		$username = $_POST['username'];
+		$userpwd = crypt($_POST['userPwd']);
+
+		$result = executePlainSQL("select * from Users where PasswordHash = $userpwd");
+		// $valid = executePlainSQL(
+		// 	"select UserID
+		// 	from Users
+		// 	where UserName = $username");
+		// user logging in
+		// $username = executePlainSQL("select username
+		// 				 from User
+		// 				 where UserName =  AND PasswordHash = ");
+		echo "user logging in</br>";
+		echo ($_POST['username']);
+		echo "</br>";
+		echo ($_POST['userPwd']);
+		echo "</br>";
+		echo "the result is ". ($result);
+		echo "</br>";
+	} else if(array_key_exists('BusinessSubmit', $_POST)){
+		// business logging in
+		$businessname = $_POST['businessName'];
+		$businesspwd = $_POST['businessPwd'];
+		echo "business logging in";
 	}
 
 	if ($_POST && $success) {

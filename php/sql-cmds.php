@@ -108,6 +108,10 @@ function printResult($result) { //prints results from a select statement
 
 }
 
+
+
+
+
 // Connect Oracle...
 if ($db_conn) {
 
@@ -231,6 +235,18 @@ if ($db_conn) {
 	echo htmlentities($e['message']);
 }
 printResult($result);
+
+
+function getMatches($username) {
+	$selectUserId_result = executePlainSQL("select userid from users where username = '$username'");
+	printResult($selectUserId_result);
+	$users_matches1 = executePlainSQL("select userid2 from successfulmatch where userid1 = '$selectUserId_result'");
+	$users_matches2 = executePlainSQL("select userid1 from successfulmatch where userid2 = '$selectUserId_result'");
+}
+
+function sendMessage($src_userid, $dest_userid, $msg_str){
+	$result = executePlainSQL("insert into message values (MessageIDSequence.nextval, '$src_userid', '$dest_userid', '$msg_str', '24.3.2016');
+}
 
 function debug_to_console( $data ) {
 

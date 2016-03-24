@@ -20,12 +20,39 @@
 <form method="POST" action="tinder-test.php">
    
 <p><input type="submit" value="Reset" name="reset"></p>
-</form>
+<p><input type="submit" value="Generate Sample Data" name="dostuff"></p>
 
-<input type="submit" value="Generate Sample Data" name="dostuff"></p>
 </form>
 
 <?php
   include 'sql-cmds.php';
+
+  if ($db_conn) {
+
+    if (array_key_exists('reset', $_POST)) {
+      // Drop old table and create new one
+      echo "<br> dropping table, creating new tables... <br>";
+      runSQLScript('sql/schema.sql');
+      
+    } else if (array_key_exists('dostuff', $_POST)) {
+      // Insert data into table...
+      echo "<br>inserting sample data into db...<br>";
+      runSQLScript('sql/sample.sql');
+    }
+
+    printTable('users');
+    printTable('image');
+
+    /* Commit to save changes... */
+    OCICommit($db_conn);
+
+    /* LOG OFF WHEN YOU'RE DONE! */
+    OCILogoff($db_conn);
+
+  } else { /* if ($db_conn) */
+    echo "cannot connect";
+    $e = OCI_Error(); // For OCILogon errors pass no handle
+    echo htmlentities($e['message']);
+  }
 ?>
 

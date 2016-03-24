@@ -157,7 +157,6 @@ if ($db_conn) {
 			":gender" => $_POST['gender'],
 			":age_text" => $_POST['age_text'],
 			":location_text" => $_POST['location_text'],
-			":preference" => '',
 			":interestedInMen" => $_POST['interestedInMen'],
 			":interestedInWomen" => $_POST['interestedInWomen'],
 			":date_joined" => date("m.d.Y")
@@ -165,17 +164,16 @@ if ($db_conn) {
 		);
 
 
-		if($_POST['interestedInMen'] == 1) {
-			$tuple["preference"] .= "m";
-		}	
-
-		if($_POST['interestedInWomen'] == 1) {
-			$tuple["preference"] .= "f";
-		}		
 
 
 		if($tuple[':password_text'] != $tuple[':confirm_password_text']){
 			echo "Passwords don't match";
+			printResult($result);
+			return;
+		}
+
+		if($tuple[':interestedInMen'] == NULL && $tuple[':interestedInWomen'] == NULL){
+			echo "Must pick interest";
 			printResult($result);
 			return;
 		}
@@ -191,7 +189,7 @@ if ($db_conn) {
 
 		/* UserIDSequence.nextval automatically gets the next available user ID for us from the database */
 		/* Note that if the insert fails, we still increment the sequence... lol */
-		executeBoundSQL("INSERT INTO users VALUES (UserIDSequence.nextval, :username_text, :name_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
+		executeBoundSQL("INSERT INTO users VALUES (UserIDSequence.nextval, :username_text, :name_text, :date_joined, :location_text, :age_text, :gender, :interestedInMen, :interestedInWomen, :password_hash)", $alltuples);
 
 		// Create new table...
 		echo "<br> creating new user <br>";

@@ -18,7 +18,8 @@ DateJoined Long NOT NULL,
 Location CHAR(30) NOT NULL,
 Age INTEGER NOT NULL,
 Gender CHAR(1) NOT NULL,
-Preference CHAR(1) NOT NULL,
+InterestedInMen INTEGER,
+InterestedInWomen INTEGER,
 PasswordHash CHAR(48),
 PRIMARY KEY (UserID)
 );

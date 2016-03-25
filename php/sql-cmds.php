@@ -195,6 +195,20 @@ function query_getCommonInterests($userid1, $userid2) {
 	return $returntuple;
 }
 
+function insert_match($matcherUserID, $matcheeUserID, $match) {
+	/* INSERT into Match, or UPDATE if entry exists */
+	$result = executePlainSQL(
+		"BEGIN
+		  INSERT INTO Match VALUES ($matcherUserID, $matcheeUserID, '$match');
+		EXCEPTION
+		  WHEN DUP_VAL_ON_INDEX THEN
+		    UPDATE Match
+		    SET    match = '$match'
+		    WHERE matcher = $matcherUserID AND matchee = $matcheeUserID;
+		END;"
+	);
+}
+
 /* OCIParse() Prepares Oracle statement for execution
       The two arguments are the connection and SQL query. */
 /* OCIExecute() executes a previously parsed statement

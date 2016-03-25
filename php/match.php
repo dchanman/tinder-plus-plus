@@ -10,8 +10,6 @@
 
  		<?php
  		include 'sql-cmds.php';
- 		//printTable('users');
-    	//printTable('image');
 
     	if ($db_conn) {
 

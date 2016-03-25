@@ -15,21 +15,19 @@
 		<?php
   			if ($db_conn) {
 				
+				$username = 'Billy';
+				$id = getIdFromUsername($username);
+				$matchIds = getMatchesFromId($id);
+			
+				echo "<form method='POST' action='test-messaging.php'>
+				Username: $username<br>
+				echo <input type='submit' value='Sign Up!' name='signup'>";
+				
+
    				if (array_key_exists('sendmessage', $_POST)) {
 					
 				}
-
-				$id = getIdFromUsername('Peter Chung');
-
-				echo "<form method='POST' action='test-messaging.php'>
-				Username: '$result_text'<br>
-				Age: <input type='text' name='age_text' size='6'><br>
-				Location: <input type='text' name='location_text' size='6'><br>";
 			
-
-				echo "<input type='submit' value='Sign Up!' name='signup'>";
-
-
 
     			printTable('users');
     			printTable('image');

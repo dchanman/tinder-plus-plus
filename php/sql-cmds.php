@@ -116,11 +116,13 @@ function getIdFromUsername($username) {
 	return $result[0];
 }
 
-function getMatches($username) {
-	$selectUserId_result = executePlainSQL("select userid from users where username = '$username'");
-	printResult($selectUserId_result);
-	$users_matches1 = executePlainSQL("select userid2 from successfulmatch where userid1 = '$selectUserId_result'");
-	$users_matches2 = executePlainSQL("select userid1 from successfulmatch where userid2 = '$selectUserId_result'");
+function getMatchesFromId($id) {
+	$s1 = executePlainSQL("select userid2 from successfulmatch where userid1 = '$id'");
+	$s2 = executePlainSQL("select userid1 from successfulmatch where userid2 = '$id'");
+	$users_matches1 = oci_fetch_array($s1);
+	$users_matches2 = oci_fetch_array($s2);
+	$users_matches = array_merge($s2, $s1);
+	return $users_matches;
 }
 
 function sendMessage($src_userid, $dest_userid, $msg_str){

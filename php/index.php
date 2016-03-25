@@ -27,7 +27,7 @@ session_start();
 					<input type="submit" value="Continue" name="UserLogin"></p>
 			</form>
 
-			<!-- <p>If you are a business, please log in here.</p>
+			<p>If you are a business, please log in here.</p>
 
  			<form method="POST" action="index.php">
  				<p>
@@ -36,7 +36,7 @@ session_start();
  					<label for="businessPwd">Password:</label>
  					<input type="password" name="businessPwd" size="16"><br>
 					<input type="submit" value="Continue" name="BusinessLogin"></p>
-			</form> -->
+			</form>
 		</div>
 
 		<!-- <div id="signup3">
@@ -69,15 +69,39 @@ session_start();
 			$result = oci_fetch_array($s);
 
 			if($result[0]==1){
-				echo "Valid username / password";
-				$_SESSION['login_user']=$username; // Initializing Session
-				header("location: profile.php"); // Redirecting To Other Page
+				echo "Valid username and password";
+				$_SESSION['login_user']=$inputname; // Initializing Session
+				header("location: user_profile.php"); // Redirecting To Other Page
 			}
 			else{
-				echo "Username or Password is incorrect. Please try Again.";
+				echo '<script type="text/javascript">alert("Username or Password is incorrect. Please try Again.");</script>';
 			}
 
 			
+		}
+
+		else if(array_key_exists('BusinessLogin', $_POST)){
+
+			$inputname = $_POST['businessName'];
+			echo ($inputname."</br>");
+			$inputpwd = $_POST['businessPwd'];
+			echo ($inputpwd."</br>");
+
+			$s = executePlainSQL("select count (*)
+							from Business 
+							where BusinessName = '$inputname' AND 
+							PasswordHash = '$inputpwd'");
+
+			$result = oci_fetch_array($s);
+
+			if($result[0]==1){
+				echo "Valid Business name and password";
+				$_SESSION['login_business']=$inputname; // Initializing Session
+				header("location: business_profile.php"); // Redirecting To Other Page
+			}
+			else{
+				echo '<script type="text/javascript">alert("Business Name or Password is incorrect. Please try Again.");</script>';
+			}
 		}
 		OCILogoff($db_conn);
 	}

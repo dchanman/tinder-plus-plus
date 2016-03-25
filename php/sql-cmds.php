@@ -111,7 +111,11 @@ function printResult($result) {
 
 }
 
-
+function getIdFromUsername($username) {
+	$s = executePlainSQL("select userid from users where username = '$username'");
+	$result = oci_fetch_array($s);
+	return $result[0];
+}
 
 function getMatches($username) {
 	$selectUserId_result = executePlainSQL("select userid from users where username = '$username'");

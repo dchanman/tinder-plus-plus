@@ -1,10 +1,15 @@
 <?php
 // include ('login.php');
 
-session_start();
-// // if(isset($_SESSION['login_user'])){
-// // header("location: profile.php");
-// // }
+include('login.php'); // Includes Login Script
+
+if(isset($_SESSION['login_user'])){
+	header("location: user_profile.php");
+}
+
+if(isset($_SESSION['login_business'])){
+	header("location: user_profile.php");
+}
 
 ?>
 <html>
@@ -27,7 +32,7 @@ session_start();
 					<input type="submit" value="Continue" name="UserLogin"></p>
 			</form>
 
-			<!-- <p>If you are a business, please log in here.</p>
+			<p>If you are a business, please log in here.</p>
 
  			<form method="POST" action="index.php">
  				<p>
@@ -36,7 +41,7 @@ session_start();
  					<label for="businessPwd">Password:</label>
  					<input type="password" name="businessPwd" size="16"><br>
 					<input type="submit" value="Continue" name="BusinessLogin"></p>
-			</form> -->
+			</form>
 		</div>
 
 		<!-- <div id="signup3">
@@ -46,44 +51,3 @@ session_start();
 		</div> -->
     </body>
 </html>
-
-<?php
-	include 'sql-cmds.php';
-
-	$db_conn = OCILogon("ora_n4u8", "a38777124", "ug");
-
-	if ($db_conn) {
-
-		if(array_key_exists('UserLogin', $_POST)){
-
-			$inputname = $_POST['userName'];
-			echo ($inputname."</br>");
-			$inputpwd = $_POST['userPwd'];
-			echo ($inputpwd."</br>");
-
-			$s = executePlainSQL("select count (*)
-							from Users 
-							where UserName = '$inputname' AND 
-							PasswordHash = '$inputpwd'");
-
-			$result = oci_fetch_array($s);
-
-			if($result[0]==1){
-				echo "Valid username / password";
-				$_SESSION['login_user']=$username; // Initializing Session
-				header("location: profile.php"); // Redirecting To Other Page
-			}
-			else{
-				echo "Username or Password is incorrect. Please try Again.";
-			}
-
-			
-		}
-		OCILogoff($db_conn);
-	}
-	else{
-		echo "cannot connect";
-		$e = OCI_Error(); // For OCILogon errors pass no handle
-		echo htmlentities($e['message']);
-	}
-?>

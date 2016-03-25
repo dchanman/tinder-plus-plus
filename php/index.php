@@ -1,5 +1,4 @@
 <?php
-// include ('login.php');
 
 include('login.php'); // Includes Login Script
 
@@ -7,9 +6,9 @@ if(isset($_SESSION['login_user'])){
 	header("location: user_profile.php");
 }
 
-if(isset($_SESSION['login_business'])){
-	header("location: user_profile.php");
-}
+// if(isset($_SESSION['login_business'])){
+// 	header("location: business_profile.php");
+// }
 
 ?>
 <html>
@@ -37,9 +36,9 @@ if(isset($_SESSION['login_business'])){
  			<form method="POST" action="index.php">
  				<p>
  					<label for="businessName">Business Name:</label>
- 					<input type="text" name="businessName" size="16"></br>
+ 					<input type="text" name="businessName" placeholder="businessname" size="16"></br>
  					<label for="businessPwd">Password:</label>
- 					<input type="password" name="businessPwd" size="16"><br>
+ 					<input type="password" name="businessPwd" placeholder="**********" size="16"><br>
 					<input type="submit" value="Continue" name="BusinessLogin"></p>
 			</form>
 		</div>

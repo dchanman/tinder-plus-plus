@@ -5,12 +5,12 @@ include('session.php');
 <html>
 	<head>
 		<title>Your Home Page</title>
-		<link href="style.css" rel="stylesheet" type="text/css">
+		<!-- <link href="style.css" rel="stylesheet" type="text/css"> -->
 	</head>
 	<body>
 		<h1>Welcome!</h1>
 		<div id="profile">
-			<b id="welcome">Welcome : <i><?php echo $login_session; ?></i></b>
+			<b id="welcome">Welcome : </b>
 			<b id="logout"><a href="logout.php">Log Out</a></b>
 		</div>
 	</body>

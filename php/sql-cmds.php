@@ -5,7 +5,6 @@
 
 $success = True; //keep track of errors so it redirects the page only if there are no errors
 $db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
-//$db_conn = OCILogon("ora_z2p8", "a33184128", "ug");
 
 function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
 	//echo "<br>running ".$cmdstr."<br>";
@@ -127,13 +126,39 @@ function getMatches($username) {
 function sendMessage($src_userid, $dest_userid, $msg_str){
 	$result = executePlainSQL("insert into message values (MessageIDSequence.nextval, '$src_userid', '$dest_userid', '$msg_str', '24.3.2016'");
 }
-/* OCILogon() allows you to log onto the Oracle database
-     The three arguments are the username, password, and database
-     You will need to replace "username" and "password" for this to
-     to work. 
-     all strings that start with "$" are variables; they are created
-     implicitly by appearing on the left hand side of an assignment 
-     statement */
+
+function query_images($userid) {
+	/* Get user information */
+	$result = executePlainSQL(
+		"SELECT name, age, gender FROM Users U
+		WHERE U.userid = $userid"
+	);
+
+	$row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS);
+	$name = $row[NAME];
+	$age = $row[AGE];
+
+	/* Get their images */
+	$result = executePlainSQL(
+		"SELECT imageurl FROM Image I
+		WHERE userid = $userid
+		ORDER BY displayorder"
+	);
+
+	$images = array();
+
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	    array_push($images, $row[IMAGEURL]);
+	}
+
+	$returntuple = array(
+		"images" => $images,
+		"name" => $name,
+		"age" => $age
+		);
+
+	return $returntuple;
+}
 
 /* OCIParse() Prepares Oracle statement for execution
       The two arguments are the connection and SQL query. */

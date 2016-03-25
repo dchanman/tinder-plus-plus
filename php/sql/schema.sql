@@ -8,7 +8,9 @@ DROP TABLE Image;
 DROP TABLE UnsuccessfulMatch;
 DROP TABLE SuccessfulMatch;
 DROP SEQUENCE UserIDSequence;
+DROP SEQUENCE MessageIDSequence;
 DROP TABLE Users;
+
 CREATE TABLE Users
 (
 UserID INTEGER NOT NULL,

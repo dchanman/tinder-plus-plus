@@ -10,13 +10,21 @@ INSERT INTO Users VALUES (UserIDSequence.nextval, 'g', 'Mary', '02.27.1994', 'Va
 INSERT INTO Users VALUES (UserIDSequence.nextval, 'h', 'Tammy', '12.03.1996', 'Texas', 23, 'f', 1, 1, 'hunter3');
 INSERT INTO Users VALUES (UserIDSequence.nextval, 'i', 'Kara', '01.14.1994', 'Vancouver', 19, 'f', 0, 1, 'hunter4');
 INSERT INTO Users VALUES (UserIDSequence.nextval, 'j', 'Emily', '01.16.1993', 'Vancouver', 31, 'f', 1, 1, 'hunter5');
-INSERT INTO Users Values (UserIDSequence.nextval, 'k', 'Tara', '01.30.1992', 'Vancouver', 20, 'f', 1, 1, 'hunter6');
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'k', 'Tara', '01.30.1992', 'Vancouver', 20, 'f', 1, 1, 'hunter6');
 
 INSERT INTO SuccessfulMatch VALUES (2, 6);
 INSERT INTO SuccessfulMatch VALUES (2, 8);
 INSERT INTO SuccessfulMatch VALUES (2, 10);
 INSERT INTO SuccessfulMatch VALUES (1, 3);
-INSERT INTO SuccessfulMatch Values (1, 2);
+INSERT INTO SuccessfulMatch VALUES (1, 2);
+
+INSERT INTO Interest VALUES ('Hiking');
+INSERT INTO Interest VALUES ('Food');
+INSERT INTO Interest VALUES ('Nightlife');
+
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'gina'), 'Hiking');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'gina'), 'Food');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'gina'), 'Nightlife');
 
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'adam'),
 	'https://upload.wikimedia.org/wikipedia/commons/8/8f/Lucas_Cranach_the_Elder_-_Adam_und_Eva_im_Paradies_(S%C3%BCndenfall)_-_Google_Art_Project.jpg',

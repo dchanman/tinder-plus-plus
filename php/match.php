@@ -3,25 +3,33 @@
   		<title>Tinder++</title>
 	</head>
  	<body>
- 		<form method="POST" action="match.php">
-	 	<p><input type="text" name="userID" size="6">
-		<input type="submit" value="GO" name="update"></p>
-		</form>
-
- 		<?php
+ 	 	<?php
  		include 'sql-cmds.php';
- 		//printTable('users');
-    	//printTable('image');
+
+		/* Get the userID from the post */
+		$userID = $_POST['userID'];
+		$myUserID = $_POST['myUserID'];
+
+		/* Hacky: Keep the userid in the text field for now until we get our cookie */
+ 		echo '<form method="POST" action="match.php">';
+	 	echo '<p>Account ID: <input type="text" name="myUserID" value="' . $myUserID .'"size="1"></p>';
+
+	 	echo '<p>Match With: <input type="text" name="userID" value="' . $userID .'"size="1">';
+		echo '<input type="submit" value="GO" name="update"></p></form>';
 
     	if ($db_conn) {
 
-		    if (array_key_exists('update', $_POST)) {
-		    	/* Get the userID from the post */
-		    	$userid = $_POST['userID'];
-
+    		/* Deal with POST requests */
+		    if (array_key_exists('hot', $_POST)) {
+		    	insert_match($myUserID, $userID, 'T');
+		    } else if (array_key_exists('not', $_POST)) {
+		    	insert_match($myUserID, $userID, 'F');
+		    }
+    		
+    		/* Hacky: The first time you load this page, $userID will be NULL. Don't display anything then. */
+		    if ($userID && $myUserID) {
 		    	/* Get the user's images */
-		      	echo "<p> retrieving " . $userid . "</p>";
-		      	$result = query_images($userid);
+		      	$result = query_images($userID);
 
 		      	$name = $result[name];
 		      	echo "<h1>$name</h1>";
@@ -35,7 +43,7 @@
 
 		      	/* Get common interests */
 		      	/* TEMP: query common interests of a user with themselves to see a full list */
-		      	$result = query_getCommonInterests($userid, $userid);
+		      	$result = query_getCommonInterests($myUserID, $userID);
 
 		      	/* Display the interests */
 		      	echo "<b>Common Interests</b><ul>";
@@ -43,7 +51,22 @@
 		      		echo "<li>$commonint</li>";
 		      	}
 		      	echo "</ul>";
+
+		      	/* Make HOT/NOT point to the next userID */
+		      	$nextUserID = rand(1,4); //TODO: Make next user the result of a query of a unmatched user
+			    echo '<p>';
+				echo '<form method="POST" action="match.php">';
+				echo '<input type="hidden" name="userID" value="' . $nextUserID . '">';
+				echo '<input type="hidden" name="myUserID" value="' . $myUserID . '">';
+			 	echo '<input type="submit" value="HOT" name="hot">';
+			 	echo '<input type="submit" value="NOT" name="not">';
+				echo '</form></p>';			
 		    }
+
+		    printTable('match');
+
+		    /* Commit to save changes... */
+    		OCICommit($db_conn);
 
 		    /* LOG OFF WHEN YOU'RE DONE! */
     		OCILogoff($db_conn);
@@ -53,14 +76,7 @@
 		    $e = OCI_Error(); // For OCILogon errors pass no handle
 		    echo htmlentities($e['message']);
 		}
-		 ?>
-
-		<p>
-		<form method="POST" action="match.php">
-	 	<input type="submit" value="HOT" name="hot">
-	 	<input type="submit" value="NOT" name="not">
-		</form>
-		</p>
+		?>
 
     </body>
 </html>

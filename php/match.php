@@ -28,17 +28,31 @@
 		      	$age = $result[age];
 		      	echo "<p>Age: <b>$age</b></p>";
 
-		      	/* Display the iamges */
+		      	/* Display the images */
 		      	foreach ($result['images'] as $img) {
 		      		echo "<p><img src=\"" . $img . "\" width=150></img></p>";
 		      	}
+
+		      	/* Get common interests */
+		      	/* TEMP: query common interests of a user with themselves to see a full list */
+		      	$result = query_getCommonInterests($userid, $userid);
+
+		      	/* Display the interests */
+		      	echo "<b>Common Interests</b><ul>";
+		      	foreach ($result['commonInterests'] as $commonint) {
+		      		echo "<li>$commonint</li>";
+		      	}
+		      	echo "</ul>";
 		    }
 
-			} else { /* if ($db_conn) */
-		    	echo "cannot connect";
-			    $e = OCI_Error(); // For OCILogon errors pass no handle
-			    echo htmlentities($e['message']);
-			}
+		    /* LOG OFF WHEN YOU'RE DONE! */
+    		OCILogoff($db_conn);
+
+		} else { /* if ($db_conn) */
+	    	echo "cannot connect";
+		    $e = OCI_Error(); // For OCILogon errors pass no handle
+		    echo htmlentities($e['message']);
+		}
 		 ?>
 
 		<p>

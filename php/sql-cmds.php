@@ -4,8 +4,8 @@
 //html; it's now parsing PHP
 
 $success = True; //keep track of errors so it redirects the page only if there are no errors
-//$db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
-$db_conn = OCILogon("ora_o6z8", "a33184128", "ug");
+$db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
+//$db_conn = OCILogon("ora_o6z8", "a33184128", "ug");
 
 function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
 	//echo "<br>running ".$cmdstr."<br>";
@@ -117,12 +117,23 @@ function getIdFromUsername($username) {
 	return $result[0];
 }
 
+function getUsernameFromId($id) {
+	$s = executePlainSQL("select username from users where userid = '$id'");
+	$result = oci_fetch_array($s);
+	return $result[0];
+}
+
 function getMatchesFromId($id) {
 	$s1 = executePlainSQL("select userid2 from successfulmatch where userid1 = '$id'");
 	$s2 = executePlainSQL("select userid1 from successfulmatch where userid2 = '$id'");
-	$users_matches1 = oci_fetch_array($s1);
-	$users_matches2 = oci_fetch_array($s2);
-	$users_matches = array_merge($s2, $s1);
+	$users_matches = array();
+	while (($row = oci_fetch_array($s1, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	   	array_push($users_matches, $row[USERID2]);
+	}
+	while (($row = oci_fetch_array($s2, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	   	array_push($users_matches, $row[USERID1]);
+	}
+
 	return $users_matches;
 }
 

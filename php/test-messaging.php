@@ -15,13 +15,23 @@
 		<?php
   			if ($db_conn) {
 				
-				$username = 'Billy';
+				$username = 'b';
 				$id = getIdFromUsername($username);
 				$matchIds = getMatchesFromId($id);
 			
 				echo "<form method='POST' action='test-messaging.php'>
 				Username: $username<br>
-				echo <input type='submit' value='Sign Up!' name='signup'>";
+				<input type='submit' value='Sign Up!' name='signup'><br>";
+			
+				/* Display the users */
+		      	foreach ($matchIds as $matchId) {
+					$receiverId = getUsernameFromId($matchId);
+		      		echo "<form method='POST' action='test-messaging.php'>
+					<input type='text' name=$messageStr>
+					<input type='submit' value='Send Message to $receiverId' name='sendMessage'>
+					</form>";
+		      	}
+
 				
 
    				if (array_key_exists('sendmessage', $_POST)) {

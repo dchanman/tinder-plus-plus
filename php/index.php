@@ -1,10 +1,12 @@
 <?php
 
 include('login.php'); // Includes Login Script
+session_save_path("home/n/n4u8/public_html/php_sessions");
+session_start();
 
-if(isset($_SESSION['login_user'])){
-	header("location: user_profile.php");
-}
+// if(isset($_SESSION['login_user'])){
+// 	header("location: user_profile.php");
+// }
 
 // if(isset($_SESSION['login_business'])){
 // 	header("location: business_profile.php");
@@ -29,6 +31,7 @@ if(isset($_SESSION['login_user'])){
  					<label for="userPwd">Password:</label>
  					<input type="password" name="userPwd" placeholder="**********" size="16"><br>
 					<input type="submit" value="Continue" name="UserLogin"></p>
+					<span><?php echo $error; ?></span>
 			</form>
 
 			<p>If you are a business, please log in here.</p>
@@ -40,6 +43,7 @@ if(isset($_SESSION['login_user'])){
  					<label for="businessPwd">Password:</label>
  					<input type="password" name="businessPwd" placeholder="**********" size="16"><br>
 					<input type="submit" value="Continue" name="BusinessLogin"></p>
+					<span><?php echo $error; ?></span>
 			</form>
 		</div>
 

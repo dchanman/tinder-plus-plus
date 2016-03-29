@@ -4,7 +4,8 @@ include ('sql-cmds.php');
 session_save_path("home/n/n4u8/public_html/php_sessions");
 session_start();
 
-$db_conn = OCILogon("ora_n4u8", "a38777124", "ug");
+//$db_conn = OCILogon("ora_n4u8", "a38777124", "ug");
+$db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
 
 $user_check = $_SESSION['loginUser'];
 

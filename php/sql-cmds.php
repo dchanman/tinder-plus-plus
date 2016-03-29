@@ -138,7 +138,8 @@ function getMatchesFromId($id) {
 }
 
 function sendMessage($src_userid, $dest_userid, $msg_str){
-	$result = executePlainSQL("insert into message values (MessageIDSequence.nextval, '$src_userid', '$dest_userid', '$msg_str', '24.3.2016'");
+	$result = executePlainSQL("insert into message values (MessageIDSequence.nextval, '$src_userid', '$dest_userid', '$msg_str', '24.3.2016')");
+	return $result;
 }
 
 function query_images($userid) {

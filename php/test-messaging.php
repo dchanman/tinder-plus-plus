@@ -15,7 +15,7 @@
 		<?php
   			if ($db_conn) {
 				
-				$username = 'b';
+				$username = 'pchung';
 				$id = getIdFromUsername($username);
 				$matchIds = getMatchesFromId($id);
 			
@@ -27,20 +27,23 @@
 		      	foreach ($matchIds as $matchId) {
 					$receiverId = getUsernameFromId($matchId);
 		      		echo "<form method='POST' action='test-messaging.php'>
-					<input type='text' name=$messageStr>
+					Message String: <input type='text' name='messageStr'>
+					Receiver: <input type='text' name='receiverId' value='$matchId' readonly='true'>
 					<input type='submit' value='Send Message to $receiverId' name='sendMessage'>
 					</form>";
 		      	}
 
-				
+				$_POST['TESTTEST'] = '1';	
 
-   				if (array_key_exists('sendmessage', $_POST)) {
-					
+   				if (array_key_exists('sendMessage', $_POST)) {
+					$TEST1 = 1;
+					$TEST2 = 2;
+					$TEST3 = 'fsdfdE';
+					sendMessage($id, $_POST['receiverId'], $_POST['messageStr']);
 				}
 			
+				printTable('message');
 
-    			printTable('users');
-    			printTable('image');
 
     			/* Commit to save changes... */
     			OCICommit($db_conn);

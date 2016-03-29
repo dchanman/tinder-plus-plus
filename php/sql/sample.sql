@@ -63,6 +63,11 @@ INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM U
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'lara'), 'Hiking');
 
 
+INSERT INTO SuccessfulMatch VALUES (1,2);
+INSERT INTO SuccessfulMatch VALUES (2,3);
+INSERT INTO SuccessfulMatch VALUES (2,4);
+
+
 
 
 

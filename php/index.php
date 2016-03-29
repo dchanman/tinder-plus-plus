@@ -1,56 +1,25 @@
-<?php
-
-include('login.php'); // Includes Login Script
-session_save_path("home/n/n4u8/public_html/php_sessions");
-session_start();
-
-// if(isset($_SESSION['login_user'])){
-// 	header("location: user_profile.php");
-// }
-
-// if(isset($_SESSION['login_business'])){
-// 	header("location: business_profile.php");
-// }
-
-?>
 <html>
  	<head>
   		<title>Tinder++</title>
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  		<script> 
+    function UserLogin(){
+    	window.location = "user_login.php"
+    }
+
+    function BusinessLogin(){
+    	window.location = "business_login.php"
+    }
+    </script>
 	</head>
  	<body>
  		<p>Welcome to Tinder++ </br>
  		</br>
- 			Before you can enjoy our new features, please log in to continue!</p>
+ 			</p>
 
- 		<div id="login">
- 			<p>If you are a user, please log in here.</p>
- 			<form method="POST" action="index.php">
- 				<p>
- 					<label for="username">Username:</label>
- 					<input type="text" name="userName" placeholder="username" size="16"></br>
- 					<label for="userPwd">Password:</label>
- 					<input type="password" name="userPwd" placeholder="**********" size="16"><br>
-					<input type="submit" value="Continue" name="UserLogin"></p>
-					<span><?php echo $error; ?></span>
-			</form>
-
-			<p>If you are a business, please log in here.</p>
-
- 			<form method="POST" action="index.php">
- 				<p>
- 					<label for="businessName">Business Name:</label>
- 					<input type="text" name="businessName" placeholder="businessname" size="16"></br>
- 					<label for="businessPwd">Password:</label>
- 					<input type="password" name="businessPwd" placeholder="**********" size="16"><br>
-					<input type="submit" value="Continue" name="BusinessLogin"></p>
-					<span><?php echo $error; ?></span>
-			</form>
-		</div>
-
-		<!-- <div id="signup3">
-			<h1>Sign up for Free</h1>
-			<button id="userSignup">User Sign Up</button>
-			<button id="businessSignup">Business Sign up</button>
-		</div> -->
+ 		<input type="button" value="Continue as a User" onclick="UserLogin();"></p>
+ 		<input type="button" value="Continue as a Business"></p>
     </body>
+
+    
 </html>

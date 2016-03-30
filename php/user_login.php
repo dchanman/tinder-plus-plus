@@ -10,6 +10,11 @@ include 'verify.php';
  	<head>
   		<title>Tinder++</title>
   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  		<script> 
+		    function UserSignup(){
+		    	window.location = "newuser.php"
+		    }
+    </script>
 	</head>
  	<body>
  		<p>Welcome to Tinder++ </br>
@@ -41,9 +46,9 @@ include 'verify.php';
 			</form> -->
 		</div>
 
-		<div id="signup3">
+		<div id="userSignup">
 			<h1>Sign up for Free</h1>
-			<button id="userSignup">Sign up now!</button>
+			<input type="button" value="Sign up" onclick="UserSignup();"></p>
 		</div>
     </body>
      <script>

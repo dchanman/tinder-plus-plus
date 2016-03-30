@@ -18,7 +18,7 @@
  			</p>
 
  		<input type="button" value="Continue as a User" onclick="UserLogin();"></p>
- 		<input type="button" value="Continue as a Business"></p>
+ 		<input type="button" value="Continue as a Business" onclick="BusinessLogin();"></p>
     </body>
 
     

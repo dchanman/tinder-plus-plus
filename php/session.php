@@ -6,40 +6,42 @@ include ('sql-cmds.php');
 ini_set('session.save_path', $cshomedir.'/public_html/php_sessions');
 session_start();
 
-//$db_conn = OCILogon("ora_n4u8", "a38777124", "ug");
-//$db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
 $db_conn = OCILogon("ora_".$csid, "a".$studentnum, "ug");
 
 $user_check = $_SESSION['login_user'];
 
 // query for user information
-$name_query = executePlainSQL("select name,age,gender, preference
+$name_query = executePlainSQL("select name, age, gender, preference, location
 					 from Users 
 					 where userName = '$user_check'");
 
 $name_row = oci_fetch_array($name_query, OCI_BOTH);
 
 // get user's name
-$name_result = $name_row[0];
+$name_result = $name_row['NAME'];
 $name_trim = trim($name_result);
 $_SESSION['userName'] = $name_trim;
 $user_name = $name_trim;
 
-// TODO: get user's location
+// get user's location
+$location_result = $name_row['LOCATION'];
+$location_trim = trim($location_result);
+$_SESSION['userlocation'] = $location_trim;
+$user_location = $location_trim;
 
 // get user's age
-$age_result = $name_row[1];
+$age_result = $name_row['AGE'];
 $age_trim = trim($age_result);
 $_SESSION['userAge'] = $age_trim;
 $user_age = $age_trim;
 
 // get user's gender
-$gender_result = $name_row[2];
+$gender_result = $name_row['GENDER'];
 $gender_trim = trim($gender_result);
 $_SESSION['userGender'] = $gender_trim;
 $user_gender = $gender_trim;
 
-$preference_result = $name_row[3];
+$preference_result = $name_row['PREFERENCE'];
 $preference_trim = trim($preference_result);
 $_SESSION['preference'] = $preference_trim;
 // get user's InterestInMen

@@ -2,8 +2,8 @@
 
 include ('sql-cmds.php');
 
-//ini_set('session.save_path', '/home/n/n4u8/public_html/php_sessions');
-ini_set('session.save_path', '/home/z/z2p8/public_html/php_sessions');
+ini_set('session.save_path', '/home/n/n4u8/public_html/php_sessions');
+// ini_set('session.save_path', '/home/z/z2p8/public_html/php_sessions');
 session_start();
 
 //$db_conn = OCILogon("ora_n4u8", "a38777124", "ug");

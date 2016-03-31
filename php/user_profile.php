@@ -1,8 +1,8 @@
 <?php
 include ('session.php');
 
-//ini_set('session.save_path', '/home/n/n4u8/public_html/php_sessions');
-ini_set('session.save_path', '/home/z/z2p8/public_html/php_sessions');
+ini_set('session.save_path', '/home/n/n4u8/public_html/php_sessions');
+// ini_set('session.save_path', '/home/z/z2p8/public_html/php_sessions');
 session_start();
 
 $name = $_SESSION['login_user'];
@@ -11,6 +11,11 @@ $name = $_SESSION['login_user'];
 <html>
 	<head>
 		<title>Dashboard</title>
+		<script>
+			function editProfile(){
+				window.location = "editUserProfile.php";
+			}
+		</script>
 	</head>
 	<body>
 		<b id="welcome">Welcome, <i><?php echo $user_name; ?></i></b>
@@ -27,8 +32,8 @@ $name = $_SESSION['login_user'];
 		</p>
 
 
-
-		<input id="editProfile" type="submit" value="Edit Profile" name="editProfile">
+		<input id="startTinder" type="submit" value="Start Tinder" name="StartTinder">
+		<input id="editProfile" type="submit" value="Edit Profile" name="editProfile" onclick="editProfile()">
 		<b id="logout"><a href="logout.php">Log Out</a></b>
 	</body>
 </html>

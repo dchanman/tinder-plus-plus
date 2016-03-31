@@ -18,16 +18,21 @@
 
     	if ($db_conn) {
 
+			//getUnmatchedIds(1);
 			/* Get the userID from the post */
 			$myUserID = getIdFromUsername($_SESSION['login_user']);
-			$userID = rand(1,5);
-			$nextUserID = rand(1,5);
-			//TODO hacky way of ensuring next userid and userid aren't same, need to properly query for new potential matches
-			while($nextUserID == $myUserID){
-				$nextUserID = rand(1,5); //TODO: Make next user the result of a query of a unmatched user
-			}
-			while($userID == $myUserID || $userID == $myUserID){
-				$userID = rand(1,5);
+
+			$matchIds = getMatchesFromId($myUserID);
+			$matchIdsSize = count($matchIds);
+			$userID = rand(1,$matchIdsSize);
+			$nextUserID = rand(1,$matchIdsSize);			
+			
+			if($matchIdsSize > 1){
+				while($nextUserID == $myUserID || $nextUserID == $userID){
+					$userID = rand(1, $matchIdsSize);
+				}
+			}else{
+				echo "NO ONE IS AROUND";
 			}
     		/* Deal with POST requests */
 		    if (array_key_exists('hot', $_POST)) {

@@ -21,7 +21,7 @@
 				if ($_SESSION['login_user']) {
 					$username = $_SESSION['login_user'];
 					$id = getIdFromUsername($username);
-					$matchIds = getMatchesFromId($id);
+					$matchIds = getSuccessfulMatchesFromId($id);
 			
 					echo "<form method='POST' action='test-messaging.php'>
 					Username: $username<br>

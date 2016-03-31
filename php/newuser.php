@@ -50,11 +50,21 @@
 			printResult($result);
 			return;
 		}
-		if($tuple[':interestedInMen'] == NULL && $tuple[':interestedInWomen'] == NULL){
+
+		if($tuple[':interestedInMen'] != NULL){
+			if($tuple[':interestedInWomen'] != NULL){
+				$tuple[':preference'] = 2;
+			}else{
+				$tuple[':preference'] = 1;
+			}
+		}else if($tuple[':interestedInWomen'] != NULL){
+			$tuple[':preference'] = 0;
+		}else{
 			echo "Must pick interest";
 			printResult($result);
 			return;
 		}
+
 		$tuple[':password_hash'] = crypt($tuple[':password_text']);
 		//password_hash($tuple[':password_text'], PASSWORD_DEFAULT);
 		$alltuples = array (
@@ -62,7 +72,7 @@
 		);
 		/* UserIDSequence.nextval automatically gets the next available user ID for us from the database */
 		/* Note that if the insert fails, we still increment the sequence... lol */
-		executeBoundSQL("INSERT INTO users VALUES (UserIDSequence.nextval, :username_text, :name_text, :date_joined, :location_text, :age_text, :gender, :interestedInMen, :interestedInWomen, :password_hash)", $alltuples);
+		executeBoundSQL("INSERT INTO users VALUES (UserIDSequence.nextval, :username_text, :name_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
 		// Create new table...
 		echo "<br> creating new user <br>";
 		OCICommit($db_conn);

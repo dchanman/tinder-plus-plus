@@ -8,6 +8,7 @@ DROP TABLE Image;
 DROP TABLE Match;
 DROP TABLE UnsuccessfulMatch;
 DROP TABLE SuccessfulMatch;
+DROP TABLE PotentialMatch;
 DROP SEQUENCE UserIDSequence;
 DROP SEQUENCE MessageIDSequence;
 DROP TABLE Users;
@@ -21,8 +22,7 @@ DateJoined Long NOT NULL,
 Location CHAR(30) NOT NULL,
 Age INTEGER NOT NULL,
 Gender CHAR(1) NOT NULL,
-InterestedInMen INTEGER,
-InterestedInWomen INTEGER,
+Preference INTEGER NOT NULL,
 PasswordHash CHAR(48),
 PRIMARY KEY (UserID)
 );

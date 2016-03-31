@@ -2,15 +2,17 @@
 
 include ('sql-cmds.php');
 
-ini_set('session.save_path', '/home/n/n4u8/public_html/php_sessions');
+//ini_set('session.save_path', '/home/n/n4u8/public_html/php_sessions');
+ini_set('session.save_path', '/home/z/z2p8/public_html/php_sessions');
 session_start();
 
-$db_conn = OCILogon("ora_n4u8", "a38777124", "ug");
+//$db_conn = OCILogon("ora_n4u8", "a38777124", "ug");
+$db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
 
 $user_check = $_SESSION['login_user'];
 
 // query for user information
-$name_query = executePlainSQL("select name,age,gender, interestedinmen, interestedinwomen
+$name_query = executePlainSQL("select name,age,gender, preference
 					 from Users 
 					 where userName = '$user_check'");
 
@@ -36,8 +38,11 @@ $gender_trim = trim($gender_result);
 $_SESSION['userGender'] = $gender_trim;
 $user_gender = $gender_trim;
 
+$preference_result = $name_row[3];
+$preference_trim = trim($preference_result);
+$_SESSION['preference'] = $preference_trim;
 // get user's InterestInMen
-$iim_result = $name_row[3];
+/*$iim_result = $name_row[3];
 $iim_trim = trim($iim_result);
 $user_iim = $iim_trim;
 
@@ -45,14 +50,14 @@ $user_iim = $iim_trim;
 $iiw_result = $name_row[4];
 $iiw_trim = trim($iiw_result);
 $user_iiw = $iim_trim;
-
-if($user_iim && $user_iiw){
+*/
+if($preference_trim == 2){
 	$_SESSION['userInterest'] = "Men & Women";
 }
-else if($user_iim){
+else if($preference_trim == 1){
 	$_SESSION['userInterest'] = "Men";
 }
-else if($user_iiw){
+else if($preference_trim == 0){
 	$_SESSION['userInterest'] = "Women";
 }
 else{

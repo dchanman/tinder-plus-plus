@@ -8,7 +8,7 @@ session_start();
 $name = $_SESSION['login_user'];
 
 ?>
-<html>
+<html id='ngWrapper' ng-app='user_profile_module' ng-controller='user_profile_controller'>
 	<head>
 		<title>Dashboard</title>
 		<?php include 'head-includes.php' ?>
@@ -21,6 +21,7 @@ $name = $_SESSION['login_user'];
 				window.location = "match.php";
 			}
 		</script>
+		<script src='js/ang_user_profile.js' type='text/javascript'></script>
 	</head>
 	<body>
 		<?php include 'menu.php';?>
@@ -29,12 +30,13 @@ $name = $_SESSION['login_user'];
 
 		<p>
 		<h2>Your Info</h2><br>
+		<input ng-model='sampleVariable' type='text'><br>
 		Name: <i><?php echo $user_name; ?></i><br> 
 		Location: <i><?php echo $user_location; ?></i><br>
 		Age: <i><?php echo $user_age; ?></i><br>
 		Gender: <i><?php echo $user_gender; ?></i><br>
 		Interested In: <i><?php echo $user_interest; ?></i><br>
-
+		Notice how this variable dynamically changes when you change the first one: <input ng-model='sampleVariable' readonly='true'>
 		</p>
 
 

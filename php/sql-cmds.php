@@ -3,6 +3,8 @@
 //this tells the system that it's no longer just parsing 
 //html; it's now parsing PHP
 
+include 'credentials.php';
+
 $success = True; //keep track of errors so it redirects the page only if there are no errors
 $db_conn = OCILogon("ora_".$csid, "a".$studentnum, "ug");
 

@@ -1,5 +1,5 @@
 <?php
-include('credentials.php')
+include('credentials.php');
 // include ('session.php');
 
 ini_set('session.save_path', $cshomedir.'/public_html/php_sessions');

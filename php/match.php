@@ -5,10 +5,9 @@
  	<body>
  	 	<?php
  		include 'sql-cmds.php';
-
-		/* Get the userID from the post */
-		$userID = $_POST['userID'];
-		$myUserID = $_POST['myUserID'];
+		//ini_set('session.save_path', '/home/n/n4u8/public_html/php_sessions');
+		ini_set('session.save_path', '/home/z/z2p8/public_html/php_sessions');
+		session_start();
 
 		/* Hacky: Keep the userid in the text field for now until we get our cookie */
  		echo '<form method="POST" action="match.php">';
@@ -19,6 +18,22 @@
 
     	if ($db_conn) {
 
+			//getUnmatchedIds(1);
+			/* Get the userID from the post */
+			$myUserID = getIdFromUsername($_SESSION['login_user']);
+
+			$matchIds = getMatchesFromId($myUserID);
+			$matchIdsSize = count($matchIds);
+			$userID = rand(1,$matchIdsSize);
+			$nextUserID = rand(1,$matchIdsSize);			
+			
+			if($matchIdsSize > 1){
+				while($nextUserID == $myUserID || $nextUserID == $userID){
+					$userID = rand(1, $matchIdsSize);
+				}
+			}else{
+				echo "NO ONE IS AROUND";
+			}
     		/* Deal with POST requests */
 		    if (array_key_exists('hot', $_POST)) {
 		    	insert_match($myUserID, $userID, 'T');
@@ -26,7 +41,8 @@
 		    	insert_match($myUserID, $userID, 'F');
 		    }
     		
-    		/* Hacky: The first time you load this page, $userID will be NULL. Don't display anything then. */
+
+			/* Hacky: The first time you load this page, $userID will be NULL. Don't display anything then. */
 		    if ($userID && $myUserID) {
 		    	/* Get the user's images */
 		      	$result = query_images($userID);
@@ -53,7 +69,6 @@
 		      	echo "</ul>";
 
 		      	/* Make HOT/NOT point to the next userID */
-		      	$nextUserID = rand(1,4); //TODO: Make next user the result of a query of a unmatched user
 			    echo '<p>';
 				echo '<form method="POST" action="match.php">';
 				echo '<input type="hidden" name="userID" value="' . $nextUserID . '">';

@@ -4,53 +4,27 @@
 	</head>
  	<body>
  	 	<?php
- 	 	include 'credentials.php';
- 		include 'sql-cmds.php';
-		ini_set('session.save_path', $cshomedir.'/public_html/php_sessions');
-		session_start();
+ 	 	include 'session.php';
 
-		/* Hacky: Keep the userid in the text field for now until we get our cookie */
- 		echo '<form method="POST" action="match.php">';
-	 	echo '<p>Account ID: <input type="text" name="myUserID" value="' . $myUserID .'"size="1"></p>';
-
-	 	echo '<p>Match With: <input type="text" name="userID" value="' . $userID .'"size="1">';
-		echo '<input type="submit" value="GO" name="update"></p></form>';
 
     	if ($db_conn) {
 
 			//getUnmatchedIds(1);
-			/* Get the userID from the post */
-			$myUserID = getIdFromUsername($_SESSION['login_user']);
+			echo "<p>Signed in as <b>$user_name</b></p>";
 
-			$matchIds = getMatchesFromId($myUserID);
-			$matchIdsSize = count($matchIds);
-			$userID = rand(1,$matchIdsSize);
-			$nextUserID = rand(1,$matchIdsSize);			
-			
-			if($matchIdsSize > 1){
-				while($nextUserID == $myUserID || $nextUserID == $userID){
-					$userID = rand(1, $matchIdsSize);
-				}
-			}else{
-				echo "NO ONE IS AROUND";
-			}
-    		/* Deal with POST requests */
-		    if (array_key_exists('hot', $_POST)) {
-		    	insert_match($myUserID, $userID, 'T');
-		    } else if (array_key_exists('not', $_POST)) {
-		    	insert_match($myUserID, $userID, 'F');
-		    }
-    		
+			/* Get all users this user has yet to try matching with */
+			$result = query_getUnmatchedUsers($user_userid);
+			/* Grab the first one */
+			$unmatchedUser = $result['unmatchedUsers'][0];
 
-			/* Hacky: The first time you load this page, $userID will be NULL. Don't display anything then. */
-		    if ($userID && $myUserID) {
-		    	/* Get the user's images */
-		      	$result = query_images($userID);
+			if ($unmatchedUser) {
+				/* Get this user's images */
+		      	$result = query_images($unmatchedUser);
+		      	$name = $result['name'];
+		      	$age = $result['age'];
 
-		      	$name = $result[name];
-		      	echo "<h1>$name</h1>";
-		      	$age = $result[age];
-		      	echo "<p>Age: <b>$age</b></p>";
+				echo "<h1>$name </h1>";
+		      	echo "<p>Age: $age <b></b></p>";
 
 		      	/* Display the images */
 		      	foreach ($result['images'] as $img) {
@@ -59,7 +33,7 @@
 
 		      	/* Get common interests */
 		      	/* TEMP: query common interests of a user with themselves to see a full list */
-		      	$result = query_getCommonInterests($myUserID, $userID);
+		      	$result = query_getCommonInterests($user_userid, $unmatchedUser);
 
 		      	/* Display the interests */
 		      	echo "<b>Common Interests</b><ul>";
@@ -69,14 +43,25 @@
 		      	echo "</ul>";
 
 		      	/* Make HOT/NOT point to the next userID */
-			    echo '<p>';
-				echo '<form method="POST" action="match.php">';
-				echo '<input type="hidden" name="userID" value="' . $nextUserID . '">';
-				echo '<input type="hidden" name="myUserID" value="' . $myUserID . '">';
-			 	echo '<input type="submit" value="HOT" name="hot">';
-			 	echo '<input type="submit" value="NOT" name="not">';
-				echo '</form></p>';			
-		    }
+				echo '
+				<p>
+				<form method="POST" action="match.php">
+			 	<input type="submit" value="HOT" name="hot">
+			 	<input type="submit" value="NOT" name="not">
+				</form></p>
+				';
+
+	    		/* Deal with POST requests */
+			    if (array_key_exists('hot', $_POST)) {
+			    	insert_match($user_userid, $unmatchedUser, 'T');
+			    } else if (array_key_exists('not', $_POST)) {
+			    	insert_match($user_userid, $unmatchedUser, 'F');
+			    }
+			} else {
+				echo "<p>Hello $user_name, there's nobody new to match with! Come back later!</p>";
+			}
+
+		    $nextUserID = rand(1,$matchIdsSize);    		
 
 		    printTable('match');
 

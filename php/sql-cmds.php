@@ -197,6 +197,29 @@ function query_getCommonInterests($userid1, $userid2) {
 	return $returntuple;
 }
 
+function query_getUnmatchedUsers($userid) {
+	$result = executePlainSQL(
+		"SELECT userid FROM Users WHERE NOT EXISTS
+		(
+			SELECT matcher, matchee FROM Match 
+			WHERE
+			matcher = $userid AND matchee = userid
+		) AND userid <> $userid"
+	);
+
+	$unmatchedUsers = array();
+
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	    array_push($unmatchedUsers, $row[USERID]);
+	}
+
+	$returntuple = array(
+		"unmatchedUsers" => $unmatchedUsers
+		);
+
+	return $returntuple;
+}
+
 function insert_match($matcherUserID, $matcheeUserID, $match) {
 	/* INSERT into Match, or UPDATE if entry exists */
 	$result = executePlainSQL(

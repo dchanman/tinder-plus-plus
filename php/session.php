@@ -1,14 +1,14 @@
 <?php
 
+include 'credentials.php';
 include ('sql-cmds.php');
 
-// ini_set('session.save_path', '/home/n/n4u8/public_html/php_sessions');
-ini_set('session.save_path', '/home/o/o6z8/public_html/php_sessions');
-// ini_set('session.save_path', '/home/z/z2p8/public_html/php_sessions');
+ini_set('session.save_path', $cshomedir.'/public_html/php_sessions');
 session_start();
 
 //$db_conn = OCILogon("ora_n4u8", "a38777124", "ug");
-$db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
+//$db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
+$db_conn = OCILogon("ora_".$csid, "a".$studentnum, "ug");
 
 $user_check = $_SESSION['login_user'];
 

@@ -25,7 +25,10 @@
 </form>
 
 <?php
+  include 'credentials.php';
   include 'sql-cmds.php';
+
+  echo "<br>Your credentials: " . $csid . " (" . $studentnum . ")</br>";
 
   if ($db_conn) {
 

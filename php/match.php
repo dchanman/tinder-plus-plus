@@ -4,9 +4,9 @@
 	</head>
  	<body>
  	 	<?php
+ 	 	include 'credentials.php';
  		include 'sql-cmds.php';
-		//ini_set('session.save_path', '/home/n/n4u8/public_html/php_sessions');
-		ini_set('session.save_path', '/home/z/z2p8/public_html/php_sessions');
+		ini_set('session.save_path', $cshomedir.'/public_html/php_sessions');
 		session_start();
 
 		/* Hacky: Keep the userid in the text field for now until we get our cookie */

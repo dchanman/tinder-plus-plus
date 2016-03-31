@@ -55,8 +55,10 @@ size="18">
 //this tells the system that it's no longer just parsing 
 //html; it's now parsing PHP
 
+include 'credentials.php';
+
 $success = True; //keep track of errors so it redirects the page only if there are no errors
-$db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
+$db_conn = OCILogon("ora_".$csid, "a".$studentnum, "ug");
 
 function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
 	//echo "<br>running ".$cmdstr."<br>";

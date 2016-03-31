@@ -9,7 +9,13 @@
 
     	if ($db_conn) {
 
-			//getUnmatchedIds(1);
+			/* Deal with POST requests */
+		    if (array_key_exists('hot', $_POST)) {
+		    	insert_match($user_userid, $_POST['matchwith'], 't');
+		    } else if (array_key_exists('not', $_POST)) {
+		    	insert_match($user_userid, $_POST['matchwith'], 'f');
+		    }
+
 			echo "<p>Signed in as <b>$user_name</b></p>";
 
 			/* Get all users this user has yet to try matching with */
@@ -18,7 +24,9 @@
 			$unmatchedUser = $result['unmatchedUsers'][0];
 
 			if ($unmatchedUser) {
-				/* Get this user's images */
+				/* If unmatchedUser exists, display their profile */
+
+				/* Get this user's images, name, and age (TODO: split query_images to smaller queries) */
 		      	$result = query_images($unmatchedUser);
 		      	$name = $result['name'];
 		      	$age = $result['age'];
@@ -32,7 +40,6 @@
 		      	}
 
 		      	/* Get common interests */
-		      	/* TEMP: query common interests of a user with themselves to see a full list */
 		      	$result = query_getCommonInterests($user_userid, $unmatchedUser);
 
 		      	/* Display the interests */
@@ -42,26 +49,19 @@
 		      	}
 		      	echo "</ul>";
 
-		      	/* Make HOT/NOT point to the next userID */
+		      	/* Display HOT/NOT buttons */
 				echo '
 				<p>
 				<form method="POST" action="match.php">
+				<input type="hidden" value='.$unmatchedUser.' name="matchwith">
 			 	<input type="submit" value="HOT" name="hot">
 			 	<input type="submit" value="NOT" name="not">
 				</form></p>
 				';
 
-	    		/* Deal with POST requests */
-			    if (array_key_exists('hot', $_POST)) {
-			    	insert_match($user_userid, $unmatchedUser, 'T');
-			    } else if (array_key_exists('not', $_POST)) {
-			    	insert_match($user_userid, $unmatchedUser, 'F');
-			    }
 			} else {
 				echo "<p>Hello $user_name, there's nobody new to match with! Come back later!</p>";
 			}
-
-		    $nextUserID = rand(1,$matchIdsSize);    		
 
 		    printTable('match');
 

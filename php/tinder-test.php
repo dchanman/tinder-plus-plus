@@ -45,6 +45,9 @@
 
     printTable('users');
     printTable('image');
+    printTable('match');
+    printTable('successfulMatch');
+    printTable('unsuccessfulMatch');
 
     /* Commit to save changes... */
     OCICommit($db_conn);

@@ -6,8 +6,8 @@ DROP TABLE Business;
 DROP TABLE Message;
 DROP TABLE Image;
 DROP TABLE Match;
-DROP TABLE UnsuccessfulMatch;
-DROP TABLE SuccessfulMatch;
+DROP VIEW UnsuccessfulMatch;
+DROP VIEW SuccessfulMatch;
 DROP SEQUENCE UserIDSequence;
 DROP SEQUENCE MessageIDSequence;
 DROP TABLE Users;
@@ -38,26 +38,6 @@ INCREMENT BY 1
 MINVALUE 0
 NOMAXVALUE;
 
-CREATE TABLE SuccessfulMatch
-(
-UserID1 INTEGER NOT NULL,
-UserID2 INTEGER NOT NULL,
-PRIMARY KEY (UserID1, UserID2),
-FOREIGN KEY (UserID1) REFERENCES Users(UserID) ON DELETE CASCADE,
-FOREIGN KEY (UserID2) REFERENCES Users(UserID) ON DELETE CASCADE,
-Check (UserID1 < UserID2)
-);
-
-CREATE TABLE UnsuccessfulMatch
-(
-UserID1 INTEGER NOT NULL,
-UserID2 INTEGER NOT NULL,
-PRIMARY KEY (UserID1, UserID2),
-FOREIGN KEY (UserID1) REFERENCES Users(UserID) ON DELETE CASCADE,
-FOREIGN KEY (UserID2) REFERENCES Users(UserID) ON DELETE CASCADE,
-Check (UserID1 < UserID2)
-);
-
 CREATE TABLE Match
 (
 Matcher INTEGER NOT NULL,
@@ -67,6 +47,25 @@ PRIMARY KEY (Matcher, Matchee),
 FOREIGN KEY (Matcher) REFERENCES Users(UserID) ON DELETE CASCADE,
 FOREIGN KEY (Matchee) REFERENCES Users(UserID) ON DELETE CASCADE
 );
+
+CREATE VIEW SuccessfulMatch AS
+SELECT M1.matcher AS userid1, M1.matchee AS userid2
+FROM Match M1
+INNER JOIN Match M2 ON
+M1.Matcher = M2.Matchee AND
+M1.Matchee = M2.Matcher AND
+M1.match = 't' AND
+M2.match = 't' AND
+M1.matcher < M2.matcher;
+
+CREATE VIEW UnsuccessfulMatch AS
+SELECT DISTINCT M1.matcher AS userid1, M1.matchee AS userid2
+FROM Match M1
+INNER JOIN Match M2 ON
+M1.Matcher = M2.Matchee AND
+M1.Matchee = M2.Matcher AND
+(M1.match = 'f' OR M2.match = 'f') AND
+M1.matcher < M2.matcher;
 
 CREATE TABLE Image
 (

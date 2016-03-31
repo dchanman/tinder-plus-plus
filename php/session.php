@@ -47,32 +47,23 @@ $gender_trim = trim($gender_result);
 $_SESSION['userGender'] = $gender_trim;
 $user_gender = $gender_trim;
 
+// get user's preference
 $preference_result = $query_row['PREFERENCE'];
 $preference_trim = trim($preference_result);
 $_SESSION['preference'] = $preference_trim;
-// get user's InterestInMen
-/*$iim_result = $query_row[3];
-$iim_trim = trim($iim_result);
-$user_iim = $iim_trim;
-
-// get user's InterestInWomen
-$iiw_result = $query_row[4];
-$iiw_trim = trim($iiw_result);
-$user_iiw = $iim_trim;
-*/
-if($preference_trim == 2){
+/* String Formatting */
+if($preference_trim == 'mf'){
 	$_SESSION['userInterest'] = "Men & Women";
 }
-else if($preference_trim == 1){
+else if($preference_trim == 'm'){
 	$_SESSION['userInterest'] = "Men";
 }
-else if($preference_trim == 0){
+else if($preference_trim == 'f'){
 	$_SESSION['userInterest'] = "Women";
 }
 else{
-	$_SESSION['userInterest'] = "Mystery";
+	$_SESSION['userInterest'] = " ";
 }
-
 $user_interest = $_SESSION['userInterest'];
 
 if(!isset($user_name)){

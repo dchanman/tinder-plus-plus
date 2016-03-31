@@ -78,6 +78,12 @@ function runSQLScript($filename) {
 	/* explode is equivalent to Java's 'String.split()' function */
 	$cmds = explode(";", file_get_contents($filename));
 	foreach ($cmds as &$sqlcmd) {
+
+		/* Ignore comments */
+		if (preg_match('([#])', $sqlcmd)) {
+			continue;
+		}
+
 		if (preg_match('([a-zA-Z])', $sqlcmd)) {
 			executePlainSQL($sqlcmd);
 		}
@@ -199,12 +205,19 @@ function query_getCommonInterests($userid1, $userid2) {
 
 function query_getUnmatchedUsers($userid) {
 	$result = executePlainSQL(
-		"SELECT userid FROM Users WHERE NOT EXISTS
-		(
-			SELECT matcher, matchee FROM Match 
-			WHERE
-			matcher = $userid AND matchee = userid
-		) AND userid <> $userid"
+		"SELECT U2.userid
+		FROM Users U1 INNER JOIN Users U2
+		ON
+		U1.userid = $userid AND
+		U1.preference LIKE '%' || U2.gender || '%' AND
+		U2.preference LIKE '%' || U1.gender || '%' AND
+		U1.userid <> U2.userid
+		WHERE
+		NOT EXISTS (
+			SELECT matcher, matchee
+			FROM Match
+			WHERE matcher = $userid AND matchee = U2.userid
+		)"
 	);
 
 	$unmatchedUsers = array();

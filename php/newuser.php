@@ -55,14 +55,11 @@
 			return;
 		}
 
-		if($tuple[':interestedInMen'] != NULL){
-			if($tuple[':interestedInWomen'] != NULL){
-				$tuple[':preference'] = 2;
-			}else{
-				$tuple[':preference'] = 1;
-			}
+		$tuple[':preference'] = '';
+		if($tuple[':interestedInMen'] != NULL) {
+			$tuple[':preference'] .= 'm';
 		}else if($tuple[':interestedInWomen'] != NULL){
-			$tuple[':preference'] = 0;
+			$tuple[':preference'] .= 'f';
 		}else{
 			echo "Must pick interest";
 			printResult($result);

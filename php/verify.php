@@ -19,7 +19,7 @@ if (isset($_POST['UserLogin'])) {
 
         // connect to DB
         //$db_conn = OCILogon("ora_n4u8", "a38777124", "ug");
-        $db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
+        $db_conn = OCILogon("ora_".$csid, "a".$studentnum, "ug");
         // now connected
         if ($db_conn) {
 

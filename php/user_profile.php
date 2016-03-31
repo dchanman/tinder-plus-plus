@@ -12,8 +12,12 @@ $name = $_SESSION['login_user'];
 	<head>
 		<title>Dashboard</title>
 		<script>
-			function editProfile(){
+			function editProfile() {
 				window.location = "editUserProfile.php";
+			}
+
+			function findMatches() {
+				window.location = "match.php";
 			}
 		</script>
 	</head>
@@ -32,7 +36,7 @@ $name = $_SESSION['login_user'];
 		</p>
 
 
-		<input id="startTinder" type="submit" value="Start Tinder" name="StartTinder">
+		<input id="findMatches" type="submit" value="Find Matches" name="findMatches" onclick="findMatches()">
 		<input id="editProfile" type="submit" value="Edit Profile" name="editProfile" onclick="editProfile()">
 		<b id="logout"><a href="logout.php">Log Out</a></b>
 	</body>

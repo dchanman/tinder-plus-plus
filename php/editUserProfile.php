@@ -1,5 +1,5 @@
 <php?
-
+include 'credentials.php';
 include ('sql-cmds.php');
 
 ?>

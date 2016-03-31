@@ -1,5 +1,6 @@
 <?php
 
+include 'credentials.php';
 include 'verify.php';
 
 // if(isset($_SESSION['login_user'])){

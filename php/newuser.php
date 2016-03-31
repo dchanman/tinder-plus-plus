@@ -25,6 +25,7 @@
 </html>
 
 <?php
+  include 'credentials.php';
   include 'sql-cmds.php';
 
   if ($db_conn) {

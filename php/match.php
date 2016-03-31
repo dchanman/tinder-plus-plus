@@ -1,8 +1,11 @@
 <html>
  	<head>
+		<?php include 'head-includes.php' ?>
   		<title>Tinder++</title>
 	</head>
  	<body>
+
+		<?php include 'menu.php';?>
  	 	<?php
  	 	include 'session.php';
 

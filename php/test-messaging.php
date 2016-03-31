@@ -11,8 +11,10 @@
 <html>
  	<head>
   		<title>Welcome to Tinder++</title>
+		<?php include 'head-includes.php' ?>
 	</head>
  	<body>
+		<?php include 'menu.php';?>
 		<p>Tinder++ Messages</p><br>
 		<p>Messages<p><br>
 

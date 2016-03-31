@@ -6,6 +6,7 @@ include ('sql-cmds.php');
 
 <html>
 	<head>
+		<?php include 'head-includes.php' ?>
 		<title>Editing Profile</title>
 		<script>
 			function backToProfile(){
@@ -14,6 +15,7 @@ include ('sql-cmds.php');
 		</script>
 	</head>
 	<body>
+		<?php include 'menu.php';?>
 		<p>Tinder++ Profile Edit</p><br>
 		<p>UserID:<p><br>
 		<form method="POST">

@@ -9,14 +9,15 @@ include 'verify.php';
 <html>
  	<head>
   		<title>Tinder++</title>
-  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  		<script>
+		<?php include 'head-includes.php' ?>
+  	  	<script>
   			function businessSignup(){
   				window.location = "newbusiness.php";
   			}
   		</script>
 	</head>
  	<body>
+		<?php include 'menu.php';?>
  		<p>Welcome to Tinder++ </br>
  		</br>
  			Before you can enjoy our new features, please log in to continue</p>

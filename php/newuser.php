@@ -1,8 +1,10 @@
 <html>
  	<head>
   		<title>Welcome to Tinder++</title>
+		<?php include 'head-includes.php' ?>
 	</head>
  	<body>
+		<?php include 'menu.php';?>
 		<p>Tinder++ Signup!</p><br>
 		<p>UserID:<p><br>
 		<form method="POST" action="newuser.php">

@@ -1,25 +1,20 @@
 <html>
- 	<head>
-  		<title>Tinder++</title>
-  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  		<script> 
-    function UserLogin(){
-    	window.location = "user_login.php"
-    }
-
-    function BusinessLogin(){
-    	window.location = "business_login.php"
-    }
-    </script>
+	<head>
+		<?php include 'head-includes.php' ?>
 	</head>
  	<body>
- 		<p>Welcome to Tinder++ </br>
- 		</br>
- 			</p>
-
- 		<input type="button" value="Continue as a User" onclick="UserLogin();"></p>
- 		<input type="button" value="Continue as a Business" onclick="BusinessLogin();"></p>
-    </body>
-
-    
+		
+		<?php include 'menu.php';?>
+		<br>
+		<div class="container">
+			<div class="col-xs-12">
+				<div class="jumbotron description center-block">
+					<h2>Tinder++</h2>
+					<p>
+					Welcome to Tinder++! Find your match today! 
+					</p><br>
+				</div>
+			</div>
+		</div>
+ 	</body>
 </html>

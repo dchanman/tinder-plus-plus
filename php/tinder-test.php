@@ -15,7 +15,11 @@
   Apache server can run it, and you must rename it to have a ".php"
   extension.  You must also change the username and password on the 
   OCILogon below to be your ORACLE username and password -->
-
+<head>
+	<?php include 'head-includes.php' ?>
+</head>
+<body>
+<?php include 'menu.php';?>
 <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
 <form method="POST" action="tinder-test.php">
    
@@ -61,4 +65,4 @@
     echo htmlentities($e['message']);
   }
 ?>
-
+</body>

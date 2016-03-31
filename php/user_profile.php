@@ -11,6 +11,7 @@ $name = $_SESSION['login_user'];
 <html>
 	<head>
 		<title>Dashboard</title>
+		<?php include 'head-includes.php' ?>
 		<script>
 			function editProfile() {
 				window.location = "editUserProfile.php";
@@ -22,6 +23,7 @@ $name = $_SESSION['login_user'];
 		</script>
 	</head>
 	<body>
+		<?php include 'menu.php';?>
 		<b id="welcome">Welcome <i><?php echo $user_name; ?></i></b>
 		<br>
 

@@ -10,9 +10,11 @@ $name = $_SESSION['login_business'];
 ?>
 <html>
 	<head>
+		<?php include 'head-includes.php' ?>
 		<title>Dashboard</title>
 	</head>
 	<body>
+		<?php include 'menu.php';?>
 		<b id="welcome">Welcome, <i><?php echo $user_name; ?></i></b>
 		<br>
 

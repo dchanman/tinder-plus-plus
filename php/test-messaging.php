@@ -1,7 +1,8 @@
 <?php
   include 'sql-cmds.php';
   //ini_set('session.save_path', '/home/n/n4u8/public_html/php_sessions');
-  ini_set('session.save_path', '/home/z/z2p8/public_html/php_sessions');
+  // ini_set('session.save_path', '/home/z/z2p8/public_html/php_sessions');
+  ini_set('session.save_path', '/home/o/o6z8/public_html/php_sessions');
   session_start();
 ?>
 
@@ -21,7 +22,7 @@
 				if ($_SESSION['login_user']) {
 					$username = $_SESSION['login_user'];
 					$id = getIdFromUsername($username);
-					$matchIds = getSuccessfulMatchesFromId($id);
+					$matchIds = getMatchesFromId($id);
 			
 					echo "<form method='POST' action='test-messaging.php'>
 					Username: $username<br>

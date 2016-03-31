@@ -5,8 +5,8 @@
 
 $success = True; //keep track of errors so it redirects the page only if there are no errors
 // $db_conn = OCILogon("ora_z2p8", "a37087129", "ug");
-//$db_conn = OCILogon("ora_o6z8", "a33184128", "ug");
-$db_conn = OCILogon("ora_n4u8", "a38777124", "ug");
+$db_conn = OCILogon("ora_o6z8", "a33184128", "ug");
+// $db_conn = OCILogon("ora_n4u8", "a38777124", "ug");
 
 function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
 	//echo "<br>running ".$cmdstr."<br>";
@@ -125,29 +125,6 @@ function getUsernameFromId($id) {
 }
 
 function getMatchesFromId($id) {
-	$s = executePlainSQL("select matchee from match where matcher = '$id'");
-	$usersMatches = array();
-	while (($row = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-	   	array_push($usersMatches, $row[matchee]);
-	}
-	return $usersMatches;
-}
-
-function getUnsuccessfulMatchesFromId($id) {
-	$s1 = executePlainSQL("select userid2 from unsuccessfulmatch where userid1 = '$id'");
-	$s2 = executePlainSQL("select userid1 from unsuccessfulmatch where userid2 = '$id'");
-	$users_unsuccessfulmatches = array();
-	while (($row = oci_fetch_array($s1, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-	   	array_push($users_unsuccessfulmatches, $row[USERID2]);
-	}
-	while (($row = oci_fetch_array($s2, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-	   	array_push($users_unsuccessfulmatches, $row[USERID1]);
-	}
-
-	return $users_unsuccessfulmatches;
-}
-
-function getSuccessfulMatchesFromId($id) {
 	$s1 = executePlainSQL("select userid2 from successfulmatch where userid1 = '$id'");
 	$s2 = executePlainSQL("select userid1 from successfulmatch where userid2 = '$id'");
 	$users_matches = array();
@@ -159,20 +136,6 @@ function getSuccessfulMatchesFromId($id) {
 	}
 
 	return $users_matches;
-}
-
-function getUnmatchedIds($number) {
-	$result = executePlainSQL("
-		SELECT userid from users 
-		Where gender =
-			CASE 
-				when $number = 1 then 'm'
-				when $number = 2 then 'f'
-				else then 'g'
-			end;
-	");
-	printResult($result);
-		
 }
 
 function sendMessage($src_userid, $dest_userid, $msg_str){

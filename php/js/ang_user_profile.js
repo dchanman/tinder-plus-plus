@@ -1,5 +1,3 @@
-var remoteserver = 
-
 function init(){
 	var ngScope = angular.element(document.getElementById("ngWrapper")).scope();
 }

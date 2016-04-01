@@ -29,10 +29,13 @@
 			if ($unmatchedUser) {
 				/* If unmatchedUser exists, display their profile */
 
-				/* Get this user's images, name, and age (TODO: split query_images to smaller queries) */
-		      	$result = query_images($unmatchedUser);
-		      	$name = $result['name'];
+				/* Get their profile information */
+				$result = query_userInformationWithUserID($unmatchedUser);
+				$name = $result['name'];
 		      	$age = $result['age'];
+
+				/* Get this user's images */
+		      	$result = query_images($unmatchedUser);		      	
 
 				echo "<h1>$name </h1>";
 		      	echo "<p>Age: $age <b></b></p>";

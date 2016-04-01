@@ -149,10 +149,10 @@ function sendMessage($src_userid, $dest_userid, $msg_str){
 	return $result;
 }
 
-function query_images($userid) {
+function query_userInformationWithUserID($userid) {
 	/* Get user information */
 	$result = executePlainSQL(
-		"SELECT name, age, gender FROM Users U
+		"SELECT * FROM Users U
 		WHERE U.userid = $userid"
 	);
 
@@ -160,7 +160,47 @@ function query_images($userid) {
 	$name = $row[NAME];
 	$age = $row[AGE];
 
-	/* Get their images */
+	$images = array();
+
+	$returntuple = array(
+		"userid" => $row[USERID],
+		"name" => $row[NAME],
+		"age" => $row[AGE],
+		"location" => $row[LOCATION],
+		"gender" => $row[GENDER],
+		"preference" => $row[PREFERENCE],
+		);
+
+	return $returntuple;
+}
+
+function query_userInformationWithUsername($username) {
+	/* Get user information */
+	$result = executePlainSQL(
+		"SELECT * FROM Users U
+		WHERE U.username = '$username'"
+	);
+
+	$row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS);
+	$name = $row[NAME];
+	$age = $row[AGE];
+
+	$images = array();
+
+	$returntuple = array(
+		"userid" => $row[USERID],
+		"name" => $row[NAME],
+		"age" => $row[AGE],
+		"location" => $row[LOCATION],
+		"gender" => $row[GENDER],
+		"preference" => $row[PREFERENCE],
+		);
+
+	return $returntuple;
+}
+
+function query_images($userid) {
+	/* Get user's images */
 	$result = executePlainSQL(
 		"SELECT imageurl FROM Image I
 		WHERE userid = $userid
@@ -175,8 +215,6 @@ function query_images($userid) {
 
 	$returntuple = array(
 		"images" => $images,
-		"name" => $name,
-		"age" => $age
 		);
 
 	return $returntuple;

@@ -1,7 +1,11 @@
-<php?
-include 'credentials.php';
-include ('sql-cmds.php');
+<?php
+include ('credentials.php');
+include ('session.php');
 
+ini_set('session.save_path', $cshomedir.'/public_html/php_sessions');
+session_start();
+
+$name = $_SESSION['login_user'];
 ?>
 
 <html>
@@ -16,8 +20,9 @@ include ('sql-cmds.php');
 	</head>
 	<body>
 		<?php include 'menu.php';?>
-		<p>Tinder++ Profile Edit</p><br>
-		<p>UserID:<p><br>
+		<?php 
+		echo "<h1>Edit Profile ($user_name)</h1>";
+		?>
 		<form method="POST">
 			Username: <input type="text" name="username_text" size="6"><br>
 			Name: <input type="text" name="name_text" size="6"><br>
@@ -46,8 +51,6 @@ include ('sql-cmds.php');
 </html>
 
 <?php
-  include 'sql-cmds.php';
-
   if ($db_conn) {
 
    if (array_key_exists('editUserProfile', $_POST)) {

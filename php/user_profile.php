@@ -31,11 +31,14 @@ $name = $_SESSION['login_user'];
 		<p>
 		<h2>Your Profile</h2><br>
 		<input ng-model='sampleVariable' type='text'><br>
-		Name: <i><?php echo $user_name; ?></i><br> 
-		Location: <i><?php echo $user_location; ?></i><br>
-		Age: <i><?php echo $user_age; ?></i><br>
-		Gender: <i><?php echo $user_gender; ?></i><br>
-		Interested In: <i><?php echo $user_interest; ?></i><br>
+		<?php
+		echo "Name: <b><i>$user_name</b></i><br>";
+		echo "Location: <b><i>$user_location</b></i><br>";
+		echo "Age: <b><i> $user_age</b></i><br>";
+		echo "Gender: <b><i> $user_gender</b></i><br>";
+		echo "Interested In: <b><i> $user_interest</b></i><br>";
+		?>
+		
 		Notice how this variable dynamically changes when you change the first one: <input ng-model='sampleVariable' readonly='true'>
 		</p>
 
@@ -47,6 +50,14 @@ $name = $_SESSION['login_user'];
 			echo "<li>$interest</i>";
 		}
 		echo "</ul>";
+
+		/* Print photos */
+		echo "<b>Your Photos</b><ul>";
+		$result = query_images($user_userid);
+		foreach ($result['images'] as $img) {
+      		echo "<p><img src=\"" . $img . "\" width=150></img></p>";
+      	}
+      	echo "</ul>";
 		?>
 
 

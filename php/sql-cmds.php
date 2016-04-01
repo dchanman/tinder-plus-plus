@@ -118,34 +118,56 @@ function printResult($result) {
 
 }
 
-function getIdFromUsername($username) {
-	$s = executePlainSQL("select userid from users where username = '$username'");
-	$result = oci_fetch_array($s);
-	return $result[0];
+
+/******************************************************************************
+ *
+ * ALL SQL QUERIES/COMMANDS ARE LOCATED BELOW
+ *
+ *****************************************************************************/
+
+function query_getIdFromUsername($username) {
+	$result = executePlainSQL(
+		"SELECT userid FROM users WHERE username = '$username'"
+	);
+
+	$row = oci_fetch_array($result);
+	return $row[0];
 }
 
-function getUsernameFromId($id) {
-	$s = executePlainSQL("select username from users where userid = '$id'");
-	$result = oci_fetch_array($s);
-	return $result[0];
+function query_getUsernameFromId($id) {
+	$result = executePlainSQL(
+		"SELECT username FROM Users WHERE userid = '$id'"
+	);
+
+	$row = oci_fetch_array($result);
+	return $row[USERNAME];
 }
 
-function getMatchesFromId($id) {
-	$s1 = executePlainSQL("select userid2 from successfulmatch where userid1 = '$id'");
-	$s2 = executePlainSQL("select userid1 from successfulmatch where userid2 = '$id'");
+function query_getSuccessfulMatches($userid) {
+	$s = executePlainSQL(
+		"SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = '$userid'
+		UNION
+		SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = '$userid'"
+		);
+
 	$users_matches = array();
-	while (($row = oci_fetch_array($s1, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-	   	array_push($users_matches, $row[USERID2]);
-	}
-	while (($row = oci_fetch_array($s2, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-	   	array_push($users_matches, $row[USERID1]);
+	while (($row = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	   	array_push($users_matches, $row[USERID]);
 	}
 
 	return $users_matches;
 }
 
-function sendMessage($src_userid, $dest_userid, $msg_str){
-	$result = executePlainSQL("insert into message values (MessageIDSequence.nextval, '$src_userid', '$dest_userid', '$msg_str', '24.3.2016')");
+function insert_sendMessage($src_userid, $dest_userid, $msg_str){
+	$result = executePlainSQL(
+		"INSERT INTO Message VALUES (
+			MessageIDSequence.nextval,
+			'$src_userid',
+			'$dest_userid',
+			'$msg_str',
+			SYSDATE)"
+		);
+
 	return $result;
 }
 

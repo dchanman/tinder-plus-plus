@@ -23,30 +23,30 @@
 				
 				if ($_SESSION['login_user']) {
 					$username = $_SESSION['login_user'];
-					$id = getIdFromUsername($username);
-					$matchIds = getMatchesFromId($id);
-			
+					$id = query_getIdFromUsername($username);
+					$matchIds = query_getSuccessfulMatches($id);
+
 					echo "<form method='POST' action='test-messaging.php'>
 					Username: $username<br>
 					<input type='submit' value='Sign Up!' name='signup'><br>";
 			
 					/* Display the users */
 		      		foreach ($matchIds as $matchId) {
-						$receiverId = getUsernameFromId($matchId);
+						$receiverId = query_getUsernameFromId($matchId);
 			      		echo "<form method='POST' action='test-messaging.php'>
 						Message String: <input type='text' name='messageStr'>
 						Receiver: <input type='text' name='receiverId' value='$matchId' readonly='true'>
-						<input type='submit' value='Send Message to $receiverId' name='sendMessage'>
+						<input type='submit' value='Send Message to $receiverId' name='insert_sendMessage'>
 						</form>";
 			      	}
 	
 					$_POST['TESTTEST'] = '1';	
 	
-	   				if (array_key_exists('sendMessage', $_POST)) {
+	   				if (array_key_exists('insert_sendMessage', $_POST)) {
 						$TEST1 = 1;
 						$TEST2 = 2;
 						$TEST3 = 'fsdfdE';
-						sendMessage($id, $_POST['receiverId'], $_POST['messageStr']);
+						insert_sendMessage($id, $_POST['receiverId'], $_POST['messageStr']);
 					}
 				
 					printTable('message');

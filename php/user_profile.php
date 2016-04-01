@@ -29,7 +29,7 @@ $name = $_SESSION['login_user'];
 		<br>
 
 		<p>
-		<h2>Your Info</h2><br>
+		<h2>Your Profile</h2><br>
 		<input ng-model='sampleVariable' type='text'><br>
 		Name: <i><?php echo $user_name; ?></i><br> 
 		Location: <i><?php echo $user_location; ?></i><br>
@@ -38,6 +38,16 @@ $name = $_SESSION['login_user'];
 		Interested In: <i><?php echo $user_interest; ?></i><br>
 		Notice how this variable dynamically changes when you change the first one: <input ng-model='sampleVariable' readonly='true'>
 		</p>
+
+		<?php
+		/* Print interests */
+		echo "<b>Your Interests</b><ul>";
+		$result = query_getInterests($user_userid);
+		foreach ($result['interests'] as $interest) {
+			echo "<li>$interest</i>";
+		}
+		echo "</ul>";
+		?>
 
 
 		<input id="findMatches" type="submit" value="Find Matches" name="findMatches" onclick="findMatches()">

@@ -182,6 +182,24 @@ function query_images($userid) {
 	return $returntuple;
 }
 
+function query_getInterests($userid1) {
+	$result = executePlainSQL(
+		"SELECT interest FROM InterestedIn WHERE userID = $userid1"
+	);
+
+	$interests = array();
+
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	    array_push($interests, $row[INTEREST]);
+	}
+
+	$returntuple = array(
+		"interests" => $interests
+		);
+
+	return $returntuple;
+}
+
 function query_getCommonInterests($userid1, $userid2) {
 	$result = executePlainSQL(
 		"SELECT interest FROM InterestedIn WHERE userID = $userid1

@@ -103,13 +103,13 @@ function printResult($result) {
 	$ncols = oci_num_fields($result);
 	for ($i = 1; $i <= $ncols; $i++) {
 		$colname = oci_field_name($result, $i);
-		echo "<th><b>" . htmlentities($colname, ENT_QUOTES) . "</b><?/th>\n";
+		echo "<th><b>" . htmlentities($colname, ENT_QUOTES) . "</b></th>\n";
 	}
 
 	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
 	    echo "<tr>\n";
 	    foreach ($row as $item) {
-	        echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES):" ")."</td>\n";
+	        echo "  <td>".($item !== null ? htmlentities($item, ENT_QUOTES) : "(null)")."</td>\n";
 	    }
 	    echo "</tr>\n";
 	}
@@ -322,6 +322,20 @@ function insert_match($matcherUserID, $matcheeUserID, $match) {
 		    SET    match = '$match'
 		    WHERE matcher = $matcherUserID AND matchee = $matcheeUserID;
 		END;"
+	);
+}
+
+function update_userProfile($userid, $username, $name, $location, $age, $gender, $preference) {
+	/* INSERT into Match, or UPDATE if entry exists */
+	$result = executePlainSQL(
+		"UPDATE Users
+		SET username = '$username',
+		name = '$name',
+		location = '$location',
+		age = '$age',
+		gender = '$gender',
+		preference = '$preference'
+		WHERE userid = $userid"
 	);
 }
 

@@ -8,10 +8,10 @@ session_start();
 
 $db_conn = OCILogon("ora_".$csid, "a".$studentnum, "ug");
 
-$user_check = $_SESSION['login_user'];
+$user_username = $_SESSION['login_user'];
 
 // query for user information
-$result = query_userInformationWithUsername($user_check);
+$result = query_userInformationWithUsername($user_username);
 
 // get user's id
 $userid_result = $result['userid'];
@@ -47,6 +47,8 @@ $user_gender = $gender_trim;
 $preference_result = $result['preference'];
 $preference_trim = trim($preference_result);
 $_SESSION['preference'] = $preference_trim;
+$user_preference = $preference_trim;
+
 /* String Formatting */
 if($preference_trim == 'mf'){
 	$_SESSION['userInterest'] = "Men & Women";

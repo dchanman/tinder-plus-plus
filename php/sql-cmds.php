@@ -194,7 +194,7 @@ function insert_addNewBusiness($username, $location, $password) {
 	return $result;
 }
 
-function insert_sendMessage($src_userid, $dest_userid, $msg_str){
+function insert_sendMessage($src_userid, $dest_userid, $msg_str) {
 	$result = executePlainSQL(
 		"INSERT INTO Message VALUES (
 			MessageIDSequence.nextval,

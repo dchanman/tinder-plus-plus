@@ -43,7 +43,7 @@
 			return;
 		}
 
-		$password_hash = crypt($_POST['password_text']);
+		//$password_hash = crypt($_POST['password_text']);
 
 		insert_addNewBusiness($_POST['username_text'], $_POST['location_text'], $_POST['password_text']);
 		OCICommit($db_conn);

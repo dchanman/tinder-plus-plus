@@ -182,6 +182,18 @@ function insert_addNewUser($username, $name, $location, $age, $gender, $preferen
 		);
 }
 
+function insert_addNewBusiness($username, $location, $password) {
+	$esult = executePlainSQL(
+		"INSERT INTO Business VALUES (
+			BusinessIDSequence.nextval,
+			'$username',
+			'$location', 
+			'$password')"
+		);
+
+	return $result;
+}
+
 function insert_sendMessage($src_userid, $dest_userid, $msg_str){
 	$result = executePlainSQL(
 		"INSERT INTO Message VALUES (

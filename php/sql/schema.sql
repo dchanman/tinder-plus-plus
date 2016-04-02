@@ -100,7 +100,7 @@ PRIMARY KEY (MessageID)
 CREATE TABLE Business
 (
 BusinessID CHAR(30) NOT NULL,
-BusinessName CHAR(30) NOT NULL UNIQUE,
+BusinessName CHAR(30) UNIQUE NOT NULL,
 Location CHAR(50),
 PasswordHash CHAR(48),
 PRIMARY KEY (BusinessID)

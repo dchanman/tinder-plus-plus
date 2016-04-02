@@ -167,6 +167,21 @@ function query_getSuccessfulMatches($userid) {
 	return $users_matches;
 }
 
+function insert_addNewUser($username, $name, $location, $age, $gender, $preference, $password) {
+	$result = executePlainSQL(
+		"INSERT INTO users VALUES (
+			UserIDSequence.nextval,
+			'$username',
+			'$name',
+			SYSDATE,
+			'$location',
+			$age,
+			'$gender',
+			'$preference',
+			'$password')"
+		);
+}
+
 function insert_sendMessage($src_userid, $dest_userid, $msg_str){
 	$result = executePlainSQL(
 		"INSERT INTO Message VALUES (

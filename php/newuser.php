@@ -5,28 +5,33 @@
 	</head>
  	<body>
 		<?php include 'menu.php';?>
-		<p>Tinder++ Signup!</p><br>
-		<p>UserID:<p><br>
+		<h1>Tinder++ Signup</h1><br>
 		<form method="POST" action="newuser.php">
-			Username: <input type="text" name="username_text" size="6"><br>
-			Name: <input type="text" name="name_text" size="6"><br>
-			Password: <input type="password" name="password_text" size="6"><br>
-			Confirm Password: <input type="password" name="confirm_password_text" size="6"><br>
-
-			Age: <input type="text" name="age_text" size='6'><br>
-			Location: <input type="text" name="location_text" size="6"><br>
-			Gender: <br>
+			<?php
+			echo 'Username: <input type="text" name="username_text" size="6"><br>';
+			echo 'Name: <input type="text" name="name_text" size="6"><br>';
+			echo 'Password: <input type="password" name="password_text" size="6"><br>';
+			echo 'Confirm Password: <input type="password" name="confirm_password_text" size="6"><br>';
+			echo 'Age: <input type="text" name="age_text" size="6"><br>';
+			echo 'Location:
+			<select name="location_text">
+				<option value="UBC">UBC</option>
+				<option value="Vancouver">Vancouver</option>
+				<option value="North Vancouver">North Vancouver</option>
+				<option value="Downtown">Downtown Vancouver</option>
+				<option value="Langley">Langley</option>
+				<option value="Richmond">Richmond</option>
+			</select><br>';
+			echo 'Gender: <br>
 			<input type="radio" name="gender" value="m"> Male<br>
-			<input type="radio" name="gender" value="f"> Female<br>
-			Preference: <br>
-			Men: <input type="checkbox" name="interestedInMen" value=1>
-			Women: <input type="checkbox" name="interestedInWomen" value=1>
+			<input type="radio" name="gender" value="f"> Female<br>';
+			echo 'Preference: <br>';
+			echo 'Men: <input type="checkbox" name="interestedInMen" value="m">';
+			echo 'Women: <input type="checkbox" name="interestedInWomen" value="f">';
+			?>
+			<br>
 			<input type="submit" value="Sign Up!" name="signup">
 		</form>
-		<?php 
-		include 'footer_menu.php';
-		?>
-
 	</body>
 </html>
 
@@ -75,19 +80,14 @@
 		);
 		/* UserIDSequence.nextval automatically gets the next available user ID for us from the database */
 		/* Note that if the insert fails, we still increment the sequence... lol */
-		executeBoundSQL("INSERT INTO users VALUES (UserIDSequence.nextval, :username_text, :name_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
-		// Create new table...
-		echo "<br> creating new user <br>";
-		OCICommit($db_conn);
+		//executeBoundSQL("INSERT INTO users VALUES (UserIDSequence.nextval, :username_text, :name_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
+
+		insert_addNewUser($tuple[':username_text'], $tuple[':name_text'], $tuple[':location_text'], $tuple[':age_text'], $tuple[':gender'], $tuple[':preference'], $tuple[':password_text']);
+
+    	OCICommit($db_conn);
 	}
 
-
-
     printTable('users');
-    printTable('image');
-
-    /* Commit to save changes... */
-    OCICommit($db_conn);
 
     /* LOG OFF WHEN YOU'RE DONE! */
     OCILogoff($db_conn);

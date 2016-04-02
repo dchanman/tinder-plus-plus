@@ -140,7 +140,16 @@ function query_getUsernameFromId($id) {
 	);
 
 	$row = oci_fetch_array($result);
-	return $row[USERNAME];
+	return trim($row[USERNAME]);
+}
+
+function query_getNameFromId($id) {
+	$result = executePlainSQL(
+		"SELECT name FROM Users WHERE userid = '$id'"
+	);
+
+	$row = oci_fetch_array($result);
+	return trim($row[NAME]);
 }
 
 function query_getSuccessfulMatches($userid) {
@@ -181,8 +190,6 @@ function query_userInformationWithUserID($userid) {
 	$row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS);
 	$name = $row[NAME];
 	$age = $row[AGE];
-
-	$images = array();
 
 	$returntuple = array(
 		"userid" => $row[USERID],
@@ -235,11 +242,7 @@ function query_images($userid) {
 	    array_push($images, $row[IMAGEURL]);
 	}
 
-	$returntuple = array(
-		"images" => $images,
-		);
-
-	return $returntuple;
+	return $images;
 }
 
 function query_getUserInterests($userid1) {
@@ -389,6 +392,27 @@ function remove_userInterest($userid, $interest) {
 	);
 
 	return $result;
+}
+
+function query_getConversation($myid, $otheruser) {
+	$result = executePlainSQL(
+		"SELECT senderUserId, messageChar FROM Message
+		WHERE (senderUserId = $myid AND receiverUserId = $otheruser) OR
+		(senderUserId = $otheruser AND receiverUserId = $myid)
+		ORDER BY messageId ASC"
+	);
+
+	$convo = array();
+
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+		$msg = array(
+			"sender" => trim($row[SENDERUSERID]),
+			"message" => trim($row[MESSAGECHAR])
+			);
+	    array_push($convo, $msg);
+	}
+
+	return $convo;
 }
 
 /* OCIParse() Prepares Oracle statement for execution

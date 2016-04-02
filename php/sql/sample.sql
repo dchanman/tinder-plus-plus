@@ -86,35 +86,35 @@ INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM U
 	1);
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'Emmett'), 'Hiking');
 
-#INSERT INTO Match VALUES (1,1, 't');
-#INSERT INTO Match VALUES (2,1, 't');
-#INSERT INTO Match VALUES (3,1, 't');
-#INSERT INTO Match VALUES (4,1, 't');
-#INSERT INTO Match VALUES (5,1, 't');
+INSERT INTO Match VALUES (1,1, 't');
+INSERT INTO Match VALUES (2,1, 't');
+INSERT INTO Match VALUES (3,1, 't');
+INSERT INTO Match VALUES (4,1, 't');
+INSERT INTO Match VALUES (5,1, 't');
 
-#INSERT INTO Match VALUES (1,2, 'f');
-#INSERT INTO Match VALUES (2,2, 'f');
-#INSERT INTO Match VALUES (3,2, 'f');
-#INSERT INTO Match VALUES (4,2, 'f');
-#INSERT INTO Match VALUES (5,2, 'f');
+INSERT INTO Match VALUES (1,2, 'f');
+INSERT INTO Match VALUES (2,2, 'f');
+INSERT INTO Match VALUES (3,2, 'f');
+INSERT INTO Match VALUES (4,2, 'f');
+INSERT INTO Match VALUES (5,2, 'f');
 
-#INSERT INTO Match VALUES (1,3, 't');
-#INSERT INTO Match VALUES (2,3, 'f');
-#INSERT INTO Match VALUES (3,3, 't');
-#INSERT INTO Match VALUES (4,3, 'f');
-#INSERT INTO Match VALUES (5,3, 't');
+INSERT INTO Match VALUES (1,3, 't');
+INSERT INTO Match VALUES (2,3, 'f');
+INSERT INTO Match VALUES (3,3, 't');
+INSERT INTO Match VALUES (4,3, 'f');
+INSERT INTO Match VALUES (5,3, 't');
 
-#INSERT INTO Match VALUES (1,4, 't');
-#INSERT INTO Match VALUES (2,4, 't');
-#INSERT INTO Match VALUES (3,4, 't');
-#INSERT INTO Match VALUES (4,4, 't');
-#INSERT INTO Match VALUES (5,4, 'f');
+INSERT INTO Match VALUES (1,4, 't');
+INSERT INTO Match VALUES (2,4, 't');
+INSERT INTO Match VALUES (3,4, 't');
+INSERT INTO Match VALUES (4,4, 't');
+INSERT INTO Match VALUES (5,4, 'f');
 
-#INSERT INTO Match VALUES (1,5, 'f');
-#INSERT INTO Match VALUES (2,5, 'f');
-#INSERT INTO Match VALUES (3,5, 't');
-#INSERT INTO Match VALUES (4,5, 'f');
-#INSERT INTO Match VALUES (5,5, 't');
+INSERT INTO Match VALUES (1,5, 'f');
+INSERT INTO Match VALUES (2,5, 'f');
+INSERT INTO Match VALUES (3,5, 't');
+INSERT INTO Match VALUES (4,5, 'f');
+INSERT INTO Match VALUES (5,5, 't');
 
 INSERT INTO Business VALUES(1, 'DereksMarshmellows', 'DereksHouse', 'password');
 INSERT INTO Business VALUES(2, 'Mcdicks', 'murica', 'password');

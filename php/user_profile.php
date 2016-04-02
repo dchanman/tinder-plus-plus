@@ -38,7 +38,7 @@ $name = $_SESSION['login_user'];
 		/* Print photos */
 		echo "<h3><b>Your Photos</b></h3><ul>";
 		$result = query_images($user_userid);
-		foreach ($result['images'] as $img) {
+		foreach ($result as $img) {
       		echo "<p><img src=\"" . $img . "\" width=150></img></p>";
       	}
       	echo "</ul>";

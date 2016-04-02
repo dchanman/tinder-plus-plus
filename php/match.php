@@ -41,7 +41,7 @@
 		      	echo "<p>Age: $age <b></b></p>";
 
 		      	/* Display the images */
-		      	foreach ($result['images'] as $img) {
+		      	foreach ($result as $img) {
 		      		echo "<p><img src=\"" . $img . "\" width=150></img></p>";
 		      	}
 

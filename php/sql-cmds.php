@@ -373,12 +373,11 @@ function insert_match($matcherUserID, $matcheeUserID, $match) {
 	);
 }
 
-function update_userProfile($userid, $username, $name, $location, $age, $gender, $preference) {
+function update_userProfile($userid, $name, $location, $age, $gender, $preference) {
 	/* INSERT into Match, or UPDATE if entry exists */
 	$result = executePlainSQL(
 		"UPDATE Users
-		SET username = '$username',
-		name = '$name',
+		SET name = '$name',
 		location = '$location',
 		age = '$age',
 		gender = '$gender',

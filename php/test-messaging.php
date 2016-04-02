@@ -64,7 +64,10 @@
     			echo htmlentities($e['message']);
   			}
 		?>
-		
+		<?php 
+		include 'footer_menu.php';
+		?>
+
 	</body>
 </html>
 

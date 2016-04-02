@@ -29,6 +29,10 @@ $name = $_SESSION['login_business'];
 
 		<input id="editProfile" type="submit" value="Edit Profile" name="editProfile">
 		<b id="logout"><a href="logout.php">Log Out</a></b>
+		<?php 
+		include 'footer_menu.php';
+		?>
+
 	</body>
 </html>
 

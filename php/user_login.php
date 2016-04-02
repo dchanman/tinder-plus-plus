@@ -53,6 +53,10 @@ include 'verify.php';
 			<h1>Sign up for Free</h1>
 			<input type="button" value="Sign up" onclick="UserSignup();"></p>
 		</div>
+		<?php 
+		include 'footer_menu.php';
+		?>
+
     </body>
      <script>
  //    function setCookie(cname, cvalue, exdays) {

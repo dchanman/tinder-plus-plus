@@ -49,5 +49,9 @@ include 'verify.php';
 			<h1>Sign up for Free</h1>
 			<input type="button" value="Sign Up" onclick="businessSignup();"></p>
 		</div>
+		<?php 
+		include 'footer_menu.php';
+		?>
+
     </body>
 </html>

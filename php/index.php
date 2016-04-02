@@ -17,4 +17,8 @@
 			</div>
 		</div>
  	</body>
+	<?php 
+		include 'footer_menu.php';
+	?>
+
 </html>

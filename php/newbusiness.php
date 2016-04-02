@@ -15,6 +15,10 @@
 			Location: <input type="text" name="location_text" size="6"><br>
 			<input type="submit" value="Signup your Business!" name="signup">
 		</form>
+		<?php 
+		include 'footer_menu.php';
+		?>
+		</body>
 	</body>
 </html>
 

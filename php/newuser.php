@@ -23,6 +23,10 @@
 			Women: <input type="checkbox" name="interestedInWomen" value=1>
 			<input type="submit" value="Sign Up!" name="signup">
 		</form>
+		<?php 
+		include 'footer_menu.php';
+		?>
+
 	</body>
 </html>
 

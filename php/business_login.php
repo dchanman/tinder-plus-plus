@@ -2,9 +2,7 @@
 include 'credentials.php';
 include 'verify.php';
 
-// if(isset($_SESSION['login_user'])){
-// 	header("location: user_profile.php");
-// }
+
 ?>
 <html>
  	<head>

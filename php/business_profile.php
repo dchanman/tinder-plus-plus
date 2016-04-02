@@ -1,6 +1,6 @@
 <?php
 include('credentials.php');
-// include ('session.php');
+include ('business_session.php');
 
 ini_set('session.save_path', $cshomedir.'/public_html/php_sessions');
 session_start();
@@ -20,12 +20,9 @@ $name = $_SESSION['login_business'];
 
 		<p>
 		<h2>Your Info</h2><br>
-		Name: <i><?php echo $name ?></i><br> 
-		Location: <i><?php echo $user_name; ?></i><br>
-		Age: <i><?php echo $user_age; ?></i><br>
-		Gender: <i><?php echo $user_gender; ?></i><br>
-		Interested In: <i><?php echo $user_interest; ?></i><br>
-
+		BusinessID: <i><?php echo $business_id ?></i><br> 
+		Businessname: <i><?php echo $name; ?></i><br>
+		Location: <i><?php echo $business_location; ?></i><br>
 		</p>
 
 

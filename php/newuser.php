@@ -42,47 +42,28 @@
   if ($db_conn) {
 
    if (array_key_exists('signup', $_POST)) {
-		// Drop old table...
-		$tuple = array (
-			":username_text" => $_POST['username_text'],
-			":name_text" => $_POST['name_text'],
-			":password_text" => $_POST['password_text'],
-			":confirm_password_text" => $_POST['confirm_password_text'],
-			":password_hash" => '',
-			":username_text" => $_POST['username_text'],
-			":gender" => $_POST['gender'],
-			":age_text" => $_POST['age_text'],
-			":location_text" => $_POST['location_text'],
-			":interestedInMen" => $_POST['interestedInMen'],
-			":interestedInWomen" => $_POST['interestedInWomen'],
-			":date_joined" => date("m.d.Y")
-			//date("m.d.y")
-		);
-		if($tuple[':password_text'] != $tuple[':confirm_password_text']){
+
+		if($_POST['password_text'] != $_POST['confirm_password_text']){
 			echo "Passwords don't match";
 			printResult($result);
 			return;
 		}
 
-		$tuple[':preference'] = '';
-		if ($tuple[':interestedInMen'] != NULL) {
-			$tuple[':preference'] .= 'm';
+		$_POST['preference'] = '';
+		if ($_POST['interestedInMen'] != NULL) {
+			$_POST['preference'] .= 'm';
 		}
 
-		if ($tuple[':interestedInWomen'] != NULL){
-			$tuple[':preference'] .= 'f';
+		if ($_POST['interestedInWomen'] != NULL){
+			$_POST['preference'] .= 'f';
 		}
 
-		$tuple[':password_hash'] = crypt($tuple[':password_text']);
-		//password_hash($tuple[':password_text'], PASSWORD_DEFAULT);
-		$alltuples = array (
-			$tuple
-		);
+		$_POST['password_hash'] = crypt($_POST['password_text']);
+		//password_hash($_POST['password_text'], PASSWORD_DEFAULT);
+
 		/* UserIDSequence.nextval automatically gets the next available user ID for us from the database */
 		/* Note that if the insert fails, we still increment the sequence... lol */
-		//executeBoundSQL("INSERT INTO users VALUES (UserIDSequence.nextval, :username_text, :name_text, :date_joined, :location_text, :age_text, :gender, :preference, :password_hash)", $alltuples);
-
-		insert_addNewUser($tuple[':username_text'], $tuple[':name_text'], $tuple[':location_text'], $tuple[':age_text'], $tuple[':gender'], $tuple[':preference'], $tuple[':password_text']);
+		insert_addNewUser($_POST['username_text'], $_POST['name_text'], $_POST['location_text'], $_POST['age_text'], $_POST['gender'], $_POST['preference'], $_POST['password_text']);
 
     	OCICommit($db_conn);
 	}

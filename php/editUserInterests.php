@@ -13,10 +13,8 @@ if (array_key_exists('editUserInterests', $_POST)) {
 	$interests = query_getInterests();
 	foreach ($interests as $int) {
 		if (isset($_POST[$int."_checkbox"])) {
-			echo "<p>$user_userid likes $int</p>";
 			insert_userInterest($user_userid, $int);
 		} else {
-			echo "<p>$user_userid hates $int</p>";
 			remove_userInterest($user_userid, $int);
 		}
 	}
@@ -58,7 +56,7 @@ if (array_key_exists('editUserInterests', $_POST)) {
 		<form method="POST">
 			<?php
 
-			echo 'Interests: <br>';
+			echo '<h4><b>Interests: </b></h4>';
 			$interests = query_getInterests();
 			$userInterests = query_getUserInterests($user_userid);
 			foreach ($interests as $int) {
@@ -71,7 +69,7 @@ if (array_key_exists('editUserInterests', $_POST)) {
 				/* We want to check the box automatically if the user already set this interest */
 				echo (in_array($int, $userInterests) === FALSE ? '' : 'checked').'>';
 				/* Print the text label for the checkbox */
-				echo "$int <br>";
+				echo " $int <br>";
 			}
 			?>
 			<input type="submit" value="Edit" action="editUserInterests.php" name="editUserInterests">

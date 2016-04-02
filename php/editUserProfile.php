@@ -9,7 +9,6 @@ $name = $_SESSION['login_user'];
 if ($db_conn) {
 
 if (array_key_exists('editUserProfile', $_POST)) {
-	// Drop old table...
 
 	$tuple = array (
 		":username_text" => $_POST['username_text'],
@@ -22,7 +21,7 @@ if (array_key_exists('editUserProfile', $_POST)) {
 		":interestedInWomen" => $_POST['interestedInWomen'],
 	);
 
-	// username cannot be null
+	/* username cannot be null */
 	if(!isset($tuple[':username_text'])){
 		echo "Username Cannot be null";
 		return;
@@ -31,17 +30,17 @@ if (array_key_exists('editUserProfile', $_POST)) {
 		echo "Name cannot be null";
 		return;
 	}
-	// gender must be selected
+	/* gender must be selected */
 	if(!isset($tuple[':gender'])){
 		echo "Gender cannot be null";
 		return;
 	}
-	// age cannot be null
+	/* age cannot be null */
 	if(!isset($tuple[':age_text'])){
 		echo "Age cannot be null;";
 		return;
 	}
-	// age restriction
+	/* age restriction */
 	if($tuple[':age_text'] < 19){
 		echo "Tinder is not available for teenagers.";
 		return;
@@ -59,7 +58,7 @@ if (array_key_exists('editUserProfile', $_POST)) {
 	/* Update */
 	update_userProfile($user_userid, $tuple[':username_text'], $tuple[':name_text'], $tuple[':location_text'], $tuple[':age_text'], $tuple[':gender'], $new_preference);
 
-		/* Commit to save changes... */
+	/* Commit to save changes... */
 	OCICommit($db_conn);
 	OCILogoff($db_conn);
 
@@ -73,7 +72,7 @@ if (array_key_exists('editUserProfile', $_POST)) {
 
 } else { /* if ($db_conn) */
 	echo "cannot connect";
-	$e = OCI_Error(); // For OCILogon errors pass no handle
+	$e = OCI_Error(); /* For OCILogon errors pass no handle */
 	echo htmlentities($e['message']);
 }
 ?>

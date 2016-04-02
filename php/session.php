@@ -18,36 +18,42 @@ $userid_result = $result['userid'];
 $userid_trim=  trim($userid_result);
 $_SESSION['userId'] = $userid_trim;
 $user_userid = $userid_trim;
+global $user_userid;
 
 // get user's name
 $name_result = $result['name'];
 $name_trim = trim($name_result);
 $_SESSION['userName'] = $name_trim;
 $user_name = $name_trim;
+global $user_name;
 
 // get user's location
 $location_result = $result['location'];
 $location_trim = trim($location_result);
 $_SESSION['userlocation'] = $location_trim;
 $user_location = $location_trim;
+global $user_location;
 
 // get user's age
 $age_result = $result['age'];
 $age_trim = trim($age_result);
 $_SESSION['userAge'] = $age_trim;
 $user_age = $age_trim;
+global $user_age;
 
 // get user's gender
 $gender_result = $result['gender'];
 $gender_trim = trim($gender_result);
 $_SESSION['userGender'] = $gender_trim;
 $user_gender = $gender_trim;
+global $user_gender;
 
 // get user's preference
 $preference_result = $result['preference'];
 $preference_trim = trim($preference_result);
 $_SESSION['preference'] = $preference_trim;
 $user_preference = $preference_trim;
+global $user_preference;
 
 /* String Formatting */
 if($preference_trim == 'mf'){
@@ -63,6 +69,7 @@ else{
 	$_SESSION['userInterest'] = " ";
 }
 $user_interest = $_SESSION['userInterest'];
+global $user_interest;
 
 if(!isset($user_name)){
 	oci_commit($db_conn);

@@ -1,5 +1,5 @@
 <?php
-include ('credentials.php');
+//include ('credentials.php');
 include ('session.php');
 
 ini_set('session.save_path', $cshomedir.'/public_html/php_sessions');
@@ -58,18 +58,18 @@ if (array_key_exists('editUserProfile', $_POST)) {
 
 	/* Update */
 	update_userProfile($user_userid, $tuple[':username_text'], $tuple[':name_text'], $tuple[':location_text'], $tuple[':age_text'], $tuple[':gender'], $new_preference);
+
+		/* Commit to save changes... */
+	OCICommit($db_conn);
+	OCILogoff($db_conn);
+
+	/* Redirect to a success page */
+
+	header('Location: user_profile.php');
+	exit();
 }
 	/* Commit to save changes... */
 	OCICommit($db_conn);
-
-	/* Refresh session values */
-	$user_username = $tuple[':username_text'];
-	$user_name = $tuple[':name_text'];
-	$user_location = $tuple[':location_text'];
-	$user_age = $tuple[':age_text'];
-	$user_gender= $tuple[':gender'];
-	$user_preference = $new_preference;
-
 
 } else { /* if ($db_conn) */
 	echo "cannot connect";

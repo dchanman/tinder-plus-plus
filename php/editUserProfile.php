@@ -66,7 +66,7 @@ if ($db_conn) {
 
 		header('Location: user_profile.php');
 		exit();
-		
+
 	} else if (array_key_exists('editUserImage', $_POST)) {
 		$imageindex = $_POST['imgindex'] + 1;
 		$imageurl = $_POST['img'];
@@ -139,15 +139,8 @@ if ($db_conn) {
       		echo '</form>';
       	}
       	echo "</ul>";
-      	?>
-
-		<?php
-		printTable('users');
-		printTable('image');
-		/* LOG OFF WHEN YOU'RE DONE! */
+      	/* Log out when finished! */
 		OCILogoff($db_conn);
-		?>
-		<?php 
 		include 'footer_menu.php';
 		?>
 

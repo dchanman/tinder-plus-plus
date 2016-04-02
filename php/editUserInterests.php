@@ -77,8 +77,6 @@ if (array_key_exists('editUserInterests', $_POST)) {
 		</form>
 
 		<?php
-		printTable('users');
-		printTable('interestedIn');
 		/* LOG OFF WHEN YOU'RE DONE! */
 		OCILogoff($db_conn);
 		?>

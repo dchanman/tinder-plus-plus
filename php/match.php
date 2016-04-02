@@ -66,10 +66,9 @@
 				';
 
 			} else {
-				echo "<p>Hello $user_name, there's nobody new to match with! Come back later!</p>";
+				echo "<p>Hello $user_name, there's nobody new to match with!</p>";
+				echo "<p>Chat with your matches <a href=\"test-messaging.php\">here</a>!</p>";
 			}
-
-		    printTable('match');
 
 		    /* Commit to save changes... */
     		OCICommit($db_conn);

@@ -390,7 +390,7 @@ function update_userProfile($userid, $username, $name, $location, $age, $gender,
 
 function query_getInterests() {
 	$result = executePlainSQL(
-		"SELECT interestType FROM Interest"
+		"SELECT interestType FROM Interest ORDER BY interestType ASC"
 	);
 
 	$interests = array();

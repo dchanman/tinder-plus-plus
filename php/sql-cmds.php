@@ -325,7 +325,7 @@ function query_businessInformationWithUsername($username) {
 
 	$returntuple = array(
 		"id" => $row[BUSINESSID],
-		"name" => $row[NAME],
+		"name" => $row[BUSINESSNAME],
 		"location" => $row[LOCATION],
 	);
 

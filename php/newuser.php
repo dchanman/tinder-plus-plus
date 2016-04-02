@@ -42,6 +42,22 @@
   if ($db_conn) {
 
    if (array_key_exists('signup', $_POST)) {
+		
+
+		if (!is_numeric($_POST['age_text'])) {
+			echo "Please enter a valid age";
+			printResult($result);
+			return;
+		} else if ($_POST['age_text'] < 19) {
+			echo "Minimum age to use this platform is 19";
+			printResult($result);
+			return;
+		}
+		
+		if($_POST['password_text'] == NULL) {
+			echo "Password cannot be blank";
+			return;
+		}
 
 		if($_POST['password_text'] != $_POST['confirm_password_text']){
 			echo "Passwords don't match";
@@ -49,6 +65,15 @@
 			return;
 		}
 
+		if ($_POST['gender'] == NULL) {
+			echo "Please indicate your gender!";
+			return;
+		}
+		
+		if ($_POST['interestedInMen'] == NULL && $_POST['interestedInWomen'] == NULL) {
+			echo "Please indicate your preference!";
+			return;
+		}
 		$_POST['preference'] = '';
 		if ($_POST['interestedInMen'] != NULL) {
 			$_POST['preference'] .= 'm';
@@ -63,8 +88,15 @@
 
 		/* UserIDSequence.nextval automatically gets the next available user ID for us from the database */
 		/* Note that if the insert fails, we still increment the sequence... lol */
-		insert_addNewUser($_POST['username_text'], $_POST['name_text'], $_POST['location_text'], $_POST['age_text'], $_POST['gender'], $_POST['preference'], $_POST['password_text']);
-
+		$resultArr = insert_addNewUser($_POST['username_text'], $_POST['name_text'], $_POST['location_text'], $_POST['age_text'], $_POST['gender'], $_POST['preference'], $_POST['password_text']);
+		if ($resultArr["SUCCESS"] == 0) {
+			if ($resultArr["ERRCODE"] == 1) {
+				echo "Username already exists!";
+			} else {
+				echo "Uh oh, unrecognized error code: ";
+				echo $resultArr['ERRCODE'];
+			}
+		}
     	OCICommit($db_conn);
 	}
 

@@ -7,10 +7,11 @@ include 'credentials.php';
 
 $success = True; //keep track of errors so it redirects the page only if there are no errors
 $db_conn = OCILogon("ora_".$csid, "a".$studentnum, "ug");
+$e;
 
 function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
 	//echo "<br>running ".$cmdstr."<br>";
-	global $db_conn, $success;
+	global $db_conn, $success, $e;
 	$statement = OCIParse($db_conn, $cmdstr); //There is a set of comments at the end of the file that describe some of the OCI specific functions and how they work
 
 	if (!$statement) {
@@ -31,6 +32,31 @@ function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL com
 
 	return $statement;
 }
+
+function executePlainSQL_errReturn($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
+	//echo "<br>running ".$cmdstr."<br>";
+	global $db_conn, $success, $e;
+	$resultArr = array("SUCCESS"=>"1", "ERRCODE"=>"0");
+	$statement = OCIParse($db_conn, $cmdstr); //There is a set of comments at the end of the file that describe some of the OCI specific functions and how they work
+	
+	if (!$statement) {
+		$e = OCI_Error($db_conn); // For OCIParse errors pass the       
+		// connection handle
+		$resultArr["SUCCESS"] = 0;
+		$resultArr["ERRCODE"] = $e['code'];
+	}
+
+	$r = OCIExecute($statement, OCI_DEFAULT);
+	if (!$r) {
+		$e = oci_error($statement); // For OCIExecute errors pass the statementhandle
+		$resultArr['SUCCESS'] = 0;
+		$resultArr['ERRCODE'] = $e['code'];
+	}
+
+	return $resultArr;
+}
+
+
 
 function executeBoundSQL($cmdstr, $list) {
 	/* Sometimes a same statement will be excuted for severl times, only
@@ -168,7 +194,7 @@ function query_getSuccessfulMatches($userid) {
 }
 
 function insert_addNewUser($username, $name, $location, $age, $gender, $preference, $password) {
-	$result = executePlainSQL(
+	$result = executePlainSQL_errReturn(
 		"INSERT INTO users VALUES (
 			UserIDSequence.nextval,
 			'$username',
@@ -180,6 +206,7 @@ function insert_addNewUser($username, $name, $location, $age, $gender, $preferen
 			'$preference',
 			'$password')"
 		);
+	return $result;
 }
 
 function insert_addNewBusiness($username, $location, $password) {

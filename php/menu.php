@@ -3,8 +3,6 @@
 	<li role="presentation"><a href='newuser.php'>Signup!</a></li>
 	<li role="presentation"><a href='user_login.php'>Login</a></li>
 	<li role="presentation"><a href='user_profile.php'>Profile</a></li>
-	<li role="presentation"><a href='editUserInterests.php'>editUserInterests.php</a></li>
-	<li role="presentation"><a href='editUserProfile.php'>editUserProfile.php</a></li>
 	<li role="presentation"><a href='match.php'>Browse Matches!</a></li>
 	<li role="presentation"><a href='newbusiness.php'>newbusiness.php</a></li>
 	<li role="presentation"><a href='business_profile.php'>Business Profile</a></li>

@@ -21,7 +21,12 @@
 					insert_sendMessage($user_userid, $_POST['insert_sendMessage'], $_POST['messageStr']);
 					/* Commit to save changes... */
     				OCICommit($db_conn);
-				}		
+				} else if (array_key_exists('block', $_POST)) {
+					echo "<p>blocking ".$_POST['block']."</p>";
+					insert_match($user_userid, $_POST['block'], 'f');
+					/* Commit to save changes... */
+    				OCICommit($db_conn);
+				}
 				
 			
 			if ($_SESSION['login_user']) {
@@ -52,6 +57,11 @@
 		      		echo "<form method='POST' action='test-messaging.php'>
 					<input type='text' name='messageStr'>
 					<button name='insert_sendMessage' value='$matchId' type='submit'>send</button>
+					</form>";
+
+					/* Create BLOCK button with the value set to the receiverID */
+		      		echo "<form method='POST' action='test-messaging.php'>
+					<button name='block' value='$matchId' type='submit'>block</button>
 					</form>";
 		      	}
 			}

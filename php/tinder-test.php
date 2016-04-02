@@ -52,6 +52,7 @@
     printTable('match');
     printTable('successfulMatch');
     printTable('unsuccessfulMatch');
+    printTable('message');
 
     /* Commit to save changes... */
     OCICommit($db_conn);

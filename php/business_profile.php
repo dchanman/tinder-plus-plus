@@ -15,12 +15,12 @@ $name = $_SESSION['login_business'];
 	</head>
 	<body>
 		<?php include 'menu.php';?>
-		<b id="welcome">Welcome, <i><?php echo $user_name; ?></i></b>
+		<b id="welcome">Welcome, <i><?php echo $name; ?></i></b>
 		<br>
 
 		<p>
 		<h2>Your Info</h2><br>
-		Name: <i><?php echo $user_name; ?></i><br> 
+		Name: <i><?php echo $name ?></i><br> 
 		Location: <i><?php echo $user_name; ?></i><br>
 		Age: <i><?php echo $user_age; ?></i><br>
 		Gender: <i><?php echo $user_gender; ?></i><br>

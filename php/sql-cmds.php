@@ -311,6 +311,27 @@ function query_getUnmatchedUsers($userid) {
 	return $returntuple;
 }
 
+function query_businessInformationWithUsername($username) {
+	/* Get user information */
+	$result = executePlainSQL(
+		"SELECT * FROM Business B
+		WHERE B.username = '$username'"
+	);
+
+	$row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS);
+	$name = $row[LOCATION];
+
+	$images = array();
+
+	$returntuple = array(
+		"id" => $row[BUSINESSID],
+		"name" => $row[NAME],
+		"location" => $row[LOCATION],
+	);
+
+	return $returntuple;
+}
+
 function insert_match($matcherUserID, $matcheeUserID, $match) {
 	/* INSERT into Match, or UPDATE if entry exists */
 	$result = executePlainSQL(

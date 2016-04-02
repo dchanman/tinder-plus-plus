@@ -19,11 +19,9 @@ $name = $_SESSION['login_user'];
 		include 'menu.php';
 
 		echo "<h2>$user_username's profile</h2>";
-		echo "Name: <b><i>$user_name</b></i><br>";
-		echo "Location: <b><i>$user_location</b></i><br>";
-		echo "Age: <b><i> $user_age</b></i><br>";
-		echo "Gender: <b><i> $user_gender</b></i><br>";
-		echo "Interested In: <b><i> $user_interest</b></i><br>";
+		echo "<b>$user_name, $user_age$user_gender</b><br>";
+		echo "<b>$user_location</b><br>";
+		echo "Seeking: <b><i> $user_interest</b></i><br>";
 		?>
 
 		<?php

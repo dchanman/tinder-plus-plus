@@ -102,7 +102,7 @@ if (array_key_exists('editUserProfile', $_POST)) {
 			<select name="location_text">
 				<option value="UBC">UBC</option>
 				<option value="Vancouver">Vancouver</option>
-				<option value="NorthVan">North Vancouver</option>
+				<option value="North Vancouver">North Vancouver</option>
 				<option value="Downtown">Downtown Vancouver</option>
 				<option value="Langley">Langley</option>
 				<option value="Richmond">Richmond</option>

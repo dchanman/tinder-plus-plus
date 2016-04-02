@@ -60,14 +60,12 @@
 		}
 
 		$tuple[':preference'] = '';
-		if($tuple[':interestedInMen'] != NULL) {
+		if ($tuple[':interestedInMen'] != NULL) {
 			$tuple[':preference'] .= 'm';
-		}else if($tuple[':interestedInWomen'] != NULL){
+		}
+
+		if ($tuple[':interestedInWomen'] != NULL){
 			$tuple[':preference'] .= 'f';
-		}else{
-			echo "Must pick interest";
-			printResult($result);
-			return;
 		}
 
 		$tuple[':password_hash'] = crypt($tuple[':password_text']);

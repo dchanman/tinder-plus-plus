@@ -53,6 +53,11 @@
     printTable('successfulMatch');
     printTable('unsuccessfulMatch');
     printTable('message');
+    printTable('business');
+    printTable('interest');
+    printTable('interestedIn');
+    printTable('activityTime');
+    printTable('suggestedBy');
 
     /* Commit to save changes... */
     OCICommit($db_conn);

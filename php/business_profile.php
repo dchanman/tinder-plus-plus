@@ -12,6 +12,11 @@ $name = $_SESSION['login_business'];
 	<head>
 		<?php include 'head-includes.php' ?>
 		<title>Dashboard</title>
+		<script>
+			function editBzProfile(){
+				window.location = 'editBusinessProfile.php';
+			}	
+		</script>
 	</head>
 	<body>
 		<?php include 'menu.php';?>
@@ -27,7 +32,7 @@ $name = $_SESSION['login_business'];
 
 
 
-		<input id="editProfile" type="submit" value="Edit Profile" name="editProfile">
+		<input id="editProfile" type="submit" value="Edit Profile" name="editProfile" onclick="editBzProfile();">
 		<b id="logout"><a href="logout.php">Log Out</a></b>
 		<?php 
 		include 'footer_menu.php';

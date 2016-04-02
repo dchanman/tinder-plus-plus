@@ -1,6 +1,6 @@
 <?php
-include('credentials.php');
-include ('business_session.php');
+include 'credentials.php';
+include 'business_session.php';
 
 ini_set('session.save_path', $cshomedir.'/public_html/php_sessions');
 session_start();

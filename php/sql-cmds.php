@@ -243,6 +243,26 @@ function query_userInformationWithUsername($username) {
 	return $returntuple;
 }
 
+function query_businessInformationWithUsername($businessname) {
+	/* Get user information */
+	$result = executePlainSQL(
+		"SELECT * FROM Business B
+		WHERE B.businessname = '$businessname'"
+	);
+
+	$row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS);
+
+	$images = array();
+
+	$returntuple = array(
+		"id" => $row[BUSINESSID],
+		"name" => $row[BUSINESSNAME],
+		"location" => $row[LOCATION],
+	);
+
+	return $returntuple;
+}
+
 function query_images($userid) {
 	/* Get user's images */
 	$result = executePlainSQL(
@@ -335,27 +355,6 @@ function query_getUnmatchedUsers($userid) {
 	$returntuple = array(
 		"unmatchedUsers" => $unmatchedUsers
 		);
-
-	return $returntuple;
-}
-
-function query_businessInformationWithUsername($username) {
-	/* Get user information */
-	$result = executePlainSQL(
-		"SELECT * FROM Business B
-		WHERE B.username = '$username'"
-	);
-
-	$row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS);
-	$name = $row[LOCATION];
-
-	$images = array();
-
-	$returntuple = array(
-		"id" => $row[BUSINESSID],
-		"name" => $row[BUSINESSNAME],
-		"location" => $row[LOCATION],
-	);
 
 	return $returntuple;
 }

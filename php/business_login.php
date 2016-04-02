@@ -2,7 +2,6 @@
 include 'credentials.php';
 include 'verify.php';
 
-
 ?>
 <html>
  	<head>

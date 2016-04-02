@@ -11,18 +11,18 @@ $db_conn = OCILogon("ora_".$csid, "a".$studentnum, "ug");
 $businessusername = $_SESSION['login_business'];
 
 // query for user information
-$result = query_userInformationWithUsername($business_username);
+$result = query_businessInformationWithUsername($businessusername);
 
 // get user's id
-$business_id_result = $result['business_id'];
+$business_id_result = $result['id'];
 $business_id_trim=  trim($business_id_result);
-$_SESSION['business_id'] = $business_id_trim;
+$_SESSION['businessID'] = $business_id_trim;
 $business_id = $business_id_trim;
 global $business_id;
 
 
 // get user's location
-$business_location_result = $result['business_location'];
+$business_location_result = $result['location'];
 $business_location_trim = trim($business_location_result);
 $_SESSION['business_location'] = $business_location_trim;
 $business_location = $business_location_trim;

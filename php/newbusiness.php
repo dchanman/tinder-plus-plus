@@ -5,8 +5,7 @@
 	</head>
  	<body>
 		<?php include 'menu.php';?>
-		<p>Tinder++ Signup your Business!</p><br>
-		<p>UserID:<p><br>
+		<h2>Tinder++: Signup your Business!</h2>
 		<form method="POST" action="newbusiness.php">
 			Username: <input type="text" name="username_text" size="6"><br>
 			Password: <input type="password" name="password_text" size="6"><br>
@@ -22,9 +21,6 @@
 			</select><br>'
 			<input type="submit" value="Signup your Business!" name="signup">
 		</form>
-		<?php 
-		include 'footer_menu.php';
-		?>
 		</body>
 	</body>
 </html>

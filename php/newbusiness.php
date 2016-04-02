@@ -12,7 +12,14 @@
 			Password: <input type="password" name="password_text" size="6"><br>
 			Confirm Password: <input type="password" name="confirm_password_text" size="6"><br>
 
-			Location: <input type="text" name="location_text" size="6"><br>
+			Location: <select name="location_text">
+				<option value="UBC">UBC</option>
+				<option value="Vancouver">Vancouver</option>
+				<option value="North Vancouver">North Vancouver</option>
+				<option value="Downtown">Downtown Vancouver</option>
+				<option value="Langley">Langley</option>
+				<option value="Richmond">Richmond</option>
+			</select><br>'
 			<input type="submit" value="Signup your Business!" name="signup">
 		</form>
 		<?php 
@@ -29,29 +36,16 @@
   if ($db_conn) {
 
    if (array_key_exists('signup', $_POST)) {
-		// Drop old table...
-		$tuple = array (
-			":username_text" => $_POST['username_text'],
-			":password_text" => $_POST['password_text'],
-			":confirm_password_text" => $_POST['confirm_password_text'],
-			":password_hash" => '',
-			":location_text" => $_POST['location_text'],
-		);
-		if($tuple[':password_text'] != $tuple[':confirm_password_text']){
+
+		if($_POST['password_text'] != $_POST['confirm_password_text']){
 			echo "Passwords don't match";
 			printResult($result);
 			return;
 		}
 
-		$tuple[':password_hash'] = crypt($tuple[':password_text']);
-		$alltuples = array (
-			$tuple
-		);
-		/* UserIDSequence.nextval automatically gets the next available user ID for us from the database */
-		/* Note that if the insert fails, we still increment the sequence... lol */
-		executeBoundSQL("INSERT INTO business VALUES (BusinessIDSequence.nextval, :username_text, :location_text, :password_hash)", $alltuples);
-		// Create new table...
-		echo "<br> creating new business <br>";
+		//$password_hash = crypt($_POST['password_text']);
+
+		insert_addNewBusiness($_POST['username_text'], $_POST['location_text'], $_POST['password_text']);
 		OCICommit($db_conn);
 	}
 

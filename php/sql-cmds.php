@@ -182,7 +182,19 @@ function insert_addNewUser($username, $name, $location, $age, $gender, $preferen
 		);
 }
 
-function insert_sendMessage($src_userid, $dest_userid, $msg_str){
+function insert_addNewBusiness($username, $location, $password) {
+	$esult = executePlainSQL(
+		"INSERT INTO Business VALUES (
+			BusinessIDSequence.nextval,
+			'$username',
+			'$location', 
+			'$password')"
+		);
+
+	return $result;
+}
+
+function insert_sendMessage($src_userid, $dest_userid, $msg_str) {
 	$result = executePlainSQL(
 		"INSERT INTO Message VALUES (
 			MessageIDSequence.nextval,
@@ -373,12 +385,11 @@ function insert_match($matcherUserID, $matcheeUserID, $match) {
 	);
 }
 
-function update_userProfile($userid, $username, $name, $location, $age, $gender, $preference) {
+function update_userProfile($userid, $name, $location, $age, $gender, $preference) {
 	/* INSERT into Match, or UPDATE if entry exists */
 	$result = executePlainSQL(
 		"UPDATE Users
-		SET username = '$username',
-		name = '$name',
+		SET name = '$name',
 		location = '$location',
 		age = '$age',
 		gender = '$gender',

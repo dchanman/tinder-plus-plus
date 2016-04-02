@@ -10,53 +10,37 @@ if ($db_conn) {
 
 	if (array_key_exists('editUserProfile', $_POST)) {
 
-		$tuple = array (
-			":username_text" => $_POST['username_text'],
-			":name_text" => $_POST['name_text'],
-			":username_text" => $_POST['username_text'],
-			":gender" => $_POST['gender'],
-			":age_text" => $_POST['age_text'],
-			":location_text" => $_POST['location_text'],
-			":interestedInMen" => $_POST['interestedInMen'],
-			":interestedInWomen" => $_POST['interestedInWomen'],
-		);
-
-		/* username cannot be null */
-		if(!isset($tuple[':username_text'])){
-			echo "Username Cannot be null";
-			return;
-		}
-		if(!isset($tuple[':name_text'])){
+		if(!isset($_POST['name_text'])){
 			echo "Name cannot be null";
 			return;
 		}
 		/* gender must be selected */
-		if(!isset($tuple[':gender'])){
+		if(!isset($_POST['gender'])){
 			echo "Gender cannot be null";
 			return;
 		}
 		/* age cannot be null */
-		if(!isset($tuple[':age_text'])){
+		if(!isset($_POST['age_text'])){
 			echo "Age cannot be null;";
 			return;
 		}
 		/* age restriction */
-		if($tuple[':age_text'] < 19){
+		if($_POST['age_text'] < 19){
 			echo "Tinder is not available for teenagers.";
 			return;
 		}
 
 		$new_preference = '';
-		if($tuple[':interestedInMen'] != NULL){
+		if($_POST['interestedInMen'] != NULL){
 			$new_preference .= 'm';
 		}
 
-		if($tuple[':interestedInWomen'] != NULL){
+		if($_POST['interestedInWomen'] != NULL){
 			$new_preference .= 'f';
 		}
 
 		/* Update */
-		update_userProfile($user_userid, $tuple[':username_text'], $tuple[':name_text'], $tuple[':location_text'], $tuple[':age_text'], $tuple[':gender'], $new_preference);
+		update_userProfile($user_userid, $_POST['name_text'], $_POST['location_text'], $_POST['age_text'], $_POST['gender'], $new_preference);
 
 		/* Commit to save changes... */
 		OCICommit($db_conn);
@@ -102,7 +86,6 @@ if ($db_conn) {
 		?>
 		<form method="POST">
 			<?php
-			echo 'Username: <input type="text" name="username_text" size="6" value="'.$user_username.'"><br>';
 			echo 'Name: <input type="text" name="name_text" size="6" value="'.$user_name.'"><br>';
 			echo 'Age: <input type="text" name="age_text" size="6" value="'.$user_age.'"><br>';
 			echo 'Location:

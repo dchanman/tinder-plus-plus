@@ -117,10 +117,10 @@ INSERT INTO Match VALUES (3,5, 't');
 INSERT INTO Match VALUES (4,5, 'f');
 INSERT INTO Match VALUES (5,5, 't');
 
-INSERT INTO Business VALUES(1, 'DereksMarshmellows', 'DereksHouse', 'password');
-INSERT INTO Business VALUES(2, 'Mcdicks', 'murica', 'password');
-INSERT INTO Business VALUES(3, 'anw', 'murica', 'password');
-INSERT INTO Business VALUES(4, 'celebs', 'vancouver', 'password');
+INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'DereksMarshmellows', 'DereksHouse', 'password');
+INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'Mcdicks', 'murica', 'password');
+INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'anw', 'murica', 'password');
+INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'celebs', 'vancouver', 'password');
 
 
 

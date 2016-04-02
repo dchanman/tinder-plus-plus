@@ -260,6 +260,20 @@ function query_images($userid) {
 	return $images;
 }
 
+function insert_image($userid, $url, $displayorder) {
+	/* INSERT into Match, or UPDATE if entry exists */
+	$result = executePlainSQL(
+		"BEGIN
+		  INSERT INTO Image VALUES ($userid, SYSDATE, '$url', $displayorder);
+		EXCEPTION
+		  WHEN DUP_VAL_ON_INDEX THEN
+		    UPDATE Image
+		    SET    imageurl = '$url', dateadded = SYSDATE
+		    WHERE userid = $userid AND displayorder = $displayorder;
+		END;"
+	);
+}
+
 function query_getUserInterests($userid1) {
 	$result = executePlainSQL(
 		"SELECT interest FROM InterestedIn WHERE userID = $userid1"

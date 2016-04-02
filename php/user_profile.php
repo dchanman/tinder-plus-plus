@@ -45,8 +45,8 @@ $name = $_SESSION['login_user'];
 		<?php
 		/* Print interests */
 		echo "<b>Your Interests</b><ul>";
-		$result = query_getInterests($user_userid);
-		foreach ($result['interests'] as $interest) {
+		$userInterests = query_getUserInterests($user_userid);
+		foreach ($userInterests as $interest) {
 			echo "<li>$interest</i>";
 		}
 		echo "</ul>";

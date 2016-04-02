@@ -242,7 +242,7 @@ function query_images($userid) {
 	return $returntuple;
 }
 
-function query_getInterests($userid1) {
+function query_getUserInterests($userid1) {
 	$result = executePlainSQL(
 		"SELECT interest FROM InterestedIn WHERE userID = $userid1"
 	);
@@ -250,14 +250,10 @@ function query_getInterests($userid1) {
 	$interests = array();
 
 	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-	    array_push($interests, $row[INTEREST]);
+	    array_push($interests, trim($row[INTEREST]));
 	}
 
-	$returntuple = array(
-		"interests" => $interests
-		);
-
-	return $returntuple;
+	return $interests;
 }
 
 function query_getCommonInterests($userid1, $userid2) {
@@ -358,6 +354,41 @@ function update_userProfile($userid, $username, $name, $location, $age, $gender,
 		preference = '$preference'
 		WHERE userid = $userid"
 	);
+}
+
+function query_getInterests() {
+	$result = executePlainSQL(
+		"SELECT interestType FROM Interest"
+	);
+
+	$interests = array();
+
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	    array_push($interests, trim($row[INTERESTTYPE]));
+	}
+
+	return $interests;
+}
+
+function insert_userInterest($userid, $interest) {
+	$result = executePlainSQL(
+		"BEGIN
+			INSERT INTO InterestedIn VALUES ($userid, '$interest');
+		EXCEPTION
+			WHEN DUP_VAL_ON_INDEX THEN RETURN;
+		END;"
+	);
+
+	return $result;
+}
+
+function remove_userInterest($userid, $interest) {
+	$result = executePlainSQL(
+		"DELETE FROM InterestedIn 
+			WHERE userid = $userid AND interest = '$interest'"
+	);
+
+	return $result;
 }
 
 /* OCIParse() Prepares Oracle statement for execution

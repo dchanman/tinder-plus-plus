@@ -398,6 +398,15 @@ function update_userProfile($userid, $name, $location, $age, $gender, $preferenc
 	);
 }
 
+function update_businessProfile($businessid, $location) {
+	/* INSERT into Match, or UPDATE if entry exists */
+	$result = executePlainSQL(
+		"UPDATE Business
+		SET location = '$location'
+		WHERE businessid = $businessid"
+	);
+}
+
 function query_getInterests() {
 	$result = executePlainSQL(
 		"SELECT interestType FROM Interest ORDER BY interestType ASC"

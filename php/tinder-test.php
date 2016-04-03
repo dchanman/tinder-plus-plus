@@ -57,7 +57,7 @@
     printTable('interest');
     printTable('scheduledTimes');
     printTable('interestedIn');
-    printTable('activityTime');
+    printTable('activity');
     printTable('suggestedBy');
 
     /* Commit to save changes... */

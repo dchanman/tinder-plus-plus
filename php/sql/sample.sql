@@ -127,10 +127,19 @@ INSERT INTO Match VALUES (3,5, 't');
 INSERT INTO Match VALUES (4,5, 'f');
 INSERT INTO Match VALUES (5,5, 't');
 
-INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'DereksMarshmellows', 'Vancouver', 'password');
-INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'Mcdicks', 'Richmond', 'password');
-INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'anw', 'Delta', 'password');
-INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'celebs', 'Downtown', 'password');
+INSERT INTO Business VALUES (BusinessIDSequence.nextval, 'DereksMarshmellows', 'Vancouver', 'password');
+
+INSERT INTO Business VALUES (BusinessIDSequence.nextval, 'McDonalds', 'Richmond', 'password');
+INSERT INTO Activity VALUES ('Buy One Get One Breakfast', 'McDonalds', 'Morning', 'Food', '50');
+INSERT INTO Activity VALUES ('Buy One Get One Lunch', 'McDonalds', 'Noon', 'Food', '50');
+INSERT INTO Activity VALUES ('Two Can Dine', 'McDonalds', 'Evening', 'Food', '60');
+INSERT INTO Activity VALUES ('Dessert Specials', 'McDonalds', 'Night', 'Food', '60');
+
+INSERT INTO Business VALUES (BusinessIDSequence.nextval, 'anw', 'Delta', 'password');
+
+INSERT INTO Business VALUES (BusinessIDSequence.nextval, 'Celebrities Nightclub', 'Downtown', 'password');
+INSERT INTO Activity VALUES ('Free Cover', 'Celebrities Nightclub', 'Night', 'Nightlife', '100');
+INSERT INTO Activity VALUES ('Drink Specials', 'Celebrities Nightclub', 'Night', 'Nightlife', '50');
 
 
 

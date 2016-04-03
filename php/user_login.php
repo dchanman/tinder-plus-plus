@@ -14,10 +14,8 @@ include 'verify.php';
 		<?php include 'menu.php';?>
 		<div class="maincontent">
 			<div class="container">
-				<div class="jumbotron">
-					<h1>Tinder++ User Login</h1>
-					<p>Before you can enjoy our new features, please log in to continue</p>
-				</div>
+				<h1>Tinder++ User Login</h1><br>
+				<p>Before you can enjoy our new features, please log in to continue</p>
 			</div>
 			<div id="login">
 				<div class="container">

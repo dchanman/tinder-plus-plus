@@ -10,6 +10,7 @@ $name = $_SESSION['login_user'];
 <html id='ngWrapper' ng-app='user_profile_module' ng-controller='user_profile_controller'>
 	<head>
 		<title>Dashboard</title>
+    	<link href="assets/css/custom.css" rel="stylesheet">
 	</head>
 	<body>
 		<?php
@@ -32,19 +33,17 @@ $name = $_SESSION['login_user'];
 					<?php
 						if($name){
 							/* Print interests */
-							echo "<h3><b>Your Interests</b></h3><ul>";
+							echo "<h3><b>Your Interests</b></h3>";
 							$userInterests = query_getUserInterests($user_userid);
 							foreach ($userInterests as $interest) {
-								echo "<li>$interest</i>";
+								echo "$interest<br>";
 							}
-							echo "</ul>";
-								/* Print photos */
-							echo "<h3><b>Your Photos</b></h3><ul>";
+							/* Print photos */
+							echo "<h3><b>Your Photos</b></h3>";
 							$result = query_images($user_userid);
 							foreach ($result as $img) {
-								echo "<p><img style='border-radius: 45px;' src=\"" . $img . "\" width=150></img></p>";
+								echo "<p><img class='photo'  src=\"" . $img . "\" width=150></img></p>";
 							}
-							echo "</ul>";
 						}
 					?>
 				</div>

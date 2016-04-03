@@ -1,6 +1,7 @@
 <html>
  	<head>
   		<title>Welcome to Tinder++</title>
+    	<link href="assets/css/custom.css" rel="stylesheet">
 		<?php
 			include 'head-includes.php';
 			include 'credentials.php';
@@ -9,6 +10,7 @@
 	</head>
  	<body>
 		<?php include 'menu.php';?>
+		<div class='maincontent'>
 		<h2>Tinder++: Signup your Business!</h2>
 		<form method="POST" action="newbusiness.php" class="form-inline">
 			<input type="text" name="username_text" class="form-control" size="20" placeholder="Business Name"><br>
@@ -27,9 +29,9 @@
 			echo '</select><br>';
 			?>
 
-			<input type="submit" value="Signup your Business!" class="btn btn-default" name="signup">
+			<input type="submit" value="Signup your Business!" class="btn btn-success" name="signup">
 		</form>
-		</body>
+		</div>
 	</body>
 </html>
 

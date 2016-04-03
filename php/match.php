@@ -2,10 +2,12 @@
  	<head>
 		<?php include 'head-includes.php' ?>
   		<title>Tinder++</title>
+    	<link href="assets/css/custom.css" rel="stylesheet">
 	</head>
  	<body>
-
 		<?php include 'menu.php';?>
+
+		<div class="maincontent">
  	 	<?php
  	 	include 'session.php';
 
@@ -82,6 +84,7 @@
 		    echo htmlentities($e['message']);
 		}
 		?>
+		</div>
 	<?php 
 		include 'footer_menu.php';
 	?>

@@ -6,6 +6,7 @@
 		 	include 'credentials.php';
   			include 'sql-cmds.php';
   		?>
+    	<link href="assets/css/custom.css" rel="stylesheet">
 	</head>
  	<body>
 		<?php include 'menu.php';?>
@@ -15,9 +16,9 @@
 					<input type="text" name="username_text" class="form-control" size="20" placeholder="Username"><br>
 					<input type="text" name="name_text" class="form-control" size="20" placeholder="Name"><br>
 					<input type="password" name="password_text" class="form-control" size="20" placeholder="Password"><br>
-					<input type="password" name="confirm_password_text" class="form-control" size="20" placeholder="Confirm Password"><br>
-					<input type="text" name="age_text" class="form-control" size="6" placeholder="Age"><br>
-					<strong>Location:</strong><select name="location_text" class="form-control">';
+					<input type="password" name="confirm_password_text" class="form-control" size="20" placeholder="Confirm Password"><br><br>
+					<input type="text" name="age_text" class="form-control" size="6" placeholder="Age"><br><br>
+					<strong>Location:</strong><br><select name="location_text" class="form-control">
 					<?php 
 						$locations = query_getLocations();
 						foreach($locations as $loc) {
@@ -25,11 +26,11 @@
 						}
 					?>
 					<option selected=selected></option>
-					</select><br>
+					</select><br><br>
 
 					<strong>Gender:</strong> <br>
 					<input type="radio" name="gender" value="m"> Male<br>
-					<input type="radio" name="gender" value="f"> Female<br>
+					<input type="radio" name="gender" value="f"> Female<br><br>
 					<strong>Preference:</strong> <br>
 					<strong>Men:</strong> <input type="checkbox" name="interestedInMen" value="m">
 					<strong>Women:</strong> <input type="checkbox" name="interestedInWomen" value="f">

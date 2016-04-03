@@ -7,16 +7,22 @@
 <html>
  	<head>
   		<title>Welcome to Tinder++</title>
+    	<link href="assets/css/custom.css" rel="stylesheet">
+		<script src="assets/js/custom.js"></script>
 		<?php include 'head-includes.php' ?>
 		<script>
+			<!-- i don't know wht this function is for, but after you finish implementing it, throw it into custom.js plz -->
 			function viewSuggestedDate(){
 
 			}
 		</script>
 	</head>
  	<body>
-		<?php
+		<?php 
 			include 'menu.php';
+		?>
+		<div class='maincontent'>
+		<?php
 			if ($db_conn) {
 				/* Handle POSTs */
 				if (array_key_exists('insert_sendMessage', $_POST)) {
@@ -96,6 +102,7 @@
 			echo htmlentities($e['message']);
 			}
 		?>
+		</div>
 		<?php 
 		include 'footer_menu.php';
 		?>

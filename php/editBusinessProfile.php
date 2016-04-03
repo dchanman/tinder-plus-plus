@@ -34,6 +34,7 @@ if ($db_conn) {
 <html>
  	<head>
   		<title>Edit Profile</title>
+    	<link href="assets/css/custom.css" rel="stylesheet">
 		<?php include 'head-includes.php' ?>
 	</head>
 	<script>
@@ -43,6 +44,7 @@ if ($db_conn) {
 	</script>
  	<body>
 		<?php include 'menu.php';?>
+		<div class="maincontent">
 		<?php echo "<h1>Edit Profile ($name)</h1>"; ?>
 		
 		<form method="POST" action="editBusinessProfile.php" class="form-inline">
@@ -68,6 +70,7 @@ if ($db_conn) {
 			/* LOG OFF WHEN YOU'RE DONE! */
 			OCILogoff($db_conn);
 		?>
+		</div>
 		</body>
 	</body>
 </html>

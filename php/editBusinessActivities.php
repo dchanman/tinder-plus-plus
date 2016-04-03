@@ -60,6 +60,7 @@ if ($db_conn) {
 <html>
  	<head>
   		<title>Edit Profile</title>
+    	<link href="assets/css/custom.css" rel="stylesheet">
 		<?php include 'head-includes.php' ?>
 	</head>
 	<script>
@@ -69,85 +70,87 @@ if ($db_conn) {
 	</script>
  	<body>
 		<?php include 'menu.php';?>
-		<?php echo "<h1>Edit Activities ($name)</h1>"; ?>
+		<div class="maincontent">
+				<?php echo "<h1>Edit Activities ($name)</h1>"; ?>
 
-		<?php
+				<?php
 
-		/* Field for a new activity */
-		echo "<h2>New Activity</h2>";
-	    echo '<form method="POST" class="form-inline">';
-  		echo '<label>Activity Name</label><input type="text" class="form-control" name="activity" size="30"><br>';
-  		echo '<label>Discount</label><input type="text" class="form-control" name="discount" size="30"><br>';
-  		
-  		/* Print available times */
-  		echo '<label>Time</label><select name="scheduledTime" class="form-control">';
-  		$times = query_getScheduledTimes();
-  		foreach($times as $time) {   			
-			echo "<option value='$time'>$time</option>";
-  		}
-  		echo "</select>";
-
-  		/* Print interests */
-  		echo '<label>Interest Type</label><select name="interestType" class="form-control">';
-  		$interests = query_getInterests();
-  		foreach($interests as $int) {   			
-			echo "<option value='$int'>$int</option>";
-  		}
-  		echo "</select>";
-  		echo '<input type="submit" class="btn btn-default btn-success" value="Create" action="editBusinessActivities.php" name="newBusinessActivity"><br>';
-
-  		echo "<hr>";
-
-		/* Print activities */
-		echo "<h2>Your Activities</h2>";
-		$activities = query_getActivitiesWithCompanyName($name);
-		for ($i = 0; $i < count($activities); $i++) {
-			/* We need some way of tracking the ids of the forms... This is the jankiest. This prevents concurrency from ever happening lol */
-			$activity = $activities[$i];
-			echo "<h3>" . $$activity['activity'] . "</h3>";
-		    echo '<form method="POST" class="form-inline">';
-		    /* We have to keep the old values in case we change them. These values are part of the key for Activity */
-		    echo '<input type="hidden" name="old_activity'.$i.'" value="'. $activity['activity'] .'">';
-		    echo '<input type="hidden" name="old_scheduledTime'.$i.'" value="'. $activity['scheduledTime'] .'">';
-
-      		echo '<label>Activity Name</label><input type="text" class="form-control" name="activity'.$i.'" size="30" value="' . $activity['activity'] . '"><br>';
-      		echo '<label>Discount</label><input type="text" class="form-control" name="discount'.$i.'" size="30" value="' . $activity['discount'] . '"><br>';
-      		
-      		/* Print available times */
-      		echo '<label>Time</label><select name="scheduledTime'.$i.'" class="form-control">';
-      		$times = query_getScheduledTimes();
-      		foreach($times as $time) {   			
-				/* We want to autoselect the current time */
-				if (strcmp($activity['scheduledTime'], $time) == 0)
-					echo "<option value='$time' selected=selected>$time</option>";
-				else
+				/* Field for a new activity */
+				echo "<h2>New Activity</h2>";
+				echo '<form method="POST" class="form-inline">';
+				echo '<label>Activity Name</label><input type="text" class="form-control" name="activity" size="30"><br>';
+				echo '<label>Discount</label><input type="text" class="form-control" name="discount" size="30"><br>';
+				
+				/* Print available times */
+				echo '<label>Time</label><select name="scheduledTime" class="form-control">';
+				$times = query_getScheduledTimes();
+				foreach($times as $time) {   			
 					echo "<option value='$time'>$time</option>";
-      		}
-      		echo "</select>";
+				}
+				echo "</select>";
 
-      		/* Print interests */
-      		echo '<label>Interest Type</label><select name="interestType'.$i.'" class="form-control">';
-      		$interests = query_getInterests();
-      		foreach($interests as $int) {   			
-				/* We want to autoselect the current interest */
-				if (strcmp($activity['interestType'], $int) == 0)
-					echo "<option value='$int' selected=selected>$int</option>";
-				else
+				/* Print interests */
+				echo '<label>Interest Type</label><select name="interestType" class="form-control">';
+				$interests = query_getInterests();
+				foreach($interests as $int) {   			
 					echo "<option value='$int'>$int</option>";
-      		}
-      		echo "</select>";
+				}
+				echo "</select>";
+				echo '<input type="submit" class="btn btn-default btn-success" value="Create" action="editBusinessActivities.php" name="newBusinessActivity"><br>';
 
-      		echo '<button type="submit" class="btn btn-default btn-success" value="'.$i.'" action="editBusinessActivities.php" name="editBusinessActivities">Edit</button><br>';
-      		echo '<button type="submit" class="btn btn-default btn-danger" value="'.$i.'" action="editBusinessActivities.php" name="deleteBusinessActivities">Delete</button><br>';
-		}
+				echo "<hr>";
 
-		echo "<hr>";
+				/* Print activities */
+				echo "<h2>Your Activities</h2>";
+				$activities = query_getActivitiesWithCompanyName($name);
+				for ($i = 0; $i < count($activities); $i++) {
+					/* We need some way of tracking the ids of the forms... This is the jankiest. This prevents concurrency from ever happening lol */
+					$activity = $activities[$i];
+					echo "<h3>" . $$activity['activity'] . "</h3>";
+					echo '<form method="POST" class="form-inline">';
+					/* We have to keep the old values in case we change them. These values are part of the key for Activity */
+					echo '<input type="hidden" name="old_activity'.$i.'" value="'. $activity['activity'] .'">';
+					echo '<input type="hidden" name="old_scheduledTime'.$i.'" value="'. $activity['scheduledTime'] .'">';
 
-		/* LOG OFF WHEN YOU'RE DONE! */
-		OCILogoff($db_conn);
-		?>
+					echo '<label>Activity Name</label><input type="text" class="form-control" name="activity'.$i.'" size="30" value="' . $activity['activity'] . '"><br>';
+					echo '<label>Discount</label><input type="text" class="form-control" name="discount'.$i.'" size="30" value="' . $activity['discount'] . '"><br>';
+					
+					/* Print available times */
+					echo '<label>Time</label><select name="scheduledTime'.$i.'" class="form-control">';
+					$times = query_getScheduledTimes();
+					foreach($times as $time) {   			
+						/* We want to autoselect the current time */
+						if (strcmp($activity['scheduledTime'], $time) == 0)
+							echo "<option value='$time' selected=selected>$time</option>";
+						else
+							echo "<option value='$time'>$time</option>";
+					}
+					echo "</select>";
 
-		<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">
+					/* Print interests */
+					echo '<label>Interest Type</label><select name="interestType'.$i.'" class="form-control">';
+					$interests = query_getInterests();
+					foreach($interests as $int) {   			
+						/* We want to autoselect the current interest */
+						if (strcmp($activity['interestType'], $int) == 0)
+							echo "<option value='$int' selected=selected>$int</option>";
+						else
+							echo "<option value='$int'>$int</option>";
+					}
+					echo "</select>";
+
+					echo '<button type="submit" class="btn btn-default btn-success" value="'.$i.'" action="editBusinessActivities.php" name="editBusinessActivities">Edit</button><br>';
+					echo '<button type="submit" class="btn btn-default btn-danger" value="'.$i.'" action="editBusinessActivities.php" name="deleteBusinessActivities">Delete</button><br>';
+				}
+
+				echo "<hr>";
+
+				/* LOG OFF WHEN YOU'RE DONE! */
+				OCILogoff($db_conn);
+				?>
+
+				<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">
+			</div>
 		</body>
 	</body>
 </html>

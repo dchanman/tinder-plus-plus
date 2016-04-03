@@ -71,6 +71,7 @@ if ($db_conn) {
 
 <html>
 	<head>
+    	<link href="assets/css/custom.css" rel="stylesheet">
 		<?php include 'head-includes.php' ?>
 		<title>Editing Profile</title>
 		<script>

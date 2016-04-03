@@ -26,3 +26,11 @@
 .error{
 	color: red;
 }
+
+.photo{
+	border-radius: 45px;
+}
+
+.form-align{
+	vertical-align: center;
+}

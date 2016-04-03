@@ -673,17 +673,15 @@ function query_getLocations() {
 	return $locations;
 }
 
-function query_getActivitiesBasedOnInterestType($interestType){
+function query_getActivitiesBasedOnInterestType($interesttype){
 	$result = executePlainSQL(
-		"SELECT Activity
-		FROM Activity
-		WHERE interestType = '$interestType'"
-		);
+		"SELECT Activity FROM Activity WHERE interesttype = $interesttype"
+	);
 
-	$activities =  array();
+	$activities = array();
 
-	while(($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false){
-		array_push($activities, trim($row[ACTIVITY]))
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false){
+		array_push($activities, trim($row[ACTIVITY]));
 	}
 
 	return $activities;
@@ -700,7 +698,7 @@ function query_getActivitiesBasedOnTime($scheduledTime){
 	$activities =  array();
 
 	while(($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false){
-		array_push($activities, trim($row[ACTIVITY]))
+		array_push($activities, trim($row[ACTIVITY]));
 	}
 
 	return $activities;
@@ -719,7 +717,7 @@ function query_getActivitiesBasedOnLocation($businessLocation){
 	$locations =  array();
 
 	while(($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false){
-		array_push($locations, trim($row[BUSINESSNAME]))
+		array_push($locations, trim($row[BUSINESSNAME]));
 	}
 
 	return $locations;

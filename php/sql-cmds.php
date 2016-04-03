@@ -485,15 +485,19 @@ function update_businessProfile($businessid, $location) {
 		activity = '$oldActivity' AND
 		scheduledTime = '$oldScheduledTime'"
 	);
+ }
 
-	return "UPDATE Activity
-		SET activity = '$activity',
-		scheduledTime = '$scheduledTime',
-		discount = '$discount',
-		interestType = '$interestType'
-		WHERE businessName = '$businessName' AND
-		activity = '$oldActivity' AND
-		scheduledTime = '$oldScheduledTime'";
+ function insert_activity($businessname, $activity, $scheduledTime, $discount, $interestType) {
+	$result = executePlainSQL(
+			"INSERT INTO Activity VALUES (
+				'$activity',
+				'$businessname',
+				'$scheduledTime',
+				'$interestType',
+				$discount)"
+			);
+
+		return $result;
  }
 
 function query_getInterests() {

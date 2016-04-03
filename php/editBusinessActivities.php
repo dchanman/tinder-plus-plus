@@ -31,10 +31,14 @@ if ($db_conn) {
 		
 		$result = update_activity($name, $_POST['old_activity'.$i], $_POST['old_scheduledTime'.$i], $_POST['activity'.$i], $_POST['scheduledTime'.$i], $_POST['discount'.$i], $_POST['interestType'.$i]);
 
-		echo $result;
+		/* Commit to save changes... */
+		OCICommit($db_conn);
 
+	} else if (array_key_exists('newBusinessActivity', $_POST)) {
 
-		//update_businessProfile($business_id, $_POST['location_text']);
+		$result = insert_activity($name, $_POST['activity'], $_POST['scheduledTime'], $_POST['discount'], $_POST['interestType']);
+
+		echo $result[ERRCODE];
 
 		/* Commit to save changes... */
 		OCICommit($db_conn);
@@ -84,7 +88,7 @@ if ($db_conn) {
 			echo "<option value='$int'>$int</option>";
   		}
   		echo "</select>";
-  		echo '<input type="submit" class="btn btn-default" value="Edit" action="editBusinessActivities.php" name="editBusinessActivities"><br>';
+  		echo '<input type="submit" class="btn btn-default" value="Edit" action="editBusinessActivities.php" name="newBusinessActivity"><br>';
 
   		echo "<hr>";
 

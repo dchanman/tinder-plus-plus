@@ -500,6 +500,17 @@ function update_businessProfile($businessid, $location) {
 		return $result;
  }
 
+ function delete_activity($businessname, $activity, $scheduledTime) {
+ 	$result = executePlainSQL(
+		"DELETE FROM Activity 
+			WHERE businessName = '$businessname' AND
+			activity = '$activity' AND
+			scheduledTime = '$scheduledTime'"	
+ 		);
+
+ 	return $result;
+ }
+
 function query_getInterests() {
 	$result = executePlainSQL(
 		"SELECT interestType FROM Interest ORDER BY interestType ASC"

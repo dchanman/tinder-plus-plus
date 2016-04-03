@@ -44,6 +44,17 @@
 		 	</li>
 		 </ul>
 
+		 <li class="dropdown">
+	    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Filter Matches
+	    <span class="caret"></span></a>
+	    <ul class="dropdown-menu">
+		 	<li role="presentation">
+		 		<form method='POST' action='test-messaging.php'>
+		 			<button name='filterOnlyPerfectMatches' class='btn btn-link' type='submit'>Filter Incompatible Interests</button>
+		 		</form>
+		 	</li>
+		 </ul>
+
  	</ul>
 
  	<?php
@@ -69,18 +80,21 @@
 
 			} else if (array_key_exists('orderByMessageCount', $_POST)) {
 				$queryFunctionPtr = 'query_getSuccessfulMatchesOrderByMessageCount';
-				$_SESSION['matchOrderBy'] = $queryFunctionPtr;
 
 			} else if (array_key_exists('orderByCommonInterests', $_POST)) {
 				$queryFunctionPtr = 'query_getSuccessfulMatchesOrderByCommonInterests';
-				$_SESSION['matchOrderBy'] = $queryFunctionPtr;
 				
 			} else if (array_key_exists('defaultOrder', $_POST)) {
 				$queryFunctionPtr = 'query_getSuccessfulMatches';
-				$_SESSION['matchOrderBy'] = $queryFunctionPtr;
+
+			} else if (array_key_exists('filterOnlyPerfectMatches', $_POST)) {
+				$queryFunctionPtr = 'query_getPerfectMatches';
 			}
-				
 			
+			/* Remember the current query function pointer */
+			$_SESSION['matchOrderBy'] = $queryFunctionPtr;
+
+
 			if ($_SESSION['login_user']) {
 				$username = $_SESSION['login_user'];
 				$id = query_getIdFromUsername($username);

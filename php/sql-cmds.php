@@ -474,6 +474,28 @@ function update_businessProfile($businessid, $location) {
 	);
 }
 
+ function update_activity($businessName, $oldActivity, $oldScheduledTime, $activity, $scheduledTime, $discount, $interestType) {
+ 	$result = executePlainSQL(
+		"UPDATE Activity
+		SET activity = '$activity',
+		scheduledTime = '$scheduledTime',
+		discount = '$discount',
+		interestType = '$interestType'
+		WHERE businessName = '$businessName' AND
+		activity = '$oldActivity' AND
+		scheduledTime = '$oldScheduledTime'"
+	);
+
+	return "UPDATE Activity
+		SET activity = '$activity',
+		scheduledTime = '$scheduledTime',
+		discount = '$discount',
+		interestType = '$interestType'
+		WHERE businessName = '$businessName' AND
+		activity = '$oldActivity' AND
+		scheduledTime = '$oldScheduledTime'";
+ }
+
 function query_getInterests() {
 	$result = executePlainSQL(
 		"SELECT interestType FROM Interest ORDER BY interestType ASC"
@@ -486,6 +508,20 @@ function query_getInterests() {
 	}
 
 	return $interests;
+}
+
+function query_getScheduledTimes() {
+	$result = executePlainSQL(
+		"SELECT scheduledTime FROM scheduledTimes ORDER BY scheduledTime ASC"
+	);
+
+	$times = array();
+
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	    array_push($times, trim($row[SCHEDULEDTIME]));
+	}
+
+	return $times;
 }
 
 function insert_userInterest($userid, $interest) {

@@ -9,35 +9,35 @@
 	</head>
  	<body>
 		<?php include 'menu.php';?>
-		<h1>Tinder++ Signup</h1><br>
-		<form method="POST" action="newuser.php" class="form-inline">
-			<?php
-			echo '<input type="text" name="username_text" class="form-control" size="20" placeholder="Username"><br>';
-			echo '<input type="text" name="name_text" class="form-control" size="20" placeholder="Name"><br>';
-			echo '<input type="password" name="password_text" class="form-control" size="20" placeholder="Password"><br>';
-			echo '<input type="password" name="confirm_password_text" class="form-control" size="20" placeholder="Confirm Password"><br>';
-			echo '<input type="text" name="age_text" class="form-control" size="6" placeholder="Age"><br>';
+			<div class="maincontent container">
+				<h1>Tinder++ Signup</h1><br>
+				<form method="POST" action="newuser.php" class="form-inline">
+					<input type="text" name="username_text" class="form-control" size="20" placeholder="Username"><br>
+					<input type="text" name="name_text" class="form-control" size="20" placeholder="Name"><br>
+					<input type="password" name="password_text" class="form-control" size="20" placeholder="Password"><br>
+					<input type="password" name="confirm_password_text" class="form-control" size="20" placeholder="Confirm Password"><br>
+					<input type="text" name="age_text" class="form-control" size="6" placeholder="Age"><br>
+					<strong>Location:</strong><select name="location_text" class="form-control">';
+					<?php 
+						$locations = query_getLocations();
+						foreach($locations as $loc) {
+							echo "<option value='$loc'>$loc</option>";
+						}
+					?>
+					<option selected=selected></option>
+					</select><br>
 
-			/* Location dropdown box */
-			echo 'Location:
-			<select name="location_text" class="form-control">';
-			$locations = query_getLocations();
-			foreach($locations as $loc) {
-				echo "<option value='$loc'>$loc</option>";
-			}
-			echo "<option selected=selected></option>";
-			echo '</select><br>';
-
-			echo 'Gender: <br>
-			<input type="radio" name="gender" value="m"> Male<br>
-			<input type="radio" name="gender" value="f"> Female<br>';
-			echo 'Preference: <br>';
-			echo 'Men: <input type="checkbox" name="interestedInMen" value="m">';
-			echo 'Women: <input type="checkbox" name="interestedInWomen" value="f">';
-			?>
-			<br>
-			<input type="submit" value="Sign Up!" class="btn btn-default" name="signup">
-		</form>
+					<strong>Gender:</strong> <br>
+					<input type="radio" name="gender" value="m"> Male<br>
+					<input type="radio" name="gender" value="f"> Female<br>
+					<strong>Preference:</strong> <br>
+					<strong>Men:</strong> <input type="checkbox" name="interestedInMen" value="m">
+					<strong>Women:</strong> <input type="checkbox" name="interestedInWomen" value="f">
+					
+					<br>
+					<input type="submit" value="Sign Up!" class="btn btn-success" name="signup">
+				</form>
+			</div>
 	</body>
 </html>
 

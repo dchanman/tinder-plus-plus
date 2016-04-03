@@ -17,7 +17,7 @@ include 'verify.php';
 	</head>
  	<body>
 		<?php include 'menu.php';?>
- 		<p>Welcome to Tinder++ </br>
+ 		<h1>Tinder++ User Login</h1>
  		</br>
  			Before you can enjoy our new features, please log in to continue</p>
 
@@ -27,7 +27,7 @@ include 'verify.php';
  					<div class="col-xs-3 form-group">
  					<input type="text" class="form-control col-xs-3" name="userName" placeholder="Username">
   					<input type="password" class="form-control" name="userPwd" placeholder="Password">
- 					<input id="UserLogin" class="btn btn-default" type="submit" value="Login" name="UserLogin"></p>
+ 					<input id="UserLogin" class="btn btn-default" type="submit" value="Continue" name="UserLogin"></p>
  					</div>
 					<span><?php echo $error; ?></span>
 			</form>

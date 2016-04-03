@@ -58,7 +58,13 @@ if ($db_conn) {
 
 		/* Commit to save changes... */
 		OCICommit($db_conn);
+	} else if (array_key_exists('deleteUserImage', $_POST)){
+		// should we decrement imageindex
+		$imageindex = $_POST['imgindex'];
+		delete_photo($user_userid, $imageindex);
+		OCICommit($db_conn);
 	}
+
 	/* Commit to save changes... */
 	OCICommit($db_conn);
 
@@ -128,6 +134,7 @@ if ($db_conn) {
 					echo '<input type="text" class="form-control" name="img" size="80" value='.$result[$i].'>';
 					echo '<input type="hidden" name="imgindex" value="'.$i.'"">';
 					echo '<input type="submit" class="btn btn-default" value="Edit" action="editUserProfile.php" name="editUserImage"><br>';
+					echo '<input type="submit" class="btn btn-default" value="Delete" action="editUserProfile.php" name="deleteUserImage"><br>';
 					echo '</form>';
 				}
 				echo "</ul>";

@@ -672,6 +672,68 @@ function query_getLocations() {
 
 	return $locations;
 }
+
+function query_getActivitiesBasedOnInterestType($interestType){
+	$result = executePlainSQL(
+		"SELECT Activity
+		FROM Activity
+		WHERE interestType = '$interestType'"
+		);
+
+	$activities =  array();
+
+	while(($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false){
+		array_push($activities, trim($row[ACTIVITY]))
+	}
+
+	return $activities;
+
+}
+
+function query_getActivitiesBasedOnTime($scheduledTime){
+	$result = executePlainSQL(
+		"SELECT Activity
+		FROM Activity
+		WHERE scheduledTime = '$scheduledTime'"
+		);
+
+	$activities =  array();
+
+	while(($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false){
+		array_push($activities, trim($row[ACTIVITY]))
+	}
+
+	return $activities;
+}
+
+function query_getActivitiesBasedOnLocation($businessLocation){
+	$result = executePlainSQL(
+		"SELECT Activity
+		FROM Activity A
+		WHERE A.businessname IN (
+			SELECT B.businessname
+			FROM Business B
+			WHERE location = '$businessLocation')"
+	);
+
+	$locations =  array();
+
+	while(($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false){
+		array_push($locations, trim($row[BUSINESSNAME]))
+	}
+
+	return $locations;
+}
+
+function delete_photo($userid, $displayorder){
+
+	$result = executePlainSQL(
+		"DELETE FROM Image
+		WHERE userid = '$userid' AND displayorder = '$displayorder'"
+		);
+	
+}
+
 /* OCIParse() Prepares Oracle statement for execution
       The two arguments are the connection and SQL query. */
 /* OCIExecute() executes a previously parsed statement

@@ -41,6 +41,7 @@ if (array_key_exists('editUserInterests', $_POST)) {
 <html>
 	<head>
 		<?php include 'head-includes.php' ?>
+		<link href="assets/css/custom.css" rel="stylesheet">
 		<title>Editing Profile</title>
 		<script>
 			function backToProfile(){

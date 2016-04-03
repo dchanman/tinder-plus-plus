@@ -38,8 +38,10 @@ if ($db_conn) {
 
 <html>
  	<head>
+    	<link href="assets/css/custom.css" rel="stylesheet">
   		<title>Edit Profile</title>
 		<?php include 'head-includes.php'; ?>
+	
 	</head>
 	<script>
 		function backToProfile(){
@@ -48,14 +50,15 @@ if ($db_conn) {
 	</script>
  	<body>
  		<?php include 'menu.php'; ?>
- 		<h1>Delete Account</h1>
-		<?php
-		echo "<p>Hey $user_name, we're sad to see you go. Are you sure you want to delete your account? This is irreversable.</p>";
-		?>
-		<form method="POST" action="user_delete.php">
-			<input type="submit" value="Yes I would like to delete my account" action="user_delete.php" name="deleteAccount">
-			<input type="button" value="Return to profile" onclick="backToProfile();">
-		</form>
-		</body>
+		<div class="maincontent">
+				<h1>Delete Account</h1>
+				<?php
+				echo "<p>Hey $user_name, we're sad to see you go. Are you sure you want to delete your account? This is irreversable.</p>";
+				?>
+				<form method="POST" action="user_delete.php">
+					<input type="submit" class="btn btn-danger" value="Yes I would like to delete my account" action="user_delete.php" name="deleteAccount">
+					<input type="button" class="btn btn-info" value="Return to profile" onclick="backToProfile();">
+				</form>
+		</div>
 	</body>
 </html>

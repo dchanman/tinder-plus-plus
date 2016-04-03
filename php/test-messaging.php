@@ -45,7 +45,7 @@
 		 </ul>
 
 		 <li class="dropdown">
-	    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sort Matches
+	    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Filter Matches
 	    <span class="caret"></span></a>
 	    <ul class="dropdown-menu">
 		 	<li role="presentation">

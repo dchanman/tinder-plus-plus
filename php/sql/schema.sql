@@ -1,6 +1,7 @@
 DROP TABLE SuggestedBy;
 DROP TABLE InterestedIn;
 DROP TABLE ActivityTime;
+DROP TABLE ScheduledTimes;
 DROP TABLE Interest;
 DROP TABLE Business;
 DROP TABLE Message;
@@ -121,16 +122,23 @@ InterestType CHAR(20) NOT NULL,
 PRIMARY KEY (InterestType)
 );
 
+CREATE TABLE ScheduledTimes
+(
+ScheduledTime CHAR(10) NOT NULL,
+PRIMARY KEY (ScheduledTime)
+);
+
 CREATE TABLE ActivityTime
 (
 Activity CHAR(50) NOT NULL,
 BusinessName CHAR(30) NOT NULL,
-ScheduledTime DATE NOT NULL,
+ScheduledTime CHAR(10) NOT NULL,
 DateLocation CHAR(30) NOT NULL,
 Discount INTEGER NOT NULL,
 PRIMARY KEY (Activity, BusinessName, ScheduledTime, DateLocation),
 FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE,
-FOREIGN KEY (DateLocation) REFERENCES Locations(Location) ON DELETE SET NULL
+FOREIGN KEY (DateLocation) REFERENCES Locations(Location) ON DELETE CASCADE,
+FOREIGN KEY (ScheduledTime) REFERENCES ScheduledTimes(ScheduledTime) ON DELETE CASCADE
 );
 
 CREATE TABLE InterestedIn
@@ -144,12 +152,13 @@ FOREIGN KEY (Interest) REFERENCES Interest(InterestType) ON DELETE CASCADE
 
 CREATE TABLE SuggestedBy
 (
-ScheduledTime Date NOT NULL,
+ScheduledTime CHAR(10) NOT NULL,
 Location CHAR(50) NOT NULL,
 Discount CHAR(50) NOT NULL,
 ActivityName CHAR(50) NOT NULL,
 BusinessName CHAR(30) NOT NULL,
 PRIMARY KEY (ScheduledTime, Location, ActivityName, BusinessName),
 FOREIGN KEY (ActivityName, BusinessName, ScheduledTime, Location) REFERENCES ActivityTime(Activity, BusinessName, ScheduledTime, DateLocation) ON DELETE CASCADE,
-FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE
+FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE,
+FOREIGN KEY (ScheduledTime) REFERENCES ScheduledTimes(ScheduledTime) ON DELETE CASCADE
 );

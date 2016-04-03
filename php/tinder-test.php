@@ -55,6 +55,7 @@
     printTable('message');
     printTable('business');
     printTable('interest');
+    printTable('scheduledTimes');
     printTable('interestedIn');
     printTable('activityTime');
     printTable('suggestedBy');

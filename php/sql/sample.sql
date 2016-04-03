@@ -12,6 +12,12 @@ INSERT INTO Locations VALUES ('Vancouver');
 INSERT INTO Locations VALUES ('Delta');
 INSERT INTO Locations VALUES ('Downtown');
 
+INSERT INTO ScheduledTimes VALUES ('Morning');
+INSERT INTO ScheduledTimes VALUES ('Noon');
+INSERT INTO ScheduledTimes VALUES ('Afternoon');
+INSERT INTO ScheduledTimes VALUES ('Evening');
+INSERT INTO ScheduledTimes VALUES ('Night');
+
 
 INSERT INTO Users VALUES (UserIDSequence.nextval, 'adam', 'Adam', '97-03-26', 'Vancouver', 21, 'm', 'm', 'hunter2');
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'adam'),

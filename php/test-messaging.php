@@ -45,23 +45,26 @@
 					$locationResult = query_userInformationWithUserID($matchId);
 					$location = $locationResult['location'];
 					echo "<h4>$location</h4>";
-					/* Display the common interest between two users */
-					$commonInterestResult = query_getCommonInterests($id, $matchId);
-					$commonInterests = $commonInterestResult['commonInterests'];
-					$_SESSION['commonInterests'] = $commonInterests;
 
-					if(!isset($commonInterests)){
-						echo "<h5>Find something in common through messaging ASAP! </h5></br>";
-					}else{
-						echo "<h4>Common Interests: </br>";
-						foreach ($commonInterests as $commonInterest){
-							echo "<h5>$commonInterest</h5></br>";	
-						}
-					}	
 	      			/* Display the match's first photo */
 	      			$images = query_images($matchId);
 	      			if ($images[0])
-	      				echo "<p><img src=\"" . $images[0] . "\" width=75></img></p>";					
+	      				echo "<p><img src=\"" . $images[0] . "\" width=75></img></p>";
+
+	      			/* Display the common interests between two users */
+					$commonInterestResult = query_getCommonInterests($id, $matchId);
+					$commonInterests = $commonInterestResult['commonInterests'];
+
+					if (!isset($commonInterests)) {
+						echo "<h5>Find something in common through messaging ASAP! </h5></br>";
+					} else {
+						echo "<h4>Common Interests: </h4><ul>";
+						foreach ($commonInterests as $commonInterest){
+							echo "<li>$commonInterest</li>";	
+						}
+						echo "</ul>";
+					}
+								
 					/* Display convo */
 					$convo = query_getConversation($user_userid, $matchId);
 					foreach ($convo as $msg) {
@@ -69,17 +72,19 @@
 						echo $msg[message];
 						echo "<br>";
 					}
+
+					
 					
 					/* Create SEND button with the value set to the receiverID */
 		      		echo "<form method='POST' action='test-messaging.php'>
 					<input type='text' name='messageStr'>
-					<button name='insert_sendMessage' value='$matchId' type='submit'>send</button>
+					<button name='insert_sendMessage' value='$matchId' class='btn btn-default' type='submit'>Send</button>
 					</form>";
 					/* View Suggested Date Based on the common interest */
-					echo "<input id='suggestedDate' type='submit' value='View Suggested Date' name='suggestedDate' onclick='viewSuggestedDate()'>";
+					echo "<input id='suggestedDate' type='submit' value='View Suggested Date' class='btn btn-default' name='suggestedDate' onclick='viewSuggestedDate()'>";
 					/* Create BLOCK button with the value set to the receiverID */
 		      		echo "<form method='POST' action='test-messaging.php'>
-					<button name='block' value='$matchId' type='submit' onclick='blockUser()'>block</button>
+					<button name='block' value='$matchId' type='submit' class='btn btn-default' onclick='blockUser()'>Block</button>
 					</form>";
 		      	}
 			}

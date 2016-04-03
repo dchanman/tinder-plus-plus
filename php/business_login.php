@@ -15,42 +15,26 @@ include 'verify.php';
 	</head>
  	<body>
 		<?php include 'menu.php';?>
- 		<p>Welcome to Tinder++ </br>
+ 		<h1>Tinder++ Business Login</h1>
  		</br>
  			Before you can enjoy our new features, please log in to continue</p>
 
- 		<div id="login">
- 			<!-- <p>Please log in to continue.</p> -->
- 			<!-- <form method="POST" action="user_login.php">
- 				<p>
- 					<label for="username">Username:</label>
- 					<input type="text" name="userName" placeholder="username" size="16"></br>
- 					<label for="userPwd">Password:</label>
- 					<input type="password" name="userPwd" placeholder="**********" size="16"><br>
-					<input id="UserLogin" type="submit" value="Continue" name="UserLogin"></p>
-					<span><?php $error; ?></span>
-			</form> -->
+		<div id="login">
+ 			<form method="POST" action="business_login.php" class="form-inline">
 
-			<p>Please log in to continue.</p>
-
- 			<form method="POST" action="business_login.php">
- 				<p>
- 					<label for="businessName">Business Name:</label>
- 					<input type="text" name="businessName" placeholder="businessname" size="16"></br>
- 					<label for="businessPwd">Password:</label>
- 					<input type="password" name="businessPwd" placeholder="**********" size="16"><br>
-					<input id="BusinessLogin "type="submit" value="Continue" name="BusinessLogin"></p>
+ 					<div class="col-xs-3 form-group">
+ 					<input type="text" class="form-control col-xs-3" name="businessName" placeholder="Business Name">
+  					<input type="password" class="form-control" name="businessPwd" placeholder="Password">
+ 					<input id="BusinessLogin" class="btn btn-default" type="submit" value="Continue" name="BusinessLogin"></p>
+ 					</div>
 					<span><?php echo $error; ?></span>
 			</form>
-		</div>
 
-		<div id="signup3">
-			<h1>Sign up for Free</h1>
-			<input type="button" value="Sign Up" onclick="businessSignup();"></p>
+			<div id="signup3">
+				<p>Tinder++ is free and always will be!</p>
+				<input type="button" class="btn btn-default" value="Sign up" onclick="businessSignup();"></p>
+			</div>
 		</div>
-		<?php 
-		include 'footer_menu.php';
-		?>
 
     </body>
 </html>

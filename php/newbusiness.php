@@ -6,12 +6,12 @@
  	<body>
 		<?php include 'menu.php';?>
 		<h2>Tinder++: Signup your Business!</h2>
-		<form method="POST" action="newbusiness.php">
-			Username: <input type="text" name="username_text" size="6"><br>
-			Password: <input type="password" name="password_text" size="6"><br>
-			Confirm Password: <input type="password" name="confirm_password_text" size="6"><br>
+		<form method="POST" action="newbusiness.php" class="form-inline">
+			<input type="text" name="username_text" class="form-control" size="20" placeholder="Business Name"><br>
+			<input type="password" name="password_text" class="form-control" size="20" placeholder="Password"><br>
+			<input type="password" name="confirm_password_text" class="form-control" size="20" placeholder="Confirm Password"><br>
 
-			Location: <select name="location_text">
+			Location: <select name="location_text" class="form-control">
 				<option value="UBC">UBC</option>
 				<option value="Vancouver">Vancouver</option>
 				<option value="North Vancouver">North Vancouver</option>
@@ -19,7 +19,7 @@
 				<option value="Langley">Langley</option>
 				<option value="Richmond">Richmond</option>
 			</select><br>'
-			<input type="submit" value="Signup your Business!" name="signup">
+			<input type="submit" value="Signup your Business!" class="btn btn-default" name="signup">
 		</form>
 		</body>
 	</body>
@@ -57,14 +57,17 @@
 				echo "Uh oh, unrecognized error code: ";
 				echo $resultArr['ERRCODE'];
 			}
+		} else {
+			/* Made a new account successfully */
+
+			/* Commit to database */
+			OCICommit($db_conn);
+    		OCILogoff($db_conn);
+
+			/* Redirect to login page */
+    		header("Location: business_login.php");
 		}
-
-		OCICommit($db_conn);
 	}
-
-
-
-	printTable('business');
 
     /* Commit to save changes... */
     OCICommit($db_conn);

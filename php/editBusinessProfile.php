@@ -46,11 +46,12 @@ if ($db_conn) {
 	</script>
  	<body>
 		<?php include 'menu.php';?>
-		<p>Tinder++ Signup your Business!</p><br>
-		<form method="POST" action="editBusinessProfile.php">
+		<?php echo "<h1>Edit Profile ($name)</h1>"; ?>
+		
+		<form method="POST" action="editBusinessProfile.php" class="form-inline">
 		<?php
 			echo 'Location:
-			<select name="location_text">
+			<select name="location_text" class="form-control">
 				<option value="UBC">UBC</option>
 				<option value="Vancouver">Vancouver</option>
 				<option value="North Vancouver">North Vancouver</option>
@@ -60,12 +61,9 @@ if ($db_conn) {
 				<option selected=selected>'.$business_location.'</option>
 			</select><br>';
 			?>
-			<input type="submit" value="Edit" action="editBusinessProfile.php" name="editBusinessProfile">
-			<input type="button" value="Return to profile" onclick="backToProfile();">
+			<input type="submit" class="btn btn-default" value="Edit" action="editBusinessProfile.php" name="editBusinessProfile">
+			<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">
 		</form>
-		<?php 
-		include 'footer_menu.php';
-		?>
 		</body>
 	</body>
 </html>

@@ -13,8 +13,12 @@ $name = $_SESSION['login_business'];
 		<?php include 'head-includes.php' ?>
 		<title>Dashboard</title>
 		<script>
-			function editBzProfile(){
+			function editBusinessProfile(){
 				window.location = 'editBusinessProfile.php';
+			}
+
+			function logout(){
+				window.location = 'logout.php';
 			}	
 		</script>
 	</head>
@@ -30,14 +34,8 @@ $name = $_SESSION['login_business'];
 		Location: <i><?php echo $business_location; ?></i><br>
 		</p>
 
-
-
-		<input id="editProfile" type="submit" value="Edit Profile" name="editProfile" onclick="editBzProfile();">
-		<b id="logout"><a href="logout.php">Log Out</a></b>
-		<?php 
-		include 'footer_menu.php';
-		?>
-
+		<input id="editProfile" type="submit" value="Edit Profile" name="editProfile" class="btn btn-default" onclick="editBusinessProfile();">
+		<input id="logout" type="submit" value="Logout" name="logout" class="btn btn-default" onclick="logout();">
 	</body>
 </html>
 

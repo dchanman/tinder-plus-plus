@@ -257,6 +257,18 @@ function query_userInformationWithUserID($userid) {
 	return $returntuple;
 }
 
+function query_userLocationFromId($userId){
+	$result = executePlainSQL(
+		"SELECT location FROM Users U
+		WHERE U.UserID = '$userId'"
+		);
+
+	$row = oci_fetch_array($result);
+
+	return trim($row[LOCATION]);
+
+}
+
 function query_userInformationWithUsername($username) {
 	/* Get user information */
 	$result = executePlainSQL(
@@ -353,7 +365,6 @@ function query_getCommonInterests($userid1, $userid2) {
 		INTERSECT
 		SELECT interest FROM InterestedIn WHERE userID = $userid2"
 	);
-
 
 	$commonInterests = array();
 

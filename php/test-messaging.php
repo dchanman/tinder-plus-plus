@@ -1,16 +1,18 @@
 <?php
   include 'session.php';
-
   ini_set('session.save_path', $cshomedir.'/public_html/php_sessions');
   session_start();
 ?>
-
-
 
 <html>
  	<head>
   		<title>Welcome to Tinder++</title>
 		<?php include 'head-includes.php' ?>
+		<script>
+			function viewSuggestedDate(){
+
+			}
+		</script>
 	</head>
  	<body>
 		<?php
@@ -39,12 +41,27 @@
 	      			/* Display the match's name */
 					$receiverUser = query_getNameFromId($matchId);
 					echo "<h2>$receiverUser</h2>";
+					/* Display the user's location */
+					$locationResult = query_userInformationWithUserID($matchId);
+					$location = $locationResult['location'];
+					echo "<h4>$location</h4>";
+					/* Display the common interest between two users */
+					$commonInterestResult = query_getCommonInterests($id, $matchId);
+					$commonInterests = $commonInterestResult['commonInterests'];
+					$_SESSION['commonInterests'] = $commonInterests;
 
+					if(!isset($commonInterests)){
+						echo "<h5>Find something in common through messaging ASAP! </h5></br>";
+					}else{
+						echo "<h4>Common Interests: </br>";
+						foreach ($commonInterests as $commonInterest){
+							echo "<h5>$commonInterest</h5></br>";	
+						}
+					}	
 	      			/* Display the match's first photo */
 	      			$images = query_images($matchId);
 	      			if ($images[0])
 	      				echo "<p><img src=\"" . $images[0] . "\" width=75></img></p>";					
-
 					/* Display convo */
 					$convo = query_getConversation($user_userid, $matchId);
 					foreach ($convo as $msg) {
@@ -58,17 +75,16 @@
 					<input type='text' name='messageStr'>
 					<button name='insert_sendMessage' value='$matchId' type='submit'>send</button>
 					</form>";
-
+					/* View Suggested Date Based on the common interest */
+					echo "<input id='suggestedDate' type='submit' value='View Suggested Date' name='suggestedDate' onclick='viewSuggestedDate()'>";
 					/* Create BLOCK button with the value set to the receiverID */
 		      		echo "<form method='POST' action='test-messaging.php'>
-					<button name='block' value='$matchId' type='submit'>block</button>
+					<button name='block' value='$matchId' type='submit' onclick='blockUser()'>block</button>
 					</form>";
 		      	}
 			}
-
 			/* LOG OFF WHEN YOU'RE DONE! */
 			OCILogoff($db_conn);
-
 			} else { /* if ($db_conn) */
 			echo "cannot connect";
 			$e = OCI_Error(); // For OCILogon errors pass no handle
@@ -81,5 +97,3 @@
 
 	</body>
 </html>
-
-

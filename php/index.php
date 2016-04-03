@@ -64,7 +64,7 @@
           </div>
 
           <div class="inner cover">
-            <h1 class="cover-heading">Tinder ++</h1>
+            <h1 class="cover-heading">Tinder++</h1>
             <p class="lead">Find your perfect match and your perfect date</p>
             <p class="lead">
               <input type="submit" class="btn btn-lg btn-default" value ="User Log In" onclick="UserLogin()">

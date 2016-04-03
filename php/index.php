@@ -42,7 +42,7 @@
   </head>
 
   <body>
-    <?php include 'menu.php';?>
+
 
     <div class="site-wrapper">
 
@@ -74,7 +74,7 @@
 
           <div class="mastfoot">
             <div class="inner">
-              <p>UBC CS 304 Winter 2016 Session Term 2 Project</p>
+              <p>UBC Winter Session 2016 Term 2 CPSC 304 Project</p>
             </div>
           </div>
 

@@ -88,12 +88,12 @@ if ($db_conn) {
 		<?php 
 		echo "<h1>Edit Profile ($user_name)</h1>";
 		?>
-		<form method="POST">
+		<form method="POST" class="form-inline">
 			<?php
-			echo 'Name: <input type="text" name="name_text" size="6" value="'.$user_name.'"><br>';
-			echo 'Age: <input type="text" name="age_text" size="6" value="'.$user_age.'"><br>';
+			echo 'Name: <input type="text" class="form-control" name="name_text" size="6" value="'.$user_name.'"><br>';
+			echo 'Age: <input type="text" class="form-control" name="age_text" size="6" value="'.$user_age.'"><br>';
 			echo 'Location:
-			<select name="location_text">
+			<select name="location_text" class="form-control">
 				<option value="UBC">UBC</option>
 				<option value="Vancouver">Vancouver</option>
 				<option value="North Vancouver">North Vancouver</option>
@@ -106,11 +106,11 @@ if ($db_conn) {
 			<input type="radio" name="gender" value="m" '.($user_gender == "m" ? 'checked="checked"' : '').'> Male<br>
 			<input type="radio" name="gender" value="f" '.($user_gender == "f" ? 'checked="checked"' : '').'> Female<br>';
 			echo 'Preference: <br>';
-			echo 'Men: <input type="checkbox" name="interestedInMen" value="m" '.(strpos($user_preference, 'm') === FALSE ? '' : 'checked').'>';
-			echo 'Women: <input type="checkbox" name="interestedInWomen" value="f" '.(strpos($user_preference, 'f') === FALSE ? '' : 'checked').'>';
+			echo '<input type="checkbox" name="interestedInMen" value="m" '.(strpos($user_preference, 'm') === FALSE ? '' : 'checked').'> Men</checkbox><br>';
+			echo '<input type="checkbox" name="interestedInWomen" value="f" '.(strpos($user_preference, 'f') === FALSE ? '' : 'checked').'> Women</checkbox><br>';
 			?>
-			<input type="submit" value="Edit" action="editUserProfile.php" name="editUserProfile">
-			<input type="button" value="Return to profile" onclick="backToProfile();">
+			<input type="submit" class="btn btn-default" value="Edit" action="editUserProfile.php" name="editUserProfile">
+			<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">
 		</form>
 
 		<?php
@@ -119,10 +119,10 @@ if ($db_conn) {
 		$result = query_images($user_userid);
 		for ($i = 0; $i < 3; $i++) {
       		echo "<p><img src=\"" . $result[$i] . "\" width=100></img></p>";
-      		echo '<form method="POST">';
-      		echo '<input type="text" name="img" size="80" value='.$result[$i].'>';
+      		echo '<form method="POST" class="form-inline">';
+      		echo '<input type="text" class="form-control" name="img" size="80" value='.$result[$i].'>';
       		echo '<input type="hidden" name="imgindex" value="'.$i.'"">';
-      		echo '<input type="submit" value="Edit" action="editUserProfile.php" name="editUserImage"><br>';
+      		echo '<input type="submit" class="btn btn-default" value="Edit" action="editUserProfile.php" name="editUserImage"><br>';
       		echo '</form>';
       	}
       	echo "</ul>";
@@ -130,7 +130,7 @@ if ($db_conn) {
       	
 
 		<h1>Delete Account</h1>
-		<input type="button" value="Delete Account" onclick="deleteAccount();">
+		<input type="button" class="btn btn-default" value="Delete Account" onclick="deleteAccount();">
 
 		<?php
 		/* Log out when finished! */

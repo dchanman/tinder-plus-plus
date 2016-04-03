@@ -10,6 +10,12 @@
 	width: 1000px;
 }
 
+.center-text{
+	text-align: center;
+}
+
+
+
 .text-inputbox{
 	margin-top: 5px;
 }

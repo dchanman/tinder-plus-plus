@@ -14,8 +14,8 @@ Our system will be able to:
 * Allow users to have photos and albums
 * Have suggested dates
 * Location-based matching, location-based date suggestions
-* Provide private chats and group chats
-* Compatibility with couples to allow group dates and group chats
+* Provide private chats
+* Compatibility with couples to allow dates
 * ...and much more!
 
 The different kinds of users will include:
@@ -25,8 +25,8 @@ The different kinds of users will include:
 
 # Platform
 
-Node.js as a frontend
-SQLite as a database
+PHP as a frontend
+Oracle DB 11g as a database
 
 ---
 

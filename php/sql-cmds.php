@@ -195,17 +195,20 @@ function query_getSuccessfulMatches($userid) {
 
 function query_getSuccessfulMatchesOrderByMessageCount($userid) {
 	$s = executePlainSQL(
-		"SELECT Match.userid FROM
-			(SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = $userid
+		"SELECT Match.userid FROM (
+			SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = $userid
 			UNION
-			SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = $userid) Match
-		INNER JOIN 
-			(SELECT I1.userid, I1.interest FROM InterestedIn I1
-			INNER JOIN InterestedIn I2
-			ON I1.interest = I2.interest AND I1.userid <> $userid AND I2.userid = $userid) CommonInterests
-		ON Match.userid = CommonInterests.userid
-		GROUP BY Match.userid
-		ORDER BY COUNT(*) ASC"
+			SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = $userid
+		) Match
+		LEFT JOIN 
+		(SELECT userid, messageChar FROM (
+			SELECT senderUserID AS userid, messageChar FROM Message WHERE receiverUserID = $userid
+			UNION ALL
+			SELECT receiverUserID AS userid, messageChar FROM Message WHERE senderUserID = $userid)
+		) Msgs
+		ON Match.userid = Msgs.userid
+		GROUP BY Match.userId
+		ORDER BY COUNT(Msgs.messageChar) DESC"
 		);
 
 	$users_matches = array();

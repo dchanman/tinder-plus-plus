@@ -33,7 +33,8 @@
     <span class="caret"></span></a>
     <ul class="dropdown-menu">
 		<li role="presentation"><a href='tinder-test.php'>Database Tables</a></li>
-		<li role="presentation"><a href='tinder-test.php'>CS304 Student Info</a></li>
+		<li role="presentation"><a href='studentinfo.php'>CS304 Student Info</a></li>
+		<li role="presentation"><a href='https://github.com/dchanman/tinder-plus-plus'>GitHub Source</a></li>
     </ul>
   	</li>
 </ul>

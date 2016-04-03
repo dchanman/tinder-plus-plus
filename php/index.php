@@ -42,6 +42,7 @@
   </head>
 
   <body>
+    <?php include 'menu.php';?>
 
     <div class="site-wrapper">
 
@@ -64,10 +65,7 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">Tinder ++</h1>
-            <br>
-            <br>
-            <p class="lead"> Welcome to Tinder ++ <br>
-              Find your lover today and share the happiness.</p>
+            <p class="lead">Find your perfect match and your perfect date</p>
             <p class="lead">
               <input type="submit" class="btn btn-lg btn-default" value ="User Log In" onclick="UserLogin()">
               <input type="submit" class="btn btn-lg btn-default" value = "Business Log In" onclick="BusinessLogin()">

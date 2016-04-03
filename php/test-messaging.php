@@ -27,6 +27,11 @@
  			<button name='orderByCommonInterests' class='btn btn-link' type='submit'>Order By Common Interests</button>
  		</form>
  	</li>
+  	<li role="presentation">
+ 		<form method='POST' action='test-messaging.php'>
+ 			<button name='defaultOrder' class='btn btn-link' type='submit'>Default Ordering</button>
+ 		</form>
+ 	</li>
  	</ul>
 
  	<?php
@@ -34,27 +39,33 @@
 			if ($db_conn) {
 
 			/* default query function pointer set here */
-			$queryFunctionPtr = 'query_getSuccessfulMatches';
+			$queryFunctionPtr = $_SESSION['matchOrderBy'];
+			if ($_SESSION['matchOrderBy'] === FALSE)
+				$queryFunctionPtr = 'query_getSuccessfulMatches';
 
-				/* Handle POSTs */
-				if (array_key_exists('insert_sendMessage', $_POST)) {
-					insert_sendMessage($user_userid, $_POST['insert_sendMessage'], $_POST['messageStr']);
-					/* Commit to save changes... */
-    				OCICommit($db_conn);
 
-				} else if (array_key_exists('block', $_POST)) {
-					echo "<p>blocking ".$_POST['block']."</p>";
-					insert_match($user_userid, $_POST['block'], 'f');
-					/* Commit to save changes... */
-    				OCICommit($db_conn);
+			/* Handle POSTs */
+			if (array_key_exists('insert_sendMessage', $_POST)) {
+				insert_sendMessage($user_userid, $_POST['insert_sendMessage'], $_POST['messageStr']);
+				/* Commit to save changes... */
+				OCICommit($db_conn);
 
-				} else if (array_key_exists('orderByMessageCount', $_POST)) {
-					echo "ordering by msg";
-					$queryFunctionPtr = 'query_getSuccessfulMatchesOrderByMessageCount';
-				} else if (array_key_exists('orderByCommonInterests', $_POST)) {
-					echo "ordering by ints ";
-					$queryFunctionPtr = 'query_getSuccessfulMatchesOrderByCommonInterests';
-				}
+			} else if (array_key_exists('block', $_POST)) {
+				echo "<p>blocking ".$_POST['block']."</p>";
+				insert_match($user_userid, $_POST['block'], 'f');
+				/* Commit to save changes... */
+				OCICommit($db_conn);
+
+			} else if (array_key_exists('orderByMessageCount', $_POST)) {
+				$queryFunctionPtr = 'query_getSuccessfulMatchesOrderByMessageCount';
+				$_SESSION['matchOrderBy'] = $queryFunctionPtr;
+			} else if (array_key_exists('orderByCommonInterests', $_POST)) {
+				$queryFunctionPtr = 'query_getSuccessfulMatchesOrderByCommonInterests';
+				$_SESSION['matchOrderBy'] = $queryFunctionPtr;
+			} else if (array_key_exists('defaultOrder', $_POST)) {
+				$queryFunctionPtr = 'query_getSuccessfulMatches';
+				$_SESSION['matchOrderBy'] = $queryFunctionPtr;
+			}
 				
 			
 			if ($_SESSION['login_user']) {
@@ -82,7 +93,7 @@
 					$commonInterests = $commonInterestResult['commonInterests'];
 
 					if (!isset($commonInterests)) {
-						echo "<h5>Find something in common through messaging ASAP! </h5></br>";
+						echo "<h4>Find something in common through messaging!</h4></br>";
 					} else {
 						echo "<h4>Common Interests: </h4><ul>";
 						foreach ($commonInterests as $commonInterest){
@@ -104,13 +115,13 @@
 					/* Create SEND button with the value set to the receiverID */
 		      		echo "<form method='POST' action='test-messaging.php'>
 					<input type='text' name='messageStr'>
-					<button name='insert_sendMessage' value='$matchId' class='btn btn-default' type='submit'>Send</button>
+					<button name='insert_sendMessage' value='$matchId' class='btn btn-info' type='submit'>Send</button>
 					</form>";
 					/* View Suggested Date Based on the common interest */
-					echo "<input id='suggestedDate' type='submit' value='View Suggested Date' class='btn btn-default' name='suggestedDate' onclick='viewSuggestedDate()'>";
+					echo "<input id='suggestedDate' type='submit' value='View Suggested Date' class='btn btn-warning' name='suggestedDate' onclick='viewSuggestedDate()'>";
 					/* Create BLOCK button with the value set to the receiverID */
 		      		echo "<form method='POST' action='test-messaging.php'>
-					<button name='block' value='$matchId' type='submit' class='btn btn-default' onclick='blockUser()'>Block</button>
+					<button name='block' value='$matchId' type='submit' class='btn btn-danger' onclick='blockUser()'>Block</button>
 					</form>";
 		      	}
 			}

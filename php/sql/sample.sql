@@ -4,7 +4,6 @@ INSERT INTO Interest VALUES ('Nightlife');
 INSERT INTO Interest VALUES ('Movies');
 INSERT INTO Interest VALUES ('Music');
 INSERT INTO Interest VALUES ('Romance');
-INSERT INTO Interest VALUES ('Board Games');
 INSERT INTO Interest VALUES ('Dancing');
 
 INSERT INTO Locations VALUES ('Richmond');

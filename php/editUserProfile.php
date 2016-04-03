@@ -92,16 +92,20 @@ if ($db_conn) {
 			<?php
 			echo 'Name: <input type="text" class="form-control" name="name_text" size="6" value="'.$user_name.'"><br>';
 			echo 'Age: <input type="text" class="form-control" name="age_text" size="6" value="'.$user_age.'"><br>';
+			
+			/* Location dropdown box */
 			echo 'Location:
-			<select name="location_text" class="form-control">
-				<option value="UBC">UBC</option>
-				<option value="Vancouver">Vancouver</option>
-				<option value="North Vancouver">North Vancouver</option>
-				<option value="Downtown">Downtown Vancouver</option>
-				<option value="Langley">Langley</option>
-				<option value="Richmond">Richmond</option>
-				<option selected=selected>'.$user_location.'</option>
-			</select><br>';
+			<select name="location_text" class="form-control">';
+			$locations = query_getLocations();
+			foreach($locations as $loc) {
+				/* We want to autoselect the current location */
+				if (strcmp($business_location, $loc) == 0)
+					echo "<option value='$loc' selected=selected>$loc</option>";
+				else
+					echo "<option value='$loc'>$loc</option>";
+			}
+			echo '</select><br>';
+
 			echo 'Gender: <br>
 			<input type="radio" name="gender" value="m" '.($user_gender == "m" ? 'checked="checked"' : '').'> Male<br>
 			<input type="radio" name="gender" value="f" '.($user_gender == "f" ? 'checked="checked"' : '').'> Female<br>';

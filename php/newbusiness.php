@@ -1,7 +1,11 @@
 <html>
  	<head>
   		<title>Welcome to Tinder++</title>
-		<?php include 'head-includes.php' ?>
+		<?php
+			include 'head-includes.php';
+			include 'credentials.php';
+  			include 'sql-cmds.php';
+		?>
 	</head>
  	<body>
 		<?php include 'menu.php';?>
@@ -11,14 +15,18 @@
 			<input type="password" name="password_text" class="form-control" size="20" placeholder="Password"><br>
 			<input type="password" name="confirm_password_text" class="form-control" size="20" placeholder="Confirm Password"><br>
 
-			Location: <select name="location_text" class="form-control">
-				<option value="UBC">UBC</option>
-				<option value="Vancouver">Vancouver</option>
-				<option value="North Vancouver">North Vancouver</option>
-				<option value="Downtown">Downtown Vancouver</option>
-				<option value="Langley">Langley</option>
-				<option value="Richmond">Richmond</option>
-			</select><br>'
+			<?php
+			/* Location dropdown box */
+			echo 'Location:
+			<select name="location_text" class="form-control">';
+			$locations = query_getLocations();
+			foreach($locations as $loc) {
+				echo "<option value='$loc'>$loc</option>";
+			}
+			echo "<option selected=selected></option>";
+			echo '</select><br>';
+			?>
+
 			<input type="submit" value="Signup your Business!" class="btn btn-default" name="signup">
 		</form>
 		</body>
@@ -26,9 +34,6 @@
 </html>
 
 <?php
-  include 'credentials.php';
-  include 'sql-cmds.php';
-
   if ($db_conn) {
 
    if (array_key_exists('signup', $_POST)) {
@@ -41,6 +46,11 @@
 		if($_POST['password_text'] != $_POST['confirm_password_text']){
 			echo "Passwords don't match";
 			printResult($result);
+			return;
+		}
+
+		if ($_POST['location_text'] == NULL) {
+			echo "Please specify your location";
 			return;
 		}
 

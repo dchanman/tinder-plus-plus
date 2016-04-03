@@ -509,6 +509,19 @@ function query_getConversation($myid, $otheruser) {
 	return $convo;
 }
 
+function query_getLocations() {
+	$result = executePlainSQL(
+		"SELECT location FROM Locations ORDER BY location ASC"
+	);
+
+	$locations = array();
+
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	    array_push($locations, trim($row[LOCATION]));
+	}
+
+	return $locations;
+}
 /* OCIParse() Prepares Oracle statement for execution
       The two arguments are the connection and SQL query. */
 /* OCIExecute() executes a previously parsed statement

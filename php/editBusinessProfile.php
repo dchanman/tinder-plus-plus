@@ -24,9 +24,6 @@ if ($db_conn) {
 		exit();
 	}
 
-	/* LOG OFF WHEN YOU'RE DONE! */
-	OCILogoff($db_conn);
-
 } else { /* if ($db_conn) */
 	echo "cannot connect";
 	$e = OCI_Error(); // For OCILogon errors pass no handle
@@ -50,20 +47,27 @@ if ($db_conn) {
 		
 		<form method="POST" action="editBusinessProfile.php" class="form-inline">
 		<?php
+			/* Location dropdown box */
 			echo 'Location:
-			<select name="location_text" class="form-control">
-				<option value="UBC">UBC</option>
-				<option value="Vancouver">Vancouver</option>
-				<option value="North Vancouver">North Vancouver</option>
-				<option value="Downtown">Downtown Vancouver</option>
-				<option value="Langley">Langley</option>
-				<option value="Richmond">Richmond</option>
-				<option selected=selected>'.$business_location.'</option>
-			</select><br>';
+			<select name="location_text" class="form-control">';
+			$locations = query_getLocations();
+			foreach($locations as $loc) {
+				/* We want to autoselect the current location */
+				if (strcmp($business_location, $loc) == 0)
+					echo "<option value='$loc' selected=selected>$loc</option>";
+				else
+					echo "<option value='$loc'>$loc</option>";
+			}
+			echo '</select><br>';
 			?>
 			<input type="submit" class="btn btn-default" value="Edit" action="editBusinessProfile.php" name="editBusinessProfile">
 			<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">
 		</form>
+
+		<?php
+			/* LOG OFF WHEN YOU'RE DONE! */
+			OCILogoff($db_conn);
+		?>
 		</body>
 	</body>
 </html>

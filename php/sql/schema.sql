@@ -109,8 +109,8 @@ CREATE TABLE Business
 (
 BusinessID CHAR(30) NOT NULL,
 BusinessName CHAR(30) UNIQUE NOT NULL,
-Location CHAR(30),
-PasswordHash CHAR(48),
+Location CHAR(30) NOT NULL,
+PasswordHash CHAR(48) NOT NULL,
 PRIMARY KEY (BusinessID),
 FOREIGN KEY (Location) REFERENCES Locations(Location) ON DELETE SET NULL
 );
@@ -127,7 +127,7 @@ Activity CHAR(50) NOT NULL,
 BusinessName CHAR(30) NOT NULL,
 ScheduledTime DATE NOT NULL,
 DateLocation CHAR(30) NOT NULL,
-Discount INTEGER,
+Discount INTEGER NOT NULL,
 PRIMARY KEY (Activity, BusinessName, ScheduledTime, DateLocation),
 FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE,
 FOREIGN KEY (DateLocation) REFERENCES Locations(Location) ON DELETE SET NULL
@@ -144,9 +144,9 @@ FOREIGN KEY (Interest) REFERENCES Interest(InterestType) ON DELETE CASCADE
 
 CREATE TABLE SuggestedBy
 (
-ScheduledTime Date,
-Location CHAR(50),
-Discount CHAR(50),
+ScheduledTime Date NOT NULL,
+Location CHAR(50) NOT NULL,
+Discount CHAR(50) NOT NULL,
 ActivityName CHAR(50) NOT NULL,
 BusinessName CHAR(30) NOT NULL,
 PRIMARY KEY (ScheduledTime, Location, ActivityName, BusinessName),

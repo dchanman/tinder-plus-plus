@@ -1,7 +1,11 @@
 <html>
  	<head>
   		<title>Welcome to Tinder++</title>
-		<?php include 'head-includes.php' ?>
+		<?php
+			include 'head-includes.php';
+		 	include 'credentials.php';
+  			include 'sql-cmds.php';
+  		?>
 	</head>
  	<body>
 		<?php include 'menu.php';?>
@@ -13,15 +17,17 @@
 			echo '<input type="password" name="password_text" class="form-control" size="20" placeholder="Password"><br>';
 			echo '<input type="password" name="confirm_password_text" class="form-control" size="20" placeholder="Confirm Password"><br>';
 			echo '<input type="text" name="age_text" class="form-control" size="6" placeholder="Age"><br>';
+
+			/* Location dropdown box */
 			echo 'Location:
-			<select name="location_text" class="form-control">
-				<option value="UBC">UBC</option>
-				<option value="Vancouver">Vancouver</option>
-				<option value="North Vancouver">North Vancouver</option>
-				<option value="Downtown">Downtown Vancouver</option>
-				<option value="Langley">Langley</option>
-				<option value="Richmond">Richmond</option>
-			</select><br>';
+			<select name="location_text" class="form-control">';
+			$locations = query_getLocations();
+			foreach($locations as $loc) {
+				echo "<option value='$loc'>$loc</option>";
+			}
+			echo "<option selected=selected></option>";
+			echo '</select><br>';
+
 			echo 'Gender: <br>
 			<input type="radio" name="gender" value="m"> Male<br>
 			<input type="radio" name="gender" value="f"> Female<br>';
@@ -36,8 +42,6 @@
 </html>
 
 <?php
-  include 'credentials.php';
-  include 'sql-cmds.php';
 
   if ($db_conn) {
 
@@ -62,6 +66,11 @@
 		if($_POST['password_text'] != $_POST['confirm_password_text']){
 			echo "Passwords don't match";
 			printResult($result);
+			return;
+		}
+
+		if ($_POST['location_text'] == NULL) {
+			echo "Please specify your location";
 			return;
 		}
 

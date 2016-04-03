@@ -12,6 +12,13 @@ DROP SEQUENCE UserIDSequence;
 DROP SEQUENCE BusinessIDSequence;
 DROP SEQUENCE MessageIDSequence;
 DROP TABLE Users;
+DROP TABLE Locations;
+
+CREATE TABLE Locations
+(
+Location CHAR(30) NOT NULL,
+PRIMARY KEY (Location)
+);
 
 CREATE TABLE Users
 (
@@ -24,7 +31,8 @@ Age INTEGER NOT NULL,
 Gender CHAR(1) NOT NULL,
 Preference CHAR(2) NOT NULL,
 PasswordHash CHAR(48),
-PRIMARY KEY (UserID)
+PRIMARY KEY (UserID),
+FOREIGN KEY (Location) REFERENCES Locations(Location) ON DELETE SET NULL
 );
 
 CREATE SEQUENCE UserIDSequence
@@ -101,9 +109,10 @@ CREATE TABLE Business
 (
 BusinessID CHAR(30) NOT NULL,
 BusinessName CHAR(30) UNIQUE NOT NULL,
-Location CHAR(50),
+Location CHAR(30),
 PasswordHash CHAR(48),
-PRIMARY KEY (BusinessID)
+PRIMARY KEY (BusinessID),
+FOREIGN KEY (Location) REFERENCES Locations(Location) ON DELETE SET NULL
 );
 
 CREATE TABLE Interest
@@ -117,10 +126,11 @@ CREATE TABLE ActivityTime
 Activity CHAR(50) NOT NULL,
 BusinessName CHAR(30) NOT NULL,
 ScheduledTime DATE NOT NULL,
-DateLocation CHAR(50) NOT NULL,
+DateLocation CHAR(30) NOT NULL,
 Discount INTEGER,
 PRIMARY KEY (Activity, BusinessName, ScheduledTime, DateLocation),
-FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE
+FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE,
+FOREIGN KEY (DateLocation) REFERENCES Locations(Location) ON DELETE SET NULL
 );
 
 CREATE TABLE InterestedIn

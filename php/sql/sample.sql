@@ -7,6 +7,10 @@ INSERT INTO Interest VALUES ('Romance');
 INSERT INTO Interest VALUES ('Board Games');
 INSERT INTO Interest VALUES ('Dancing');
 
+INSERT INTO Locations VALUES ('Richmond');
+INSERT INTO Locations VALUES ('Vancouver');
+INSERT INTO Locations VALUES ('Delta');
+INSERT INTO Locations VALUES ('Downtown');
 
 
 INSERT INTO Users VALUES (UserIDSequence.nextval, 'adam', 'Adam', '97-03-26', 'Vancouver', 21, 'm', 'm', 'hunter2');
@@ -117,10 +121,10 @@ INSERT INTO Match VALUES (3,5, 't');
 INSERT INTO Match VALUES (4,5, 'f');
 INSERT INTO Match VALUES (5,5, 't');
 
-INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'DereksMarshmellows', 'DereksHouse', 'password');
-INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'Mcdicks', 'murica', 'password');
-INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'anw', 'murica', 'password');
-INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'celebs', 'vancouver', 'password');
+INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'DereksMarshmellows', 'Vancouver', 'password');
+INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'Mcdicks', 'Richmond', 'password');
+INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'anw', 'Delta', 'password');
+INSERT INTO Business VALUES(BusinessIDSequence.nextval, 'celebs', 'Downtown', 'password');
 
 
 

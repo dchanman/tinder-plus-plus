@@ -15,26 +15,52 @@
 		</script>
 	</head>
  	<body>
-		<?php
-			include 'menu.php';
+ 	<?php include 'menu.php' ?>
+ 	<ul class = "nav nav-tabs">
+ 	<li role="presentation">
+ 		<form method='POST' action='test-messaging.php'>
+ 			<button name='orderByMessageCount' class='btn btn-link' type='submit'>Order By Message Count</button>
+ 		</form>
+ 	</li>
+ 	<li role="presentation">
+ 		<form method='POST' action='test-messaging.php'>
+ 			<button name='orderByCommonInterests' class='btn btn-link' type='submit'>Order By Common Interests</button>
+ 		</form>
+ 	</li>
+ 	</ul>
+
+ 	<?php
+		
 			if ($db_conn) {
+
+			/* default query function pointer set here */
+			$queryFunctionPtr = 'query_getSuccessfulMatches';
+
 				/* Handle POSTs */
 				if (array_key_exists('insert_sendMessage', $_POST)) {
 					insert_sendMessage($user_userid, $_POST['insert_sendMessage'], $_POST['messageStr']);
 					/* Commit to save changes... */
     				OCICommit($db_conn);
+
 				} else if (array_key_exists('block', $_POST)) {
 					echo "<p>blocking ".$_POST['block']."</p>";
 					insert_match($user_userid, $_POST['block'], 'f');
 					/* Commit to save changes... */
     				OCICommit($db_conn);
+
+				} else if (array_key_exists('orderByMessageCount', $_POST)) {
+					echo "ordering by msg";
+					$queryFunctionPtr = 'query_getSuccessfulMatchesOrderByMessageCount';
+				} else if (array_key_exists('orderByCommonInterests', $_POST)) {
+					echo "ordering by ints ";
+					$queryFunctionPtr = 'query_getSuccessfulMatchesOrderByCommonInterests';
 				}
 				
 			
 			if ($_SESSION['login_user']) {
 				$username = $_SESSION['login_user'];
 				$id = query_getIdFromUsername($username);
-				$matchIds = query_getSuccessfulMatches($id);
+				$matchIds = $queryFunctionPtr($id);
 		
 				/* Display the users */
 	      		foreach ($matchIds as $matchId) {

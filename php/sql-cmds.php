@@ -193,6 +193,52 @@ function query_getSuccessfulMatches($userid) {
 	return $users_matches;
 }
 
+function query_getSuccessfulMatchesOrderByMessageCount($userid) {
+	$s = executePlainSQL(
+		"SELECT Match.userid FROM
+			(SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = $userid
+			UNION
+			SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = $userid) Match
+		INNER JOIN 
+			(SELECT I1.userid, I1.interest FROM InterestedIn I1
+			INNER JOIN InterestedIn I2
+			ON I1.interest = I2.interest AND I1.userid <> $userid AND I2.userid = $userid) CommonInterests
+		ON Match.userid = CommonInterests.userid
+		GROUP BY Match.userid
+		ORDER BY COUNT(*) ASC"
+		);
+
+	$users_matches = array();
+	while (($row = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	   	array_push($users_matches, $row[USERID]);
+	}
+
+	return $users_matches;	
+}
+
+function query_getSuccessfulMatchesOrderByCommonInterests($userid) {
+	$s = executePlainSQL(
+		"SELECT Match.userid FROM
+			(SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = $userid
+			UNION
+			SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = $userid) Match
+		INNER JOIN 
+			(SELECT I1.userid, I1.interest FROM InterestedIn I1
+			INNER JOIN InterestedIn I2
+			ON I1.interest = I2.interest AND I1.userid <> $userid AND I2.userid = $userid) CommonInterests
+		ON Match.userid = CommonInterests.userid
+		GROUP BY Match.userid
+		ORDER BY COUNT(*) DESC"
+		);
+
+	$users_matches = array();
+	while (($row = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	   	array_push($users_matches, $row[USERID]);
+	}
+
+	return $users_matches;	
+}
+
 function insert_addNewUser($username, $name, $location, $age, $gender, $preference, $password) {
 	$result = executePlainSQL_errReturn(
 		"INSERT INTO users VALUES (

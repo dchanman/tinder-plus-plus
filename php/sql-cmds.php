@@ -417,6 +417,27 @@ function query_getUnmatchedUsers($userid) {
 	return $returntuple;
 }
 
+function query_getActivitiesWithCompanyName($businessname) {
+	$result = executePlainSQL(
+		"SELECT * FROM Activity WHERE businessName = '$businessname'"
+	);
+
+	$activities = array();
+
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+		$activity = array(
+			"activity" => trim($row[ACTIVITY]),
+			"businessName" => trim($row[BUSINESSNAME]),
+			"scheduledTime" => trim($row[SCHEDULEDTIME]),
+			"interestType" => trim($row[INTERESTTYPE]),
+			"discount" => trim($row[DISCOUNT])
+			);
+	    array_push($activities, $activity);
+	}
+
+	return $activities;
+}
+
 function insert_match($matcherUserID, $matcheeUserID, $match) {
 	/* INSERT into Match, or UPDATE if entry exists */
 	$result = executePlainSQL(

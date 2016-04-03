@@ -34,6 +34,25 @@ $name = $_SESSION['login_business'];
 		Location: <i><?php echo $business_location; ?></i><br>
 		</p>
 
+		<?php
+		/* Print activities */
+		echo "<h2>Your Activities</h2>";
+		$activities = query_getActivitiesWithCompanyName($name);
+		echo "<table border=0>";
+		echo "<th>Activity</th>";
+		echo "<th>Scheduled Time</th>";
+		echo "<th>Discount</th>";
+		foreach ($activities as $activity) {
+			echo "<tr>";
+			echo "<td>" . $activity['activity'] . "</td>";
+			echo "<td>" . $activity['scheduledTime'] . "</td>";
+			echo "<td>" . $activity['discount'] . "</td>";
+			echo "</tr>";
+		}
+		echo "</table>";
+
+		?>
+
 		<input id="editProfile" type="submit" value="Edit Profile" name="editProfile" class="btn btn-default" onclick="editBusinessProfile();">
 		<input id="logout" type="submit" value="Logout" name="logout" class="btn btn-default" onclick="logout();">
 	</body>

@@ -85,61 +85,63 @@ if ($db_conn) {
 	</head>
 	<body>
 		<?php include 'menu.php';?>
-		<?php 
-		echo "<h1>Edit Profile ($user_name)</h1>";
-		?>
-		<form method="POST" class="form-inline">
-			<?php
-			echo 'Name: <input type="text" class="form-control" name="name_text" size="6" value="'.$user_name.'"><br>';
-			echo 'Age: <input type="text" class="form-control" name="age_text" size="6" value="'.$user_age.'"><br>';
-			
-			/* Location dropdown box */
-			echo 'Location:
-			<select name="location_text" class="form-control">';
-			$locations = query_getLocations();
-			foreach($locations as $loc) {
-				/* We want to autoselect the current location */
-				if (strcmp($business_location, $loc) == 0)
-					echo "<option value='$loc' selected=selected>$loc</option>";
-				else
-					echo "<option value='$loc'>$loc</option>";
-			}
-			echo '</select><br>';
+		<div class="maincontent">
+			<div class="container">
+				<h1 class='jumbotron' style='text-align: center;'>Edit Profile (<?php echo $user_name?>)</h1>
+				<form method="POST" class="form-inline">
+					<?php
+					echo 'Name: <input type="text" class="form-control" name="name_text" size="20" value="'.$user_name.'"><br>';
+					echo 'Age : <input type="text" class="form-control" name="age_text" size="20" value="'.$user_age.'"><br>';
+					
+					/* Location dropdown box */
+					echo 'Location:
+					<select name="location_text" class="form-control">';
+					$locations = query_getLocations();
+					foreach($locations as $loc) {
+						/* We want to autoselect the current location */
+						if (strcmp($business_location, $loc) == 0)
+							echo "<option value='$loc' selected=selected>$loc</option>";
+						else
+							echo "<option value='$loc'>$loc</option>";
+					}
+					echo '</select><br>';
 
-			echo 'Gender: <br>
-			<input type="radio" name="gender" value="m" '.($user_gender == "m" ? 'checked="checked"' : '').'> Male<br>
-			<input type="radio" name="gender" value="f" '.($user_gender == "f" ? 'checked="checked"' : '').'> Female<br>';
-			echo 'Preference: <br>';
-			echo '<input type="checkbox" name="interestedInMen" value="m" '.(strpos($user_preference, 'm') === FALSE ? '' : 'checked').'> Men</checkbox><br>';
-			echo '<input type="checkbox" name="interestedInWomen" value="f" '.(strpos($user_preference, 'f') === FALSE ? '' : 'checked').'> Women</checkbox><br>';
-			?>
-			<input type="submit" class="btn btn-default" value="Edit" action="editUserProfile.php" name="editUserProfile">
-			<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">
-		</form>
+					echo 'Gender: <br>
+					<input type="radio" name="gender" value="m" '.($user_gender == "m" ? 'checked="checked"' : '').'> Male<br>
+					<input type="radio" name="gender" value="f" '.($user_gender == "f" ? 'checked="checked"' : '').'> Female<br>';
+					echo 'Preference: <br>';
+					echo '<input type="checkbox" name="interestedInMen" value="m" '.(strpos($user_preference, 'm') === FALSE ? '' : 'checked').'> Men</checkbox><br>';
+					echo '<input type="checkbox" name="interestedInWomen" value="f" '.(strpos($user_preference, 'f') === FALSE ? '' : 'checked').'> Women</checkbox><br>';
+					?>
+					<input type="submit" class="btn btn-default" value="Edit" action="editUserProfile.php" name="editUserProfile">
+					<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">
+				</form>
 
-		<?php
-		/* Print photos */
-		echo "<h1>Edit Photos</h1>";
-		$result = query_images($user_userid);
-		for ($i = 0; $i < 3; $i++) {
-      		echo "<p><img src=\"" . $result[$i] . "\" width=100></img></p>";
-      		echo '<form method="POST" class="form-inline">';
-      		echo '<input type="text" class="form-control" name="img" size="80" value='.$result[$i].'>';
-      		echo '<input type="hidden" name="imgindex" value="'.$i.'"">';
-      		echo '<input type="submit" class="btn btn-default" value="Edit" action="editUserProfile.php" name="editUserImage"><br>';
-      		echo '</form>';
-      	}
-      	echo "</ul>";
-      	?>
-      	
+				<?php
+				/* Print photos */
+				echo "<h1>Edit Photos</h1>";
+				$result = query_images($user_userid);
+				for ($i = 0; $i < 3; $i++) {
+					echo "<p><img src=\"" . $result[$i] . "\" width=100></img></p>";
+					echo '<form method="POST" class="form-inline">';
+					echo '<input type="text" class="form-control" name="img" size="80" value='.$result[$i].'>';
+					echo '<input type="hidden" name="imgindex" value="'.$i.'"">';
+					echo '<input type="submit" class="btn btn-default" value="Edit" action="editUserProfile.php" name="editUserImage"><br>';
+					echo '</form>';
+				}
+				echo "</ul>";
+				?>
+				
 
-		<h1>Delete Account</h1>
-		<input type="button" class="btn btn-default" value="Delete Account" onclick="deleteAccount();">
+				<h1>Delete Account</h1>
+				<input type="button" class="btn btn-danger" value="Delete Account" onclick="deleteAccount();"><br><br>
 
-		<?php
-		/* Log out when finished! */
-		OCILogoff($db_conn);
-		?>
+				<?php
+				/* Log out when finished! */
+				OCILogoff($db_conn);
+				?>
+			</div>
+		</div>
 
 	</body>
 </html>

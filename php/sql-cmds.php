@@ -242,6 +242,35 @@ function query_getSuccessfulMatchesOrderByCommonInterests($userid) {
 	return $users_matches;	
 }
 
+function query_getPerfectMatches($userid) {
+	$s = executePlainSQL(
+
+		"SELECT userid FROM Users U
+		WHERE NOT EXISTS (
+			SELECT interest FROM InterestedIn I
+			WHERE I.userid =  1
+			AND NOT EXISTS (
+				SELECT interest FROM InterestedIn I2
+				WHERE I2.userid = U.userid
+				AND I.interest = I2.interest
+			)
+		)
+		INTERSECT
+		(
+			SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = 1
+			UNION
+			SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = 1
+		)"
+		);
+
+	$users_matches = array();
+	while (($row = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	   	array_push($users_matches, $row[USERID]);
+	}
+
+	return $users_matches;
+}
+
 function insert_addNewUser($username, $name, $location, $age, $gender, $preference, $password) {
 	$result = executePlainSQL_errReturn(
 		"INSERT INTO users VALUES (

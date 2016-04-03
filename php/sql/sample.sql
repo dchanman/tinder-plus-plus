@@ -102,12 +102,25 @@ INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM U
 	1);
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'Emmett'), 'Hiking');
 
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'stacy', 'Stacy', '92-01-30', 'Vancouver', 20, 'm', 'f', 'hunter2');
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'stacy'),
+	'https://makeameme.org/media/templates/250/scumbag-stacy.jpg',
+	1);
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'stacy'), 'Hiking');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'stacy'), 'Nightlife');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'stacy'), 'Food');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'stacy'), 'Movies');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'stacy'), 'Music');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'stacy'), 'Romance');
+
 INSERT INTO Match VALUES (1,1, 't');
 INSERT INTO Match VALUES (2,1, 't');
 INSERT INTO Match VALUES (3,1, 't');
 INSERT INTO Match VALUES (4,1, 't');
 INSERT INTO Match VALUES (5,1, 't');
 INSERT INTO Match VALUES (6,1, 't');
+INSERT INTO Match VALUES (7,1, 'f');
+INSERT INTO Match VALUES (8,1, 't');
 
 INSERT INTO Match VALUES (1,2, 'f');
 INSERT INTO Match VALUES (2,2, 'f');
@@ -143,6 +156,8 @@ INSERT INTO Match VALUES (3,6, 't');
 INSERT INTO Match VALUES (4,6, 't');
 INSERT INTO Match VALUES (5,6, 't');
 INSERT INTO Match VALUES (6,6, 't');
+
+INSERT INTO Match VALUES (1,8, 't');
 
 INSERT INTO Message VALUES (MessageIDSequence.nextval,
 	(SELECT userID FROM Users WHERE username = 'gina'),

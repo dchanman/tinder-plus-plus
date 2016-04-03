@@ -15,11 +15,12 @@ include 'verify.php';
 	</head>
  	<body>
 		<?php include 'menu.php';?>
- 		<h1>Tinder++ Business Login</h1>
+ 		<h1 style="width:800px; margin:0 auto;">Tinder++ Business Login</h1>
  		</br>
+ 		<p style="width:800px; margin:0 auto;">
  			Before you can enjoy our new features, please log in to continue</p>
 
-		<div id="login">
+		<div id="login" style="width:800px; margin:0 auto;">
  			<form method="POST" action="business_login.php" class="form-inline">
 
  					<div class="col-xs-3 form-group">

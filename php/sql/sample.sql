@@ -19,6 +19,7 @@ INSERT INTO ScheduledTimes VALUES ('Evening');
 INSERT INTO ScheduledTimes VALUES ('Night');
 
 
+
 INSERT INTO Users VALUES (UserIDSequence.nextval, 'adam', 'Adam', '97-03-26', 'Vancouver', 21, 'm', 'm', 'hunter2');
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'adam'),
 	'https://upload.wikimedia.org/wikipedia/commons/8/8f/Lucas_Cranach_the_Elder_-_Adam_und_Eva_im_Paradies_(S%C3%BCndenfall)_-_Google_Art_Project.jpg',
@@ -31,7 +32,10 @@ INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM U
 	3);
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'adam'), 'Hiking');
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'adam'), 'Nightlife');
-
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'adam'), 'Food');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'adam'), 'Movies');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'adam'), 'Music');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'adam'), 'Romance');
 
 
 
@@ -62,6 +66,8 @@ INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM U
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'gina'), 'Hiking');
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'gina'), 'Food');
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'gina'), 'Nightlife');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'gina'), 'Movies');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'gina'), 'Music');
 
 
 
@@ -73,7 +79,7 @@ INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM U
 	'http://data.whicdn.com/images/64768473/large.png',
 	2);
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'lisa'), 'Hiking');
-INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'lisa'), 'Food');
+
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'lisa'), 'Nightlife');
 
 
@@ -102,30 +108,68 @@ INSERT INTO Match VALUES (2,1, 't');
 INSERT INTO Match VALUES (3,1, 't');
 INSERT INTO Match VALUES (4,1, 't');
 INSERT INTO Match VALUES (5,1, 't');
+INSERT INTO Match VALUES (6,1, 't');
 
 INSERT INTO Match VALUES (1,2, 'f');
 INSERT INTO Match VALUES (2,2, 'f');
 INSERT INTO Match VALUES (3,2, 'f');
 INSERT INTO Match VALUES (4,2, 'f');
 INSERT INTO Match VALUES (5,2, 'f');
+INSERT INTO Match VALUES (6,2, 't');
 
 INSERT INTO Match VALUES (1,3, 't');
 INSERT INTO Match VALUES (2,3, 'f');
 INSERT INTO Match VALUES (3,3, 't');
 INSERT INTO Match VALUES (4,3, 'f');
 INSERT INTO Match VALUES (5,3, 't');
+INSERT INTO Match VALUES (6,3, 'f');
 
 INSERT INTO Match VALUES (1,4, 't');
 INSERT INTO Match VALUES (2,4, 't');
 INSERT INTO Match VALUES (3,4, 't');
 INSERT INTO Match VALUES (4,4, 't');
 INSERT INTO Match VALUES (5,4, 'f');
+INSERT INTO Match VALUES (6,4, 'f');
 
 INSERT INTO Match VALUES (1,5, 'f');
 INSERT INTO Match VALUES (2,5, 'f');
 INSERT INTO Match VALUES (3,5, 't');
 INSERT INTO Match VALUES (4,5, 'f');
 INSERT INTO Match VALUES (5,5, 't');
+INSERT INTO Match VALUES (6,5, 'f');
+
+INSERT INTO Match VALUES (1,6, 't');
+INSERT INTO Match VALUES (2,6, 't');
+INSERT INTO Match VALUES (3,6, 't');
+INSERT INTO Match VALUES (4,6, 't');
+INSERT INTO Match VALUES (5,6, 't');
+INSERT INTO Match VALUES (6,6, 't');
+
+INSERT INTO Message VALUES (MessageIDSequence.nextval,
+	(SELECT userID FROM Users WHERE username = 'gina'),
+	(SELECT userID FROM Users WHERE username = 'adam'),
+	'I like your picture', SYSDATE);
+INSERT INTO Message VALUES (MessageIDSequence.nextval,
+	(SELECT userID FROM Users WHERE username = 'gina'),
+	(SELECT userID FROM Users WHERE username = 'adam'),
+	'The one with the apple', SYSDATE);
+
+INSERT INTO Message VALUES (MessageIDSequence.nextval,
+	(SELECT userID FROM Users WHERE username = 'adam'),
+	(SELECT userID FROM Users WHERE username = 'lara'),
+	'Hello', SYSDATE);
+INSERT INTO Message VALUES (MessageIDSequence.nextval,
+	(SELECT userID FROM Users WHERE username = 'lara'),
+	(SELECT userID FROM Users WHERE username = 'adam'),
+	'Hey cutie', SYSDATE);
+INSERT INTO Message VALUES (MessageIDSequence.nextval,
+	(SELECT userID FROM Users WHERE username = 'adam'),
+	(SELECT userID FROM Users WHERE username = 'lara'),
+	'So you like hiking?', SYSDATE);
+INSERT INTO Message VALUES (MessageIDSequence.nextval,
+	(SELECT userID FROM Users WHERE username = 'lara'),
+	(SELECT userID FROM Users WHERE username = 'adam'),
+	'Yeah I do, what about you?', SYSDATE);
 
 INSERT INTO Business VALUES (BusinessIDSequence.nextval, 'DereksMarshmellows', 'Vancouver', 'password');
 

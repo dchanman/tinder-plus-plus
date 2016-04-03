@@ -210,7 +210,7 @@ function insert_addNewUser($username, $name, $location, $age, $gender, $preferen
 }
 
 function insert_addNewBusiness($username, $location, $password) {
-	$esult = executePlainSQL(
+	$result = executePlainSQL_errReturn(
 		"INSERT INTO Business VALUES (
 			BusinessIDSequence.nextval,
 			'$username',

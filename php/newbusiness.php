@@ -32,6 +32,11 @@
   if ($db_conn) {
 
    if (array_key_exists('signup', $_POST)) {
+		
+		if($_POST['password_text'] == NULL) {
+			echo "Password cannot be blank";
+			return;
+		}
 
 		if($_POST['password_text'] != $_POST['confirm_password_text']){
 			echo "Passwords don't match";
@@ -39,9 +44,21 @@
 			return;
 		}
 
+
+
 		//$password_hash = crypt($_POST['password_text']);
 
-		insert_addNewBusiness($_POST['username_text'], $_POST['location_text'], $_POST['password_text']);
+		$resultArr = insert_addNewBusiness($_POST['username_text'], $_POST['location_text'], $_POST['password_text']);
+
+		if ($resultArr["SUCCESS"] == 0) {
+			if ($resultArr["ERRCODE"] == 1) {
+				echo "Username already exists!";
+			} else {
+				echo "Uh oh, unrecognized error code: ";
+				echo $resultArr['ERRCODE'];
+			}
+		}
+
 		OCICommit($db_conn);
 	}
 

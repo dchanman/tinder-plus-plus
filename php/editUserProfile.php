@@ -74,8 +74,12 @@ if ($db_conn) {
 		<?php include 'head-includes.php' ?>
 		<title>Editing Profile</title>
 		<script>
-			function backToProfile(){
+			function backToProfile() {
 				window.location = "user_profile.php";
+			}
+
+			function deleteAccount() {
+				window.location = "user_delete.php";
 			}
 		</script>
 	</head>
@@ -122,9 +126,15 @@ if ($db_conn) {
       		echo '</form>';
       	}
       	echo "</ul>";
-      	/* Log out when finished! */
+      	?>
+      	
+
+		<h1>Delete Account</h1>
+		<input type="button" value="Delete Account" onclick="deleteAccount();">
+
+		<?php
+		/* Log out when finished! */
 		OCILogoff($db_conn);
-		include 'footer_menu.php';
 		?>
 
 	</body>

@@ -209,6 +209,14 @@ function insert_addNewUser($username, $name, $location, $age, $gender, $preferen
 	return $result;
 }
 
+function delete_user($userid) {
+	$result = executePlainSQL_errReturn(
+		"DELETE FROM Users WHERE userid = $userid"
+		);
+
+	return $result;
+}
+
 function insert_addNewBusiness($username, $location, $password) {
 	$result = executePlainSQL_errReturn(
 		"INSERT INTO Business VALUES (

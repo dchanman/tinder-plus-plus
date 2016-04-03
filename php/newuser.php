@@ -6,15 +6,15 @@
  	<body>
 		<?php include 'menu.php';?>
 		<h1>Tinder++ Signup</h1><br>
-		<form method="POST" action="newuser.php">
+		<form method="POST" action="newuser.php" class="form-inline">
 			<?php
-			echo 'Username: <input type="text" name="username_text" size="6"><br>';
-			echo 'Name: <input type="text" name="name_text" size="6"><br>';
-			echo 'Password: <input type="password" name="password_text" size="6"><br>';
-			echo 'Confirm Password: <input type="password" name="confirm_password_text" size="6"><br>';
-			echo 'Age: <input type="text" name="age_text" size="6"><br>';
+			echo '<input type="text" name="username_text" class="form-control" size="20" placeholder="Username"><br>';
+			echo '<input type="text" name="name_text" class="form-control" size="20" placeholder="Name"><br>';
+			echo '<input type="password" name="password_text" class="form-control" size="20" placeholder="Password"><br>';
+			echo '<input type="password" name="confirm_password_text" class="form-control" size="20" placeholder="Confirm Password"><br>';
+			echo '<input type="text" name="age_text" class="form-control" size="6" placeholder="Age"><br>';
 			echo 'Location:
-			<select name="location_text">
+			<select name="location_text" class="form-control">
 				<option value="UBC">UBC</option>
 				<option value="Vancouver">Vancouver</option>
 				<option value="North Vancouver">North Vancouver</option>
@@ -30,7 +30,7 @@
 			echo 'Women: <input type="checkbox" name="interestedInWomen" value="f">';
 			?>
 			<br>
-			<input type="submit" value="Sign Up!" name="signup">
+			<input type="submit" value="Sign Up!" class="btn btn-default" name="signup">
 		</form>
 	</body>
 </html>
@@ -96,11 +96,17 @@
 				echo "Uh oh, unrecognized error code: ";
 				echo $resultArr['ERRCODE'];
 			}
-		}
-    	OCICommit($db_conn);
-	}
+		} else {
+			/* Made a new account successfully */
 
-    printTable('users');
+			/* Commit to database */
+			OCICommit($db_conn);
+    		OCILogoff($db_conn);
+
+			/* Redirect to login page */
+    		header("Location: user_login.php");
+		}
+	}
 
     /* LOG OFF WHEN YOU'RE DONE! */
     OCILogoff($db_conn);

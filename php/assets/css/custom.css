@@ -1,0 +1,19 @@
+.maincontent{
+	padding-top: 40px;
+	bottom: 50%;
+    left: 0;
+    right: 0;
+	text-align: center;
+}
+
+.container{
+	width: 1000px;
+}
+
+.text-inputbox{
+	margin-top: 5px;
+}
+
+.error{
+	color: red;
+}

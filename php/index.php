@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,15 +29,8 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script>
-      function UserLogin(){
-        window.location = "user_login.php";
-      }
 
-      function BusinessLogin(){
-        window.location = "business_login.php";
-      }
-    </script>
+	<script src="assets/js/custom.js"></script>
   </head>
 
   <body>
@@ -49,24 +41,12 @@
       <div class="site-wrapper-inner">
 
         <div class="cover-container">
-
           <div class="masthead clearfix">
-            <div class="inner">
-              <!-- <h3 class="masthead-brand">Cover</h3> -->
-              <!-- <nav>
-                <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Contact</a></li>
-                </ul>
-              </nav> -->
-            </div>
           </div>
 
           <div class="inner cover">
             <h1 class="cover-heading">Tinder++</h1>
             <p class="lead">Find your perfect match and your perfect date</p>
-            <p class="lead">
               <input type="submit" class="btn btn-lg btn-default" value ="User Log In" onclick="UserLogin()">
               <input type="submit" class="btn btn-lg btn-default" value = "Business Log In" onclick="BusinessLogin()">
             </p>
@@ -79,9 +59,7 @@
           </div>
 
         </div>
-
       </div>
-
     </div>
 
     <!-- Bootstrap core JavaScript

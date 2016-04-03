@@ -22,21 +22,28 @@
  	<?php include 'menu.php' ?>
 	<div class='maincontent'>
  	<ul class = "nav nav-tabs">
- 	<li role="presentation">
- 		<form method='POST' action='test-messaging.php'>
- 			<button name='orderByMessageCount' class='btn btn-link' type='submit'>Order By Message Count</button>
- 		</form>
- 	</li>
- 	<li role="presentation">
- 		<form method='POST' action='test-messaging.php'>
- 			<button name='orderByCommonInterests' class='btn btn-link' type='submit'>Order By Common Interests</button>
- 		</form>
- 	</li>
-  	<li role="presentation">
- 		<form method='POST' action='test-messaging.php'>
- 			<button name='defaultOrder' class='btn btn-link' type='submit'>Default Ordering</button>
- 		</form>
- 	</li>
+
+	 	<li class="dropdown">
+	    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sort Matches
+	    <span class="caret"></span></a>
+	    <ul class="dropdown-menu">
+		 	<li role="presentation">
+		 		<form method='POST' action='test-messaging.php'>
+		 			<button name='orderByMessageCount' class='btn btn-link' type='submit'>Order By Message Count</button>
+		 		</form>
+		 	</li>
+		 	<li role="presentation">
+		 		<form method='POST' action='test-messaging.php'>
+		 			<button name='orderByCommonInterests' class='btn btn-link' type='submit'>Order By Common Interests</button>
+		 		</form>
+		 	</li>
+		  	<li role="presentation">
+		 		<form method='POST' action='test-messaging.php'>
+		 			<button name='defaultOrder' class='btn btn-link' type='submit'>Default Ordering</button>
+		 		</form>
+		 	</li>
+		 </ul>
+
  	</ul>
 
  	<?php
@@ -63,9 +70,11 @@
 			} else if (array_key_exists('orderByMessageCount', $_POST)) {
 				$queryFunctionPtr = 'query_getSuccessfulMatchesOrderByMessageCount';
 				$_SESSION['matchOrderBy'] = $queryFunctionPtr;
+
 			} else if (array_key_exists('orderByCommonInterests', $_POST)) {
 				$queryFunctionPtr = 'query_getSuccessfulMatchesOrderByCommonInterests';
 				$_SESSION['matchOrderBy'] = $queryFunctionPtr;
+				
 			} else if (array_key_exists('defaultOrder', $_POST)) {
 				$queryFunctionPtr = 'query_getSuccessfulMatches';
 				$_SESSION['matchOrderBy'] = $queryFunctionPtr;

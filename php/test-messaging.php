@@ -61,9 +61,9 @@
 			if ($db_conn) {
 
 			/* default query function pointer set here */
-			$queryFunctionPtr = $_SESSION['matchOrderBy'];
-			if ($_SESSION['matchOrderBy'] === FALSE)
-				$queryFunctionPtr = 'query_getSuccessfulMatches';
+			$queryFunctionPtr = 'query_getSuccessfulMatches';			
+			if ($_SESSION['matchOrderBy'])
+				$queryFunctionPtr = $_SESSION['matchOrderBy'];
 
 
 			/* Handle POSTs */

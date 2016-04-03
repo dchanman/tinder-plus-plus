@@ -41,7 +41,7 @@ if ($db_conn) {
 
 		/* Commit to save changes... */
 		OCICommit($db_conn);
-		
+
 	} else if (array_key_exists('newBusinessActivity', $_POST)) {
 
 		insert_activity($name, $_POST['activity'], $_POST['scheduledTime'], $_POST['discount'], $_POST['interestType']);
@@ -94,7 +94,7 @@ if ($db_conn) {
 			echo "<option value='$int'>$int</option>";
   		}
   		echo "</select>";
-  		echo '<input type="submit" class="btn btn-default" value="Create" action="editBusinessActivities.php" name="newBusinessActivity"><br>';
+  		echo '<input type="submit" class="btn btn-default btn-success" value="Create" action="editBusinessActivities.php" name="newBusinessActivity"><br>';
 
   		echo "<hr>";
 
@@ -137,8 +137,8 @@ if ($db_conn) {
       		}
       		echo "</select>";
 
-      		echo '<button type="submit" class="btn btn-default" value="'.$i.'" action="editBusinessActivities.php" name="editBusinessActivities">Edit</button><br>';
-      		echo '<button type="submit" class="btn btn-default" value="'.$i.'" action="editBusinessActivities.php" name="deleteBusinessActivities">Delete</button><br>';
+      		echo '<button type="submit" class="btn btn-default btn-success" value="'.$i.'" action="editBusinessActivities.php" name="editBusinessActivities">Edit</button><br>';
+      		echo '<button type="submit" class="btn btn-default btn-danger" value="'.$i.'" action="editBusinessActivities.php" name="deleteBusinessActivities">Delete</button><br>';
 		}
 
 		echo "<hr>";

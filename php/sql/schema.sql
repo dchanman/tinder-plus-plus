@@ -34,6 +34,7 @@ Preference CHAR(2) NOT NULL,
 PasswordHash CHAR(48),
 PRIMARY KEY (UserID),
 FOREIGN KEY (Location) REFERENCES Locations(Location) ON DELETE SET NULL
+CHECK Age > 17 AND Age < 120
 );
 
 CREATE SEQUENCE UserIDSequence

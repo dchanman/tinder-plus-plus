@@ -10,25 +10,25 @@ if ($db_conn) {
 
 	if (array_key_exists('editUserProfile', $_POST)) {
 
-		if(!isset($_POST['name_text'])){
-			echo "Name cannot be null";
-			return;
-		}
-		/* gender must be selected */
-		if(!isset($_POST['gender'])){
-			echo "Gender cannot be null";
-			return;
-		}
-		/* age cannot be null */
-		if(!isset($_POST['age_text'])){
-			echo "Age cannot be null;";
-			return;
-		}
-		/* age restriction */
-		if($_POST['age_text'] < 19){
-			echo "Tinder is not available for teenagers.";
-			return;
-		}
+		// if(!isset($_POST['name_text'])){
+		// 	echo "Name cannot be null";
+		// 	return;
+		// }
+		// /* gender must be selected */
+		// if(!isset($_POST['gender'])){
+		// 	echo "Gender cannot be null";
+		// 	return;
+		// }
+		//  age cannot be null 
+		// if(!isset($_POST['age_text'])){
+		// 	echo "Age cannot be null;";
+		// 	return;
+		// }
+		// /* age restriction */
+		// if($_POST['age_text'] < 19){
+		// 	echo "Tinder is not available for teenagers.";
+		// 	return;
+		// }
 
 		$new_preference = '';
 		if($_POST['interestedInMen'] != NULL){

@@ -73,7 +73,6 @@
 				OCICommit($db_conn);
 
 			} else if (array_key_exists('block', $_POST)) {
-				echo "<p>blocking ".$_POST['block']."</p>";
 				insert_match($user_userid, $_POST['block'], 'f');
 				/* Commit to save changes... */
 				OCICommit($db_conn);

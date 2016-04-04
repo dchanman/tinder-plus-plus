@@ -23,16 +23,14 @@
 <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
 <form method="POST" action="tinder-test.php">
    
-<p><input type="submit" value="Reset" name="reset"></p>
-<p><input type="submit" value="Generate Sample Data" name="dostuff"></p>
+<p><input type="submit" class="btn btn-danger" value="Clear" name="reset"></p>
+<p><input type="submit" class="btn btn-success" value="Generate Sample Data" name="dostuff"></p>
 
 </form>
 
 <?php
   include 'credentials.php';
   include 'sql-cmds.php';
-
-  echo "<br>Your credentials: " . $csid . " (" . $studentnum . ")</br>";
 
   if ($db_conn) {
 

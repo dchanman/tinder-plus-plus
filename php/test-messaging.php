@@ -101,7 +101,15 @@
 				$matchIds = $queryFunctionPtr($id);
 		
 				/* Display the users */
+				$i = 0;
 	      		foreach ($matchIds as $matchId) {
+					if ($i %3 == 0){
+						if ($i != 0) echo "</div>";
+							echo "<div class='container jumbotron'>";
+					} 
+
+					echo "<div class='col-xs-4'>";
+
 	      			/* Display the match's name */
 					$receiverUser = query_getNameFromId($matchId);
 					echo "<h2>$receiverUser</h2>";
@@ -150,7 +158,13 @@
 		      		echo "<form method='POST' action='test-messaging.php'>
 					<button name='block' value='$matchId' type='submit' class='btn btn-danger' onclick='blockUser()'>Block</button>
 					</form>";
+
+					echo "</div>";
+					$i++;
+
 		      	}
+				if($i-1 % 3 != 0) echo "</div>";
+
 			}
 			/* LOG OFF WHEN YOU'RE DONE! */
 			OCILogoff($db_conn);

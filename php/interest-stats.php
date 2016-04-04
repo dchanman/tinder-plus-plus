@@ -15,8 +15,7 @@ include 'verify.php';
 		<?php include 'menu.php';?>
 		<div class="maincontent">
 			<div class="container">
-				<h1>Tinder++ Interest Stats</h1><br>
-				<p>Most popular interests by region</p>
+				<h1>Tinder++ Interest Analytics</h1><br>
 			</div>
 			<div id="stats">
 				<div class="container">
@@ -31,19 +30,30 @@ include 'verify.php';
 							?>
 							<option selected=selected></option>
 						</select><br><br>
-						<input class="btn btn-info" type="submit" name="updateLocation">
+						<input class="btn btn-info" type="submit" name="mostPopularInterestTypeAtLocation" value="Most Popular Interest">
+						<input class="btn btn-info" type="submit" name="leastPopularInterestTypeAtLocation" value="Least Popular Interest">
 					</form>
 				</div>
 				<div class="container">
 					<?php
 						if ($db_conn) {
 							
-								if (array_key_exists('updateLocation', $_POST)) {
-									$mostPopularInterests = mostPopularInterestTypeAtLocation($_POST['location_text']);
+								if (array_key_exists('mostPopularInterestTypeAtLocation', $_POST)) {
+									$interests = mostPopularInterestTypeAtLocation($_POST['location_text']);
 
 									echo "<h3>".$_POST['location_text']."'s Most Popular Interests</h3>";
 									echo "<ul>";
-									foreach ($mostPopularInterests as $int) {
+									foreach ($interests as $int) {
+										echo "<li>$int</li>";
+									}
+									echo "</ul>";
+									
+								} else if (array_key_exists('leastPopularInterestTypeAtLocation', $_POST)) {
+									$interests = leastPopularInterestTypeAtLocation($_POST['location_text']);
+
+									echo "<h3>".$_POST['location_text']."'s Least Popular Interests</h3>";
+									echo "<ul>";
+									foreach ($interests as $int) {
 										echo "<li>$int</li>";
 									}
 									echo "</ul>";

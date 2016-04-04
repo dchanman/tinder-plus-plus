@@ -1,4 +1,3 @@
-DROP TABLE SuggestedBy;
 DROP TABLE InterestedIn;
 DROP TABLE Activity;
 DROP TABLE ScheduledTimes;
@@ -149,17 +148,4 @@ Interest CHAR(20) NOT NULL,
 PRIMARY KEY (UserID, Interest),
 FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
 FOREIGN KEY (Interest) REFERENCES Interest(InterestType) ON DELETE CASCADE
-);
-
-CREATE TABLE SuggestedBy
-(
-ScheduledTime CHAR(10) NOT NULL,
-Location CHAR(50) NOT NULL,
-Discount CHAR(50) NOT NULL,
-ActivityName CHAR(50) NOT NULL,
-BusinessName CHAR(30) NOT NULL,
-PRIMARY KEY (ScheduledTime, Location, ActivityName, BusinessName),
-FOREIGN KEY (ActivityName, BusinessName, ScheduledTime) REFERENCES Activity(Activity, BusinessName, ScheduledTime),
-FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE,
-FOREIGN KEY (ScheduledTime) REFERENCES ScheduledTimes(ScheduledTime) ON DELETE CASCADE
 );

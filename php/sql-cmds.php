@@ -427,7 +427,7 @@ function query_images($userid) {
 
 function insert_image($userid, $url, $displayorder) {
 	/* INSERT into Match, or UPDATE if entry exists */
-	$result = executePlainSQL(
+	$result = executePlainSQL_errReturn(
 		"BEGIN
 		  INSERT INTO Image VALUES ($userid, SYSDATE, '$url', $displayorder);
 		EXCEPTION
@@ -437,6 +437,8 @@ function insert_image($userid, $url, $displayorder) {
 		    WHERE userid = $userid AND displayorder = $displayorder;
 		END;"
 	);
+
+	return $result;
 }
 
 function query_getUserInterests($userid1) {

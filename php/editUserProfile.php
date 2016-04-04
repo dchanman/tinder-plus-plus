@@ -9,6 +9,8 @@ $name = $_SESSION['login_user'];
 if ($db_conn) {
 	$errmsg;
 	global $errmsg;
+	$picErrmsg;
+	global $picErrmsg;
 
 	if (array_key_exists('editUserProfile', $_POST)) {
 
@@ -54,8 +56,6 @@ if ($db_conn) {
 				echo $result['ERRCODE'];
 			}
 		} else {
-			/* Deleted account successfully */
-
 			/* Commit to database */
 			OCICommit($db_conn);
     		OCILogoff($db_conn);
@@ -68,10 +68,21 @@ if ($db_conn) {
 	} else if (array_key_exists('editUserImage', $_POST)) {
 		$imageindex = $_POST['imgindex'] + 1;
 		$imageurl = $_POST['img'];
-		insert_image($user_userid, $imageurl, $imageindex);
+		$result = insert_image($user_userid, $imageurl, $imageindex);
 
-		/* Commit to save changes... */
-		OCICommit($db_conn);
+		if ($result["SUCCESS"] == 0) {
+			if ($result["ERRCODE"] == 2290) {
+				$picErrmsg = "Your image is invalid.";
+			} else if ($result["ERRCODE"] == 1400) {
+				$picErrmsg = "Your image link is invalid.";
+			} else {
+				echo "Uh oh, unrecognized error code: ";
+				echo $result['ERRCODE'];
+			}
+		} else {
+			/* Commit to database */
+			OCICommit($db_conn);
+		}	
 	} else if (array_key_exists('deleteUserImage', $_POST)){
 		// not complete TODO
 		$imageindex = $_POST['imgindex'];
@@ -155,6 +166,7 @@ if ($db_conn) {
 					echo '</form>';
 				}
 				echo "</ul>";
+				echo "$picErrmsg<br>";
 				?>
 				
 

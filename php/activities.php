@@ -134,9 +134,13 @@ include 'session.php';
 
 								/* Run the query and output results */
 								$results = query_getActivitiesSelectAndFilter($projection, $selection);
-
+								$i = 0;
 								foreach ($results as $activity) {
-									echo "<div>";
+									if ($i %3 == 0){
+										if ($i != 0) echo "</div>";
+										echo "<div class='container jumbotron'>";
+									} 
+									echo "<div class='col-xs-4'>";
 									echo "<h4><b>" . $activity['activity'] ."</b></h4>";
 
 									if ($activity['businessName'])
@@ -155,7 +159,9 @@ include 'session.php';
 										echo $activity['discount'] ."% off<br>";
 
 									echo "</div>";
+									$i++;
 								}
+								if($i % 3 == 0) echo "</div>";
 
 							} else {
 								echo "<p>You must select at least one interest category!</p>";

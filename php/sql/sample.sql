@@ -333,7 +333,7 @@ INSERT INTO Activity VALUES ('Buy One Get One Movie', 'Silvercity Granville', 'N
 INSERT INTO Activity VALUES ('Half Off Snacks', 'Silvercity Granville', 'Night', 'Movies', '50');
 INSERT INTO Activity VALUES ('VIP Lounge Discount', 'Silvercity Granville', 'Night', 'Movies', '30');
 
-INSERT INTO Business VALUES (BusinessIDSequence.nextval, 'Silvercity Metrotown', 'Downtown', 'password');
+INSERT INTO Business VALUES (BusinessIDSequence.nextval, 'Silvercity Metrotown', 'Burnaby', 'password');
 INSERT INTO Activity VALUES ('Free Popcorn With Movies', 'Silvercity Metrotown', 'Night', 'Movies', '100');
 INSERT INTO Activity VALUES ('Buy One Get One Movie', 'Silvercity Metrotown', 'Night', 'Movies', '50');
 INSERT INTO Activity VALUES ('Half Off Snacks', 'Silvercity Metrotown', 'Night', 'Movies', '50');

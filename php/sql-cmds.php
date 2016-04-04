@@ -295,6 +295,14 @@ function delete_user($userid) {
 	return $result;
 }
 
+function delete_business($businessid) {
+	$result = executePlainSQL_errReturn(
+		"DELETE FROM Business WHERE businessid = $businessid"
+		);
+
+	return $result;
+}
+
 function insert_addNewBusiness($username, $location, $password) {
 	$result = executePlainSQL_errReturn(
 		"INSERT INTO Business VALUES (

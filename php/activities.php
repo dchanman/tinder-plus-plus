@@ -12,14 +12,15 @@ include 'session.php';
  	<body>
 		<?php include 'menu.php';?>
 		<div class="maincontent">
-			<div class="container">
+			<div class="container jumbotron">
 				<h1>Tinder++ Activities</h1><br>
 				<p>Browse the discounts on the different activities available! (and score on awesome discounts too)</p>
 			</div>
 			<div id="Activities">
-				<div class="container">
+				<div class="container jumbotron">
 					<form method="POST" action="activities.php" class="form-inline">
-							<h3><b>Choose your interests: </b></h3>
+						<div class="col-xs-4">
+							<h4><b>Choose your interests: </b></h4>
 							<?php
 
 								$interests = query_getInterests();
@@ -38,8 +39,9 @@ include 'session.php';
 									echo " $int <br>";
 								}
 							?>
-
-							<h3><b>Choose your preferred date locations: </b></h3>
+						</div>
+						<div class="col-xs-4">
+							<h4><b>Choose your preferred date locations: </b></h4>
 							<?php
 
 								$locations = query_getLocations();
@@ -57,14 +59,16 @@ include 'session.php';
 									echo " $loc <br>";
 								}
 							?>
-
-							<h3><b>Choose what info you would like to see</b></h3>
+						</div>
+						<div class="col-xs-4">
+							<h4><b>Choose what info you would like to see</b></h4>
 							<input type="checkbox" name="businessName" checked>Business<br>
 							<input type="checkbox" name="location" checked>Location<br>
 							<input type="checkbox" name="scheduledTime" checked>Scheduled Time<br>
 							<input type="checkbox" name="interestType" checked>Interest<br>
 							<input type="checkbox" name="discount" checked>Discount<br>
 							<input type="submit" name="filterActivity" class="btn btn-info">
+						</div>
 					</form>
 				</div>
 			</div>

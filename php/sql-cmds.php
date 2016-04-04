@@ -690,9 +690,7 @@ function query_getActivitiesBasedOnInterestType($interesttype){
 
 function query_getActivitiesSelectAndFilter($activityProjection, $interestSelection) {
  	$result = executePlainSQL(
- 		"SELECT $activityProjection FROM Activity A
- 		INNER JOIN Business B ON A.BusinessName = B.BusinessName
- 		WHERE $interestSelection"
+ 		"SELECT $activityProjection FROM Activity WHERE $interestSelection"
  	);
  
  	$results = array();
@@ -700,7 +698,6 @@ function query_getActivitiesSelectAndFilter($activityProjection, $interestSelect
  		$resultItem = array(
  			"activity" => trim($row[ACTIVITY]),
  			"businessName" => trim($row[BUSINESSNAME]),
- 			"location" => trim($row[LOCATION]),
  			"interestType" => trim($row[INTERESTTYPE]),
  			"scheduledTime" => trim($row[SCHEDULEDTIME]),
  			"discount" => trim($row[DISCOUNT])
@@ -756,42 +753,25 @@ function delete_photo($userid, $displayorder){
 	return $result;
 }
 
-function getAvgNumberInterstType($interesttype){
+// function mostPopularInterestTypeAtLocation($location){
 
-	$result = executePlainSQL(
-		"SELECT avg(count)
-		FROM
-		(
-			SELECT COUNT (*) AS count
-			FROM Activity A, InterestedIn I, Users U
-			WHERE A.interesttype = $interestType AND
-				  I.interest = A.interesttype AND
-				  U.userid = I.userid
-			)
-		");
-
-	return $result;
-}
-
-function getMaxAvgInterstTypeAtLocation($interesttype, $location){
-
-	$result = executePlainSQL(
-		"SELECT MAX(avg_numInterestType)
-		FROM (
-			SELECT AVG(count) as avg_numInterestType
-			FROM (
-				SELECT count(*) as count
-				FROM Activity A, InterestedIn I, Users U
-				WHERE A.interesttype = $interestType AND
-				  	I.interest = A.interesttype AND
-				  	U.userid = I.userid
-				)
-			), Business B
-		WHERE B.location = $location"
-		);
-
-	return $result;
-}
+// 	$result = executePlainSQL(
+// 		"WITH InterestCount AS(
+// 			SELECT interest, COUNT(*) AS count
+// 			FROM (
+// 				SELECT interest FROM InterestedIn I
+// 				INNER JOIN Users U On I.userId = U.userId
+// 				WHERE U.location = $location
+// 				) GROUP BY interest
+// 			)
+// 		SELECT interest FROM InterestCount
+// 		WHERE count = (
+// 			SELECT MAX(count)
+// 			FROM InterestCount)"
+// 	);
+		
+// 	return $result;
+// }
 
 /* OCIParse() Prepares Oracle statement for execution
       The two arguments are the connection and SQL query. */

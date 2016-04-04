@@ -746,6 +746,8 @@ function getAvgNumberInterstType($interesttype){
 				  U.userid = I.userid
 			)
 		");
+
+	return $result;
 }
 
 function getMaxAvgInterstTypeAtLocation($interesttype, $location){
@@ -764,6 +766,8 @@ function getMaxAvgInterstTypeAtLocation($interesttype, $location){
 			), Business B
 		WHERE B.location = $location"
 		);
+
+	return $result;
 }
 
 /* OCIParse() Prepares Oracle statement for execution

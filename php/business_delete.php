@@ -13,8 +13,12 @@ session_start();
 	
 	</head>
 	<script>
-		function backToProfile(){
+		function backToProfile() {
 			window.location = "business_profile.php";
+		}
+
+		function editActivities() {
+			window.location = "editBusinessActivities.php";
 		}
 	</script>
  	<body>
@@ -38,6 +42,7 @@ session_start();
 						if ($result["SUCCESS"] == 0) {
 							if ($result["ERRCODE"] == 2292) {
 								echo "<p>Your business still has some activities available for customers. Please delete them before closing your account.</p>";
+								echo '<input type="button" class="btn btn-warning" value="Manage Activities" onclick="editActivities();">';
 							} else {
 								echo "Uh oh, unrecognized error code: ";
 								echo $result['ERRCODE'];

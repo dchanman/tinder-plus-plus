@@ -515,10 +515,21 @@ function query_getPremiumUnmatchedusers($userid) {
 				WHERE I2.userid = U.userid
 				AND I.interest = I2.interest
 			)
-		) AND NOT EXISTS (
-			SELECT matcher, matchee
-			FROM Match
-			WHERE matcher = $userid AND matchee = U.userid
+		)
+		INTERSECT (
+			SELECT U2.userid
+			FROM Users U1 INNER JOIN Users U2
+			ON
+			U1.userid = $userid AND
+			U1.preference LIKE '%' || U2.gender || '%' AND
+			U2.preference LIKE '%' || U1.gender || '%' AND
+			U1.userid <> U2.userid
+			WHERE
+			NOT EXISTS (
+				SELECT matcher, matchee
+				FROM Match
+				WHERE matcher = $userid AND matchee = U2.userid
+			)
 		)"
 		);
 

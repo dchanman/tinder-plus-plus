@@ -814,16 +814,22 @@ function mostPopularInterestTypeAtLocation($location){
 			FROM (
 				SELECT interest FROM InterestedIn I
 				INNER JOIN Users U On I.userId = U.userId
-				WHERE U.location = $location
+				WHERE U.location = '$location'
 				) GROUP BY interest
 			)
 		SELECT interest FROM InterestCount
 		WHERE count = (
 			SELECT MAX(count)
-			FROM InterestCount)"
+			FROM InterestCount
+		)"
 	);
+
+	$interests = array();
+	while(($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+		array_push($interests, trim($row[INTEREST]));
+	}
 		
-	return $result;
+	return $interests;
 }
 
 /* OCIParse() Prepares Oracle statement for execution

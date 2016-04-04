@@ -4,27 +4,6 @@ include 'verify.php';
 
 ?>
 
-<?php
-
-  if ($db_conn) {	
-	//need to get locations here, can't query after logoff
-	$locations = query_getLocations();
-
-   	if (array_key_exists('updateLocation', $_POST)) {
-	// fill in shit here
-		$mostPopularInterst = mostPopularInterestTypeAtLocation($_POST['location_text']);
-	}
-
-    /* LOG OFF WHEN YOU'RE DONE! */
-    OCILogoff($db_conn);
-
-  } else { /* if ($db_conn) */
-    echo "cannot connect";
-    $e = OCI_Error(); // For OCILogon errors pass no handle
-    echo htmlentities($e['message']);
-  }
-?>
-
 <html>
  	<head>
   		<title>Tinder++</title>
@@ -45,6 +24,7 @@ include 'verify.php';
 						<strong>Location:</strong><br>
 						<select name="location_text" class="form-control" value="Update Location">
 							<?php 
+								$locations = query_getLocations();
 								foreach($locations as $loc) {
 									echo "<option value='$loc'>$loc</option>";
 								}
@@ -55,12 +35,35 @@ include 'verify.php';
 					</form>
 				</div>
 				<div class="container">
-					<h3 class="col-xs-6">Most Popular Interest Type:</h3>
-					<h3 class="col-xs-6"> <?php echo $mostPopularInterst;?> </h3>
+					<?php
+						if ($db_conn) {
+							
+								if (array_key_exists('updateLocation', $_POST)) {
+									$mostPopularInterests = mostPopularInterestTypeAtLocation($_POST['location_text']);
+
+									echo "<h3>".$_POST['location_text']."'s Most Popular Interests</h3>";
+									echo "<ul>";
+									foreach ($mostPopularInterests as $int) {
+										echo "<li>$int</li>";
+									}
+									echo "</ul>";
+								}
+								
+
+							/* LOG OFF WHEN YOU'RE DONE! */
+							OCILogoff($db_conn);
+
+							} else { /* if ($db_conn) */
+							echo "cannot connect";
+							$e = OCI_Error(); // For OCILogon errors pass no handle
+							echo htmlentities($e['message']);
+						}
+					?>
 				</div>
 			</div>
 		</div>
     </body>
 </html>
+
 
 

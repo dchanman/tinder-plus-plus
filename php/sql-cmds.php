@@ -248,7 +248,7 @@ function query_getPerfectMatches($userid) {
 		"SELECT userid FROM Users U
 		WHERE NOT EXISTS (
 			SELECT interest FROM InterestedIn I
-			WHERE I.userid =  1
+			WHERE I.userid = $userid
 			AND NOT EXISTS (
 				SELECT interest FROM InterestedIn I2
 				WHERE I2.userid = U.userid
@@ -257,9 +257,9 @@ function query_getPerfectMatches($userid) {
 		)
 		INTERSECT
 		(
-			SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = 1
+			SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = $userid
 			UNION
-			SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = 1
+			SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = $userid
 		)"
 		);
 
@@ -687,6 +687,26 @@ function query_getActivitiesBasedOnInterestType($interesttype){
 	return $activities;
 
 }
+
+function query_getActivitiesSelectAndFilter($activityProjection, $interestSelection) {
+ 	$result = executePlainSQL(
+ 		"SELECT $activityProjection FROM Activity WHERE $interestSelection"
+ 	);
+ 
+ 	$results = array();
+ 	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+ 		$resultItem = array(
+ 			"activity" => trim($row[ACTIVITY]),
+ 			"businessName" => trim($row[BUSINESSNAME]),
+ 			"interestType" => trim($row[INTERESTTYPE]),
+ 			"scheduledTime" => trim($row[SCHEDULEDTIME]),
+ 			"discount" => trim($row[DISCOUNT])
+ 			);
+ 		array_push($results, $resultItem);
+ 	}
+  
+ 	return $results;
+  }
 
 function query_getActivitiesBasedOnTime($scheduledTime){
 	$result = executePlainSQL(

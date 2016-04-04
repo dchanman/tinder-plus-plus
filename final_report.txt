@@ -1,0 +1,270 @@
+Tinder++
+Derek Chan: (o6z8) 33184128
+Peter Chung: (n4z8) 38777124
+Emmett Tan: (z2p8) 37087129
+
+###############################################################################
+What the project accomplished
+
+We were able to successfully create the following features in our Tinder++ Webapp
+*For users:
+	* User login and authentication
+	* User profiles (display their gender, age, profile images, interests, dating preferences)
+	* Browse other users who match their dating preferences
+	* Send messages to their matches
+	* Browse and filter through business promotions 
+	* Delete their profile
+* For businesses:
+	* User login and authentication
+	* Add and manage promotions	
+* Premium Features (AKA "the hard SQL queries")
+	* Users: Browse only users who match all of a user's interests
+	* Businesses: Look up data analytics to find the most popular user interests in a region
+
+###############################################################################
+Schema Differences
+
+The following are the differences in our schema:
+
+General to all tables:
+* Date fields were originally LONG type but changed to the DATE type to take advantage
+	of the DBMS
+
+Users
+* The Preference attribute was expanded from CHAR(1) to CHAR(2) to allow users to 
+	have both a male and female preference ('mf') at the same time
+
+Match
+* Previously, Match was a disjoint table comprised of SuccessfulMatch and UnsuccessfulMatch
+* Now, Match is a single table, with SuccessfulMatch and UnsuccessfulMatch being views
+	into the Match table
+* We realized we overlooked how Tinder matching would work. User A would decide whether
+	he liked User B. Then, after some time, User B would decide whether she liked User A.
+	Our previous schema did not allow us to store User A's decision while we waited for
+	User B's decision.
+
+Activity
+* The Location field was removed. We decided that an activity's location had a functional
+	dependency on it's Business's location
+
+SuggestedBy
+* We removed SuggestedBy because we realized it would be better as a query
+
+Locations
+* We added Locations as a table to store all supported Locations
+
+
+
+###############################################################################
+List of SQL Queries
+
+We ended up using significantly more queries than expected to implement a robust
+web application.
+
+The following SQL commands were taken from PHP files. $foo denotes variables.
+
+Here are the queries we used to fulfill the project criteria:
+
+-------------------------------------------------------------------------------
+(1) Selection and Projection:
+-------------------------------------------------------------------------------
+
+This query allowed users to find Activities that matched their interests (selection), 
+as well as filter the result fields to the fields they care about (projection).
+
+
+SELECT $activityProjection FROM Activity A
+INNER JOIN Business B ON A.BusinessName = B.BusinessName
+WHERE $interestSelection
+
+-------------------------------------------------------------------------------
+(2) Join
+-------------------------------------------------------------------------------
+
+This query is our Tinder matchmaker query. For a user U1, it finds a user U2
+that has compatible gender preferences. It makes sure that U1 and U2 have not
+matched with each other before.
+
+
+SELECT U2.userid
+FROM Users U1 INNER JOIN Users U2
+ON
+U1.userid = $userid AND
+U1.preference LIKE '%' || U2.gender || '%' AND
+U2.preference LIKE '%' || U1.gender || '%' AND
+U1.userid <> U2.userid
+WHERE
+NOT EXISTS (
+	SELECT matcher, matchee
+	FROM Match
+	WHERE matcher = $userid AND matchee = U2.userid
+)
+
+-------------------------------------------------------------------------------
+(3) Division
+-------------------------------------------------------------------------------
+
+This was the "premium" version of our previous matchmaker query. For a user U1,
+it only finds users U2 that share all of U1's interests.
+
+
+SELECT userid FROM Users U
+WHERE NOT EXISTS (
+	SELECT interest FROM InterestedIn I
+	WHERE I.userid = $userid
+	AND NOT EXISTS (
+		SELECT interest FROM InterestedIn I2
+		WHERE I2.userid = U.userid
+		AND I.interest = I2.interest
+	)
+)
+INTERSECT (
+	SELECT U2.userid
+	FROM Users U1 INNER JOIN Users U2
+	ON
+	U1.userid = $userid AND
+	U1.preference LIKE '%' || U2.gender || '%' AND
+	U2.preference LIKE '%' || U1.gender || '%' AND
+	U1.userid <> U2.userid
+	WHERE
+	NOT EXISTS (
+		SELECT matcher, matchee
+		FROM Match
+		WHERE matcher = $userid AND matchee = U2.userid
+	)
+)
+
+-------------------------------------------------------------------------------
+(4) Aggregation
+-------------------------------------------------------------------------------
+
+This query found all of a user's matches and ordered them bythe number of
+common interests
+
+
+SELECT Match.userid FROM
+	(SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = $userid
+	UNION
+	SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = $userid) Match
+INNER JOIN 
+	(SELECT I1.userid, I1.interest FROM InterestedIn I1
+	INNER JOIN InterestedIn I2
+	ON I1.interest = I2.interest AND I1.userid <> $userid AND I2.userid = $userid) CommonInterests
+ON Match.userid = CommonInterests.userid
+GROUP BY Match.userid
+ORDER BY COUNT(*) DESC
+
+-------------------------------------------------------------------------------
+(5) Nested Aggregation with Group-By
+-------------------------------------------------------------------------------
+
+This was our analytics query for businesses. A business could see what the 
+most popular interests were for users at a specified location.
+
+
+WITH InterestCount AS(
+	SELECT interest, COUNT(*) AS count
+	FROM (
+		SELECT interest FROM InterestedIn I
+		INNER JOIN Users U On I.userId = U.userId
+		WHERE U.location = '$location'
+		) GROUP BY interest
+	)
+SELECT interest FROM InterestCount
+WHERE count = (
+	SELECT MAX(count)
+	FROM InterestCount
+)
+
+-------------------------------------------------------------------------------
+(6) Delete
+-------------------------------------------------------------------------------
+
+This command deleted a user's account
+
+DELETE FROM Users WHERE userid = $userid
+
+-------------------------------------------------------------------------------
+(7) Update
+-------------------------------------------------------------------------------
+
+This command updated a user's profile information
+
+UPDATE Users
+SET name = '$name',
+location = '$location',
+age = '$age',
+gender = '$gender',
+preference = '$preference'
+WHERE userid = $userid
+
+-------------------------------------------------------------------------------
+
+The full list of queries and commands can be found in the sql_queries.txt file 
+in the root directory of our submission folder
+
+
+###############################################################################
+Functional Dependencies
+
+-------------------------------------------------------------------------------
+Locations
+-------------------------------------------------------------------------------
+None - Location is a single attribute table
+
+
+-------------------------------------------------------------------------------
+Users
+-------------------------------------------------------------------------------
+UserID -> UserName, Name, DateJoined, Location, Age, Gender, Preference, PasswordHash
+The UserID determines the user's information
+
+-------------------------------------------------------------------------------
+Match
+-------------------------------------------------------------------------------
+Matcher, Matchee -> Match
+Two users, a matcher and a matchee, determine the match decision that was made
+
+-------------------------------------------------------------------------------
+Image
+-------------------------------------------------------------------------------
+UserID, DisplayOrder -> DateAdded, ImageURL
+A UserID and the DisplayOrder number determine what image is referenced and
+the date it was added
+
+-------------------------------------------------------------------------------
+Message
+-------------------------------------------------------------------------------
+MessageID -> SenderUserID, ReceiverUserID, MessageChar, SendScheduledTime
+The MessageID determines the sender, recipient, message, and sendtime
+
+-------------------------------------------------------------------------------
+Business
+-------------------------------------------------------------------------------
+BusinessID -> BusinessName, Location, PasswordHash
+The BusinessID determines the BusinessName, Location, and PasswordHash
+
+-------------------------------------------------------------------------------
+Interest
+-------------------------------------------------------------------------------
+None - Interest is a single attribute table
+
+-------------------------------------------------------------------------------
+ScheduledTimes
+-------------------------------------------------------------------------------
+None - ScheduledTimes is a single attribute table
+
+-------------------------------------------------------------------------------
+Activity
+-------------------------------------------------------------------------------
+Activity, BusinessName, ScheduledTime -> InterestType, Discount
+The activity name, the business that sells the activity, and the scheduled time
+determine the interest type of the activity and the available discount
+
+-------------------------------------------------------------------------------
+InterestedIn
+-------------------------------------------------------------------------------
+UserID -> Interest
+The user determines what is interesting to him/her
+
+

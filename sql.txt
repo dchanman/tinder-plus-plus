@@ -1,0 +1,338 @@
+select * from $table
+
+
+
+SELECT userid FROM users WHERE username = '$username'
+
+
+
+SELECT username FROM Users WHERE userid = '$id'
+
+
+
+SELECT name FROM Users WHERE userid = '$id'
+
+
+
+SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = '$userid'
+UNION
+SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = '$userid'
+
+
+
+SELECT Match.userid FROM (
+	SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = $userid
+	UNION
+	SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = $userid
+) Match
+LEFT JOIN 
+(SELECT userid, messageChar FROM (
+	SELECT senderUserID AS userid, messageChar FROM Message WHERE receiverUserID = $userid
+	UNION ALL
+	SELECT receiverUserID AS userid, messageChar FROM Message WHERE senderUserID = $userid)
+) Msgs
+ON Match.userid = Msgs.userid
+GROUP BY Match.userId
+ORDER BY COUNT(Msgs.messageChar) DESC
+
+
+
+SELECT Match.userid FROM
+	(SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = $userid
+	UNION
+	SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = $userid) Match
+INNER JOIN 
+	(SELECT I1.userid, I1.interest FROM InterestedIn I1
+	INNER JOIN InterestedIn I2
+	ON I1.interest = I2.interest AND I1.userid <> $userid AND I2.userid = $userid) CommonInterests
+ON Match.userid = CommonInterests.userid
+GROUP BY Match.userid
+ORDER BY COUNT(*) DESC
+
+
+
+SELECT userid FROM Users U
+WHERE NOT EXISTS (
+	SELECT interest FROM InterestedIn I
+	WHERE I.userid = $userid
+	AND NOT EXISTS (
+		SELECT interest FROM InterestedIn I2
+		WHERE I2.userid = U.userid
+		AND I.interest = I2.interest
+	)
+)
+INTERSECT
+(
+	SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = $userid
+	UNION
+	SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = $userid
+)
+
+
+
+INSERT INTO Message VALUES (
+	MessageIDSequence.nextval,
+	'$src_userid',
+	'$dest_userid',
+	'$msg_str',
+	SYSDATE)
+
+
+
+SELECT * FROM Users U
+WHERE U.userid = $userid
+
+
+
+SELECT location FROM Users U
+WHERE U.UserID = '$userId'
+
+
+
+SELECT * FROM Users U
+WHERE U.username = '$username'
+
+
+
+SELECT * FROM Business B
+WHERE B.businessname = '$businessname'
+
+
+
+SELECT imageurl FROM Image I
+WHERE userid = $userid
+ORDER BY displayorder
+
+
+
+BEGIN
+  INSERT INTO Image VALUES ($userid, SYSDATE, '$url', $displayorder);
+EXCEPTION
+  WHEN DUP_VAL_ON_INDEX THEN
+    UPDATE Image
+    SET    imageurl = '$url', dateadded = SYSDATE
+    WHERE userid = $userid AND displayorder = $displayorder;
+END;
+
+
+
+SELECT interest FROM InterestedIn WHERE userID = $userid1
+
+
+
+SELECT interest FROM InterestedIn WHERE userID = $userid1
+INTERSECT
+SELECT interest FROM InterestedIn WHERE userID = $userid2
+
+
+
+SELECT U2.userid
+FROM Users U1 INNER JOIN Users U2
+ON
+U1.userid = $userid AND
+U1.preference LIKE '%' || U2.gender || '%' AND
+U2.preference LIKE '%' || U1.gender || '%' AND
+U1.userid <> U2.userid
+WHERE
+NOT EXISTS (
+	SELECT matcher, matchee
+	FROM Match
+	WHERE matcher = $userid AND matchee = U2.userid
+)
+
+
+
+SELECT userid FROM Users U
+WHERE NOT EXISTS (
+	SELECT interest FROM InterestedIn I
+	WHERE I.userid = $userid
+	AND NOT EXISTS (
+		SELECT interest FROM InterestedIn I2
+		WHERE I2.userid = U.userid
+		AND I.interest = I2.interest
+	)
+)
+INTERSECT (
+	SELECT U2.userid
+	FROM Users U1 INNER JOIN Users U2
+	ON
+	U1.userid = $userid AND
+	U1.preference LIKE '%' || U2.gender || '%' AND
+	U2.preference LIKE '%' || U1.gender || '%' AND
+	U1.userid <> U2.userid
+	WHERE
+	NOT EXISTS (
+		SELECT matcher, matchee
+		FROM Match
+		WHERE matcher = $userid AND matchee = U2.userid
+	)
+)
+
+
+
+SELECT * FROM Activity WHERE businessName = '$businessname'
+
+
+
+BEGIN
+  INSERT INTO Match VALUES ($matcherUserID, $matcheeUserID, '$match');
+EXCEPTION
+  WHEN DUP_VAL_ON_INDEX THEN
+    UPDATE Match
+    SET    match = '$match'
+    WHERE matcher = $matcherUserID AND matchee = $matcheeUserID;
+END;
+
+
+
+UPDATE Users
+SET name = '$name',
+location = '$location',
+age = '$age',
+gender = '$gender',
+preference = '$preference'
+WHERE userid = $userid
+
+
+
+UPDATE Business
+SET location = '$location'
+WHERE businessid = $businessid
+
+
+
+UPDATE Activity
+SET activity = '$activity',
+scheduledTime = '$scheduledTime',
+discount = '$discount',
+interestType = '$interestType'
+WHERE businessName = '$businessName' AND
+activity = '$oldActivity' AND
+scheduledTime = '$oldScheduledTime'
+
+
+
+INSERT INTO Activity VALUES (
+	'$activity',
+	'$businessname',
+	'$scheduledTime',
+	'$interestType',
+	$discount)
+	
+
+
+DELETE FROM Activity 
+	WHERE businessName = '$businessname' AND
+	activity = '$activity' AND
+	scheduledTime = '$scheduledTime'	
+
+
+
+SELECT interestType FROM Interest ORDER BY interestType ASC
+
+
+
+SELECT scheduledTime FROM scheduledTimes ORDER BY scheduledTime ASC
+
+
+
+BEGIN
+	INSERT INTO InterestedIn VALUES ($userid, '$interest');
+EXCEPTION
+	WHEN DUP_VAL_ON_INDEX THEN RETURN;
+END;
+
+
+
+DELETE FROM InterestedIn 
+	WHERE userid = $userid AND interest = '$interest'
+
+
+
+SELECT senderUserId, messageChar FROM Message
+WHERE (senderUserId = $myid AND receiverUserId = $otheruser) OR
+(senderUserId = $otheruser AND receiverUserId = $myid)
+ORDER BY messageId ASC
+
+
+
+SELECT location FROM Locations ORDER BY location ASC
+
+
+
+SELECT Activity FROM Activity WHERE interesttype = $interesttype
+
+
+
+SELECT $activityProjection FROM Activity A
+INNER JOIN Business B ON A.BusinessName = B.BusinessName
+WHERE $interestSelection
+
+
+
+SELECT Activity
+FROM Activity
+WHERE scheduledTime = '$scheduledTime'
+
+
+
+SELECT Activity
+FROM Activity A
+WHERE A.businessname IN (
+	SELECT B.businessname
+	FROM Business B
+	WHERE location = '$businessLocation')
+
+
+
+DELETE FROM Image
+WHERE userid = '$userid' AND displayorder = '$displayorder'
+
+
+
+WITH InterestCount AS(
+	SELECT interest, COUNT(*) AS count
+	FROM (
+		SELECT interest FROM InterestedIn I
+		INNER JOIN Users U On I.userId = U.userId
+		WHERE U.location = '$location'
+		) GROUP BY interest
+	)
+SELECT interest FROM InterestCount
+WHERE count = (
+	SELECT MAX(count)
+	FROM InterestCount
+)
+
+
+
+WITH InterestCount AS(
+	SELECT interest, COUNT(*) AS count
+	FROM (
+		SELECT interest FROM InterestedIn I
+		INNER JOIN Users U On I.userId = U.userId
+		WHERE U.location = '$location'
+		) GROUP BY interest
+	)
+SELECT interest FROM InterestCount
+WHERE count = (
+	SELECT MIN(count)
+	FROM InterestCount
+)
+
+
+
+DELETE FROM Users WHERE userid = $userid
+
+
+
+DELETE FROM Business WHERE businessid = $businessid
+
+
+
+INSERT INTO Business VALUES (
+	BusinessIDSequence.nextval,
+	'$username',
+	'$location', 
+	'$password')"
+

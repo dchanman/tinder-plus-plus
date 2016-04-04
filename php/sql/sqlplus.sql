@@ -1,5 +1,4 @@
 set define off
-DROP TABLE SuggestedBy;
 DROP TABLE InterestedIn;
 DROP TABLE Activity;
 DROP TABLE ScheduledTimes;
@@ -34,7 +33,8 @@ Gender CHAR(1) NOT NULL,
 Preference CHAR(2) NOT NULL,
 PasswordHash CHAR(48),
 PRIMARY KEY (UserID),
-FOREIGN KEY (Location) REFERENCES Locations(Location) ON DELETE SET NULL
+FOREIGN KEY (Location) REFERENCES Locations(Location) ON DELETE SET NULL,
+CHECK((Age > 17) AND (Age < 120))
 );
 
 CREATE SEQUENCE UserIDSequence
@@ -137,7 +137,7 @@ ScheduledTime CHAR(10) NOT NULL,
 InterestType CHAR(20) NOT NULL,
 Discount INTEGER NOT NULL,
 PRIMARY KEY (Activity, BusinessName, ScheduledTime),
-FOREIGN KEY (BusinessName) REFERENCES Business(BusinessName) ON DELETE CASCADE,
+FOREIGN KEY (BusinessName) REFERENCES Business(BusinessName),
 FOREIGN KEY (ScheduledTime) REFERENCES ScheduledTimes(ScheduledTime) ON DELETE CASCADE,
 FOREIGN KEY (InterestType) REFERENCES Interest(InterestType) ON DELETE CASCADE
 );
@@ -149,19 +149,6 @@ Interest CHAR(20) NOT NULL,
 PRIMARY KEY (UserID, Interest),
 FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
 FOREIGN KEY (Interest) REFERENCES Interest(InterestType) ON DELETE CASCADE
-);
-
-CREATE TABLE SuggestedBy
-(
-ScheduledTime CHAR(10) NOT NULL,
-Location CHAR(50) NOT NULL,
-Discount CHAR(50) NOT NULL,
-ActivityName CHAR(50) NOT NULL,
-BusinessName CHAR(30) NOT NULL,
-PRIMARY KEY (ScheduledTime, Location, ActivityName, BusinessName),
-FOREIGN KEY (ActivityName, BusinessName, ScheduledTime) REFERENCES Activity(Activity, BusinessName, ScheduledTime) ON DELETE CASCADE,
-FOREIGN KEY (BusinessName) REFERENCES Business(BusinessID) ON DELETE CASCADE,
-FOREIGN KEY (ScheduledTime) REFERENCES ScheduledTimes(ScheduledTime) ON DELETE CASCADE
 );
 INSERT INTO Interest VALUES ('Outdoors');
 INSERT INTO Interest VALUES ('Food');
@@ -382,6 +369,13 @@ INSERT INTO Match VALUES (5,1, 't');
 INSERT INTO Match VALUES (6,1, 't');
 INSERT INTO Match VALUES (7,1, 'f');
 INSERT INTO Match VALUES (8,1, 't');
+INSERT INTO Match VALUES (9,1, 't');
+INSERT INTO Match VALUES (10,1, 't');
+INSERT INTO Match VALUES (11,1, 't');
+INSERT INTO Match VALUES (12,1, 't');
+INSERT INTO Match VALUES (13,1, 't');
+INSERT INTO Match VALUES (14,1, 't');
+INSERT INTO Match VALUES (15,1, 't');
 
 INSERT INTO Match VALUES (1,2, 'f');
 INSERT INTO Match VALUES (2,2, 'f');

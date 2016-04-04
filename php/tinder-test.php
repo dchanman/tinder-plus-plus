@@ -56,7 +56,6 @@
     printTable('scheduledTimes');
     printTable('interestedIn');
     printTable('activity');
-    printTable('suggestedBy');
 
     /* Commit to save changes... */
     OCICommit($db_conn);

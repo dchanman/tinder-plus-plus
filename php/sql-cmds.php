@@ -248,7 +248,7 @@ function query_getPerfectMatches($userid) {
 		"SELECT userid FROM Users U
 		WHERE NOT EXISTS (
 			SELECT interest FROM InterestedIn I
-			WHERE I.userid =  $userid
+			WHERE I.userid =  1
 			AND NOT EXISTS (
 				SELECT interest FROM InterestedIn I2
 				WHERE I2.userid = U.userid
@@ -257,9 +257,9 @@ function query_getPerfectMatches($userid) {
 		)
 		INTERSECT
 		(
-			SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = $userid
+			SELECT userid2 AS userid FROM successfulmatch WHERE userid1 = 1
 			UNION
-			SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = $userid
+			SELECT userid1 AS userid FROM successfulmatch WHERE userid2 = 1
 		)"
 		);
 
@@ -673,38 +673,19 @@ function query_getLocations() {
 	return $locations;
 }
 
-function query_getActivitiesBasedOnInterestType($interesttype) {
+function query_getActivitiesBasedOnInterestType($interesttype){
 	$result = executePlainSQL(
 		"SELECT Activity FROM Activity WHERE interesttype = $interesttype"
 	);
 
 	$activities = array();
 
-	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false){
 		array_push($activities, trim($row[ACTIVITY]));
 	}
 
 	return $activities;
-}
 
-function query_getActivitiesSelectAndFilter($activityProjection, $interestSelection) {
-	$result = executePlainSQL(
-		"SELECT $activityProjection FROM Activity WHERE $interestSelection"
-	);
-
-	$results = array();
-	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-		$resultItem = array(
-			"activity" => trim($row[ACTIVITY]),
-			"businessName" => trim($row[BUSINESSNAME]),
-			"interestType" => trim($row[INTERESTTYPE]),
-			"scheduledTime" => trim($row[SCHEDULEDTIME]),
-			"discount" => trim($row[DISCOUNT])
-			);
-		array_push($results, $resultItem);
-	}
-
-	return $results;
 }
 
 function query_getActivitiesBasedOnTime($scheduledTime){
@@ -749,6 +730,40 @@ function delete_photo($userid, $displayorder){
 		WHERE userid = '$userid' AND displayorder = '$displayorder'"
 		);
 	
+	return $result;
+}
+
+function getAvgNumberInterstType($interesttype){
+
+	$result = executePlainSQL(
+		"SELECT avg(count)
+		FROM
+		(
+			SELECT COUNT (*) AS count
+			FROM Activity A, InterestedIn I, Users U
+			WHERE A.interesttype = $interestType AND
+				  I.interest = A.interesttype AND
+				  U.userid = I.userid
+			)
+		");
+}
+
+function getMaxAvgInterstTypeAtLocation($interesttype, $location){
+
+	$result = executePlainSQL(
+		"SELECT MAX(avg_numInterestType)
+		FROM (
+			SELECT AVG(count) as avg_numInterestType
+			FROM (
+				SELECT count(*) as count
+				FROM Activity A, InterestedIn I, Users U
+				WHERE A.interesttype = $interestType AND
+				  	I.interest = A.interesttype AND
+				  	U.userid = I.userid
+				)
+			), Business B
+		WHERE B.location = $location"
+		);
 }
 
 /* OCIParse() Prepares Oracle statement for execution

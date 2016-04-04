@@ -19,34 +19,37 @@ $name = $_SESSION['login_business'];
 	<body>
 		<?php include 'menu.php';?>
 		<div class="maincontent">
-		<b id="welcome">Welcome, <i><?php echo $name; ?></i></b>
-		<br>
+		<h2><b id="welcome">Welcome, <i><?php echo $name; ?></i></b></h2>
 
 		<p>
-		<h2>Your Info</h2><br>
+		<h3>Your Info</h3><br>
 		BusinessID: <i><?php echo $business_id ?></i><br> 
 		Businessname: <i><?php echo $name; ?></i><br>
 		Location: <i><?php echo $business_location; ?></i><br>
 		</p>
-
+		<div class="container">
 		<?php
 		/* Print activities */
 		echo "<h2>Your Activities</h2>";
 		$activities = query_getActivitiesWithCompanyName($name);
-		echo "<table border=0>";
-		echo "<th>Activity</th>";
-		echo "<th>Scheduled Time</th>";
-		echo "<th>Discount</th>";
+		$i = 0;
 		foreach ($activities as $activity) {
-			echo "<tr>";
-			echo "<td>" . $activity['activity'] . "</td>";
-			echo "<td>" . $activity['scheduledTime'] . "</td>";
-			echo "<td>" . $activity['discount'] . "</td>";
-			echo "</tr>";
-		}
-		echo "</table>";
+			if ($i %3 == 0){
+				if ($i != 0) echo "</div>";
+				echo "<div class='container jumbotron'>";
+			} 
 
+			echo "<div class='col-xs-4'>";
+			echo "<h4><b>" . $activity['activity'] ."</b></h4>";
+			echo $activity['scheduledTime'] ."<br>";
+			echo $activity['discount'] ."% off<br>";
+			echo "</div>";
+			$i++;
+
+		}
+		if($i % 3 == 0) echo "</div>";
 		?>
+		</div>
 
 		<input id="editProfile" type="submit" value="Edit Activities" name="editProfile" class="btn btn-default" onclick="editActivities();">
 		<input id="editProfile" type="submit" value="Edit Profile" name="editProfile" class="btn btn-default" onclick="editBusinessProfile();">

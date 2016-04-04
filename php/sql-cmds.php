@@ -690,7 +690,9 @@ function query_getActivitiesBasedOnInterestType($interesttype){
 
 function query_getActivitiesSelectAndFilter($activityProjection, $interestSelection) {
  	$result = executePlainSQL(
- 		"SELECT $activityProjection FROM Activity WHERE $interestSelection"
+ 		"SELECT $activityProjection FROM Activity A
+ 		INNER JOIN Business B ON A.BusinessName = B.BusinessName
+ 		WHERE $interestSelection"
  	);
  
  	$results = array();
@@ -698,6 +700,7 @@ function query_getActivitiesSelectAndFilter($activityProjection, $interestSelect
  		$resultItem = array(
  			"activity" => trim($row[ACTIVITY]),
  			"businessName" => trim($row[BUSINESSNAME]),
+ 			"location" => trim($row[LOCATION]),
  			"interestType" => trim($row[INTERESTTYPE]),
  			"scheduledTime" => trim($row[SCHEDULEDTIME]),
  			"discount" => trim($row[DISCOUNT])

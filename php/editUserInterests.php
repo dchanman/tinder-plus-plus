@@ -49,41 +49,40 @@ if (array_key_exists('editUserInterests', $_POST)) {
 			}
 		</script>
 	</head>
+	
 	<body>
-		<?php include 'menu.php';?>
-		<?php 
-		echo "<h1>Edit Interests ($user_name)</h1>";
-		?>
-		<form method="POST">
-			<?php
-
-			echo '<h4><b>Interests: </b></h4>';
-			$interests = query_getInterests();
-			$userInterests = query_getUserInterests($user_userid);
-			foreach ($interests as $int) {
-				/* The following echos all print a single line for the checkbox and label. This is hacky as hell. Sorry guys */
-
-				/* We want a checkbox */
-				echo '<input type="checkbox" ';
-				/* The variable name of the checkbox depends on the interest name */
-				echo 'name="'.$int.'_checkbox" ';
-				/* We want to check the box automatically if the user already set this interest */
-				echo (in_array($int, $userInterests) === FALSE ? '' : 'checked').'>';
-				/* Print the text label for the checkbox */
-				echo " $int <br>";
-			}
+		<div class="maincontent">
+			<?php include 'menu.php';?>
+			<?php 
+			echo "<h1>Edit Interests ($user_name)</h1>";
 			?>
-			<input type="submit" value="Edit" action="editUserInterests.php" name="editUserInterests">
-			<input type="button" value="Go back" onclick="backToProfile();">
-		</form>
+			<form method="POST">
+				<?php
 
-		<?php
-		/* LOG OFF WHEN YOU'RE DONE! */
-		OCILogoff($db_conn);
-		?>
-		<?php 
-		include 'footer_menu.php';
-		?>
+				echo '<h4><b>Interests: </b></h4>';
+				$interests = query_getInterests();
+				$userInterests = query_getUserInterests($user_userid);
+				foreach ($interests as $int) {
+					/* The following echos all print a single line for the checkbox and label. This is hacky as hell. Sorry guys */
 
+					/* We want a checkbox */
+					echo '<input type="checkbox" ';
+					/* The variable name of the checkbox depends on the interest name */
+					echo 'name="'.$int.'_checkbox" ';
+					/* We want to check the box automatically if the user already set this interest */
+					echo (in_array($int, $userInterests) === FALSE ? '' : 'checked').'>';
+					/* Print the text label for the checkbox */
+					echo " $int <br>";
+				}
+				?>
+				<input type="submit" class="btn btn-success" value="Edit" action="editUserInterests.php" name="editUserInterests">
+				<input type="button" class="btn btn-warning" value="Return to Profile" onclick="backToProfile();">
+			</form>
+
+			<?php
+			/* LOG OFF WHEN YOU'RE DONE! */
+			OCILogoff($db_conn);
+			?>
+		</div>
 	</body>
 </html>

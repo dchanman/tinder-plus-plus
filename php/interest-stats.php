@@ -1,6 +1,7 @@
 <?php
 include 'credentials.php';
 include 'verify.php';
+
 ?>
 
 <?php
@@ -8,9 +9,10 @@ include 'verify.php';
   if ($db_conn) {	
 	//need to get locations here, can't query after logoff
 	$locations = query_getLocations();
+
    	if (array_key_exists('updateLocation', $_POST)) {
 	// fill in shit here
-		
+		$mostPopularInterst = mostPopularInterestTypeAtLocation($_POST['location_text']);
 	}
 
     /* LOG OFF WHEN YOU'RE DONE! */
@@ -26,7 +28,7 @@ include 'verify.php';
 <html>
  	<head>
   		<title>Tinder++</title>
-		<?php include 'head-includes.php'?>
+		<?php include 'head-includes.php';?>
 		<script src="assets/js/custom.js"></script>
     	<link href="assets/css/custom.css" rel="stylesheet">
 	</head>
@@ -54,7 +56,7 @@ include 'verify.php';
 				</div>
 				<div class="container">
 					<h3 class="col-xs-6">Most Popular Interest Type:</h3>
-					<h3 class="col-xs-6"> PETER PUT INTEREST HERE </h3>
+					<h3 class="col-xs-6"> <?php echo $mostPopularInterst;?> </h3>
 				</div>
 			</div>
 		</div>

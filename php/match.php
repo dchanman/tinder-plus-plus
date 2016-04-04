@@ -83,8 +83,5 @@
 		}
 		?>
 		</div>
-	<?php 
-		include 'footer_menu.php';
-	?>
 	</body>
 </html>

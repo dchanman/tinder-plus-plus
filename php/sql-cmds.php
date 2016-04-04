@@ -806,25 +806,25 @@ function delete_photo($userid, $displayorder){
 	return $result;
 }
 
-// function mostPopularInterestTypeAtLocation($location){
+function mostPopularInterestTypeAtLocation($location){
 
-// 	$result = executePlainSQL(
-// 		"WITH InterestCount AS(
-// 			SELECT interest, COUNT(*) AS count
-// 			FROM (
-// 				SELECT interest FROM InterestedIn I
-// 				INNER JOIN Users U On I.userId = U.userId
-// 				WHERE U.location = $location
-// 				) GROUP BY interest
-// 			)
-// 		SELECT interest FROM InterestCount
-// 		WHERE count = (
-// 			SELECT MAX(count)
-// 			FROM InterestCount)"
-// 	);
+	$result = executePlainSQL(
+		"WITH InterestCount AS(
+			SELECT interest, COUNT(*) AS count
+			FROM (
+				SELECT interest FROM InterestedIn I
+				INNER JOIN Users U On I.userId = U.userId
+				WHERE U.location = $location
+				) GROUP BY interest
+			)
+		SELECT interest FROM InterestCount
+		WHERE count = (
+			SELECT MAX(count)
+			FROM InterestCount)"
+	);
 		
-// 	return $result;
-// }
+	return $result;
+}
 
 /* OCIParse() Prepares Oracle statement for execution
       The two arguments are the connection and SQL query. */

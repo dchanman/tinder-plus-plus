@@ -145,7 +145,7 @@
 					<button name='insert_sendMessage' value='$matchId' class='btn btn-info' type='submit'>Send</button>
 					</form>";
 					/* View Suggested Date Based on the common interest */
-					echo "<input id='suggestedDate' type='submit' value='View Suggested Date' class='btn btn-warning' name='suggestedDate' onclick='viewSuggestedDate()'>";
+					//echo "<input id='suggestedDate' type='submit' value='View Suggested Date' class='btn btn-warning' name='suggestedDate' onclick='viewSuggestedDate()'>";
 					/* Create BLOCK button with the value set to the receiverID */
 		      		echo "<form method='POST' action='test-messaging.php'>
 					<button name='block' value='$matchId' type='submit' class='btn btn-danger' onclick='blockUser()'>Block</button>
@@ -161,9 +161,5 @@
 			}
 		?>
 		</div>
-		<?php 
-		include 'footer_menu.php';
-		?>
-
 	</body>
 </html>

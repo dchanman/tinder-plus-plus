@@ -78,32 +78,38 @@ if ($db_conn) {
 				/* Field for a new activity */
 				echo "<h2>New Activity</h2>";
 				echo '<form method="POST" class="form-inline">';
-				echo '<label>Activity Name</label><input type="text" class="form-control" name="activity" size="30"><br>';
-				echo '<label>Discount</label><input type="text" class="form-control" name="discount" size="30"><br>';
+				echo '<label>Activity Name:</label><br><input type="text" class="form-control" name="activity" size="30"><br><br>';
+				echo '<label>Discount:</label><br><input type="text" class="form-control" name="discount" size="30"><br><br>';
 				
 				/* Print available times */
-				echo '<label>Time</label><select name="scheduledTime" class="form-control">';
+				echo '<label>Time</label><br><select name="scheduledTime" class="form-control">';
 				$times = query_getScheduledTimes();
 				foreach($times as $time) {   			
 					echo "<option value='$time'>$time</option>";
 				}
-				echo "</select>";
+				echo "</select><br><br>";
 
 				/* Print interests */
-				echo '<label>Interest Type</label><select name="interestType" class="form-control">';
+				echo '<label>Interest Type</label><br><select name="interestType" class="form-control">';
 				$interests = query_getInterests();
 				foreach($interests as $int) {   			
 					echo "<option value='$int'>$int</option>";
 				}
-				echo "</select>";
+				echo "</select><br><br>";
 				echo '<input type="submit" class="btn btn-default btn-success" value="Create" action="editBusinessActivities.php" name="newBusinessActivity"><br>';
 
 				echo "<hr>";
 
 				/* Print activities */
 				echo "<h2>Your Activities</h2>";
+				$i=0;
 				$activities = query_getActivitiesWithCompanyName($name);
 				for ($i = 0; $i < count($activities); $i++) {
+					if ($i %2 == 0){
+						if ($i != 0) echo "</div>";
+							echo "<div class='container jumbotron'>";
+					} 
+					echo "<div class='col-xs-6'>";
 					/* We need some way of tracking the ids of the forms... This is the jankiest. This prevents concurrency from ever happening lol */
 					$activity = $activities[$i];
 					echo "<h3>" . $$activity['activity'] . "</h3>";
@@ -112,36 +118,38 @@ if ($db_conn) {
 					echo '<input type="hidden" name="old_activity'.$i.'" value="'. $activity['activity'] .'">';
 					echo '<input type="hidden" name="old_scheduledTime'.$i.'" value="'. $activity['scheduledTime'] .'">';
 
-					echo '<label>Activity Name</label><input type="text" class="form-control" name="activity'.$i.'" size="30" value="' . $activity['activity'] . '"><br>';
-					echo '<label>Discount</label><input type="text" class="form-control" name="discount'.$i.'" size="30" value="' . $activity['discount'] . '"><br>';
+					echo '<label>Activity Name</label><br><input type="text" class="form-control" name="activity'.$i.'" size="30" value="' . $activity['activity'] . '"><br><br>';
+					echo '<label>Discount</label><br><input type="text" class="form-control" name="discount'.$i.'" size="30" value="' . $activity['discount'] . '"><br><br>';
 					
 					/* Print available times */
-					echo '<label>Time</label><select name="scheduledTime'.$i.'" class="form-control">';
+					echo '<label>Time</label><br><select name="scheduledTime'.$i.'" class="form-control">';
 					$times = query_getScheduledTimes();
 					foreach($times as $time) {   			
 						/* We want to autoselect the current time */
 						if (strcmp($activity['scheduledTime'], $time) == 0)
-							echo "<option value='$time' selected=selected>$time</option>";
+							echo "<option value='$time' selected=selected>$time</option><br><br>";
 						else
-							echo "<option value='$time'>$time</option>";
+							echo "<option value='$time'>$time</option><br><br>";
 					}
-					echo "</select>";
+					echo "</select><br><br>";
 
 					/* Print interests */
-					echo '<label>Interest Type</label><select name="interestType'.$i.'" class="form-control">';
+					echo '<label>Interest Type</label><br><select name="interestType'.$i.'" class="form-control">';
 					$interests = query_getInterests();
 					foreach($interests as $int) {   			
 						/* We want to autoselect the current interest */
 						if (strcmp($activity['interestType'], $int) == 0)
-							echo "<option value='$int' selected=selected>$int</option>";
+							echo "<option value='$int' selected=selected>$int</option><br><br>";
 						else
-							echo "<option value='$int'>$int</option>";
+							echo "<option value='$int'>$int</option><br><br>";
 					}
-					echo "</select>";
+					echo "</select><br><br>";
 
-					echo '<button type="submit" class="btn btn-default btn-success" value="'.$i.'" action="editBusinessActivities.php" name="editBusinessActivities">Edit</button><br>';
+					echo '<button type="submit" class="btn btn-default btn-success" value="'.$i.'" action="editBusinessActivities.php" name="editBusinessActivities">Edit</button><br><br>';
 					echo '<button type="submit" class="btn btn-default btn-danger" value="'.$i.'" action="editBusinessActivities.php" name="deleteBusinessActivities">Delete</button><br>';
+					echo "</div>";
 				}
+				if(i-1 % 2 != 0) echo "</div>";
 
 				echo "<hr>";
 

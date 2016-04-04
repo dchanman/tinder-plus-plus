@@ -37,3 +37,7 @@
 .box-with-space{
 	margin-right:5px;
 }
+
+label{
+	padding-right: 5px;
+}

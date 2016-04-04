@@ -161,7 +161,7 @@ include 'session.php';
 									echo "</div>";
 									$i++;
 								}
-								if($i % 3 == 0) echo "</div>";
+								if($i-1 % 3 != 0) echo "</div>";
 
 							} else {
 								echo "<p>You must select at least one interest category!</p>";

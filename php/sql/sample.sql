@@ -19,15 +19,15 @@ INSERT INTO ScheduledTimes VALUES ('Night');
 
 
 
-INSERT INTO Users VALUES (UserIDSequence.nextval, 'adam', 'Adam', '97-03-26', 'Vancouver', 21, 'm', 'm', 'hunter2');
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'adam', 'Adam', '16-03-26', 'Downtown', 21, 'm', 'mf', 'hunter2');
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'adam'),
-	'https://upload.wikimedia.org/wikipedia/commons/8/8f/Lucas_Cranach_the_Elder_-_Adam_und_Eva_im_Paradies_(S%C3%BCndenfall)_-_Google_Art_Project.jpg',
+	'http://cp91279.biography.com/Adam-Levine_Recording-in-Houdini_s-House_HD_768x432-16x9.jpg',
 	1);
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'adam'),
-	'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTtFiSSEuKMsmzgDe79h8rYD_95hfG1OhuW02TRdnXn3gO3EOq2nA',
+	'http://celebrityinside.com/wp-content/uploads/2014/07/Adam-Levine-Favorite-Things.jpg',
 	2);
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'adam'),
-	'http://www.darkbeautymag.com/wp-content/uploads/2015/09/Candice-Ghai-Twin-Sisters-Photography-Haley-Kenefick-Alex-Hooper-snake-Austin-Retile-Service-Adam-Eve.jpg',
+	'http://www.billboard.com/files/styles/article_main_image/public/media/adam-levine-the-voice-nov-10-2014-billboard-650.jpg',
 	3);
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'adam'), 'Outdoors');
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'adam'), 'Nightlife');
@@ -38,7 +38,7 @@ INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'ada
 
 
 
-INSERT INTO Users VALUES (UserIDSequence.nextval, 'pchung', 'Peter', '94-01-16', 'Vancouver', 21, 'm', 'mf', 'hunter2');
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'pchung', 'Peter', '14-01-16', 'Vancouver', 21, 'm', 'mf', 'hunter2');
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'pchung'),
 	'https://scontent-sea1-1.xx.fbcdn.net/hphotos-xal1/v/t1.0-9/11029476_10152322305804567_2592960065506022466_n.jpg?oh=6376df01f280c8b51fea68b26cbd8973&oe=575B6CAB',
 	1);
@@ -58,7 +58,7 @@ INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'pch
 
 
 
-INSERT INTO Users VALUES (UserIDSequence.nextval, 'gina', 'Gina', '95-01-26', 'Vancouver', 21, 'f', 'mf', 'hunter2');
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'gina', 'Gina', '15-01-26', 'Richmond', 21, 'f', 'mf', 'hunter2');
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'gina'),
 	'http://i2.kym-cdn.com/entries/icons/original/000/008/570/good-girlg-ina.jpg',
 	1);
@@ -70,7 +70,7 @@ INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'gin
 
 
 
-INSERT INTO Users VALUES (UserIDSequence.nextval, 'lisa', 'Lisa', '96-03-27', 'Vancouver', 21, 'f', 'm', 'hunter2');
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'lisa', 'Lisa', '16-03-27', 'Delta', 21, 'f', 'm', 'hunter2');
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'lisa'),
 	'https://s-media-cache-ak0.pinimg.com/236x/de/45/23/de452385e4fa2c70589b23d045bd902e.jpg',
 	1);
@@ -81,27 +81,29 @@ INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'lis
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'lisa'), 'Nightlife');
 
 
-INSERT INTO Users VALUES (UserIDSequence.nextval, 'anthony', 'Anthony', '92-01-30', 'Vancouver', 20, 'm', 'f', 'hunter2');
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'anthony', 'Anthony', '12-01-30', 'Vancouver', 20, 'm', 'f', 'hunter2');
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'anthony'),
 	'http://l1.yimg.com/bt/api/res/1.2/heLDUAchFnG95G5TPpOKaQ--/YXBwaWQ9eW5ld3NfbGVnbztpbD1wbGFuZTtxPTc1O3c9NjAw/http://media.zenfs.com/en/person/Ysports/carmelo-anthony-basketball-headshot-photo.jpg',
 	1);
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'anthony'), 'Outdoors');
 
 
-INSERT INTO Users VALUES (UserIDSequence.nextval, 'lara', 'Lara', '92-01-30', 'Vancouver', 20, 'f', 'mf', 'hunter2');
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'lara', 'Lara', '12-01-30', 'Downtown', 20, 'f', 'mf', 'hunter2');
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'lara'),
 	'http://img10.deviantart.net/5f7a/i/2013/295/4/f/lara_croft__say_cheese__by_irishhips-d6rem7v.jpg',
 	1);
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'lara'), 'Outdoors');
 
 
-INSERT INTO Users VALUES (UserIDSequence.nextval, 'Emmett', 'Emmett', '92-01-30', 'Vancouver', 20, 'm', 'f', 'hunter2');
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'Emmett', 'Emmett', '12-01-30', 'Vancouver', 20, 'm', 'f', 'hunter2');
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'Emmett'),
 	'http://images2.fanpop.com/image/photos/8800000/Emmett-wallpaper-emmett-cullen-8884579-1920-1200.jpg',
 	1);
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'Emmett'), 'Outdoors');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'Emmett'), 'Music');
 
-INSERT INTO Users VALUES (UserIDSequence.nextval, 'stacy', 'Stacy', '92-01-30', 'Vancouver', 20, 'm', 'f', 'hunter2');
+
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'stacy', 'Stacy', '12-01-30', 'Burnaby', 20, 'm', 'f', 'hunter2');
 INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'stacy'),
 	'https://makeameme.org/media/templates/250/scumbag-stacy.jpg',
 	1);
@@ -111,6 +113,101 @@ INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'sta
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'stacy'), 'Movies');
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'stacy'), 'Music');
 INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'stacy'), 'Romance');
+
+
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'rick', 'Rick', SYSDATE, 'Vancouver', 20, 'm', 'f', 'hunter2');
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'rick'),
+	'http://img1.wikia.nocookie.net/__cb20130318151721/epicrapbattlesofhistory/images/6/6d/Rick-astley.jpg',
+	1);
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'rick'), 'Music');
+
+
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'tarzan', 'Tarzan', SYSDATE, 'Delta', 19, 'm', 'f', 'hunter2');
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'tarzan'),
+	'https://img.buzzfeed.com/buzzfeed-static/static/2014-09/11/13/enhanced/webdr08/enhanced-19643-1410458033-2.jpg',
+	1); 
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'tarzan'),
+	'http://static.srcdn.com/slir/w700-h350-q90-c700:350/wp-content/uploads/Tarzan-2016-Movie-Synopsis.jpg',
+	2);
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'tarzan'), 'Outdoors');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'tarzan'), 'Food');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'tarzan'), 'Movies');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'tarzan'), 'Romance');
+
+
+
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'jane', 'Jane', SYSDATE, 'Delta', 19, 'f', 'm', 'hunter2');
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'jane'),
+	'http://statici.behindthevoiceactors.com/behindthevoiceactors/_img/chars/char_12698.jpg',
+	1); 
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'jane'),
+	'https://media0.giphy.com/media/7sSXiqLqedV4I/200_s.gif',
+	2);
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'jane'), 'Outdoors');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'jane'), 'Food');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'jane'), 'Movies');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'jane'), 'Romance');
+
+
+
+
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'kimkar', 'Kim', SYSDATE, 'Downtown', 24, 'f', 'm', 'hunter2');
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'kimkar'),
+	'https://pbs.twimg.com/profile_images/710707644063854592/zvPCbjMf_400x400.jpg',
+	1);
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'kimkar'), 'Food');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'kimkar'), 'Movies');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'kimkar'), 'Romance');
+
+
+
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'kanyeyeye', 'Kanye', SYSDATE, 'Downtown', 24, 'm', 'f', 'hunter2');
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'kanyeyeye'),
+	'https://flavorwire.files.wordpress.com/2015/03/kanye-west1.jpg',
+	1);
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'kanyeyeye'),
+	'http://www.alux.com/wp-content/uploads/2015/06/0620_kanye-west.jpg',
+	2);
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'kanyeyeye'),
+	'http://cdni.condenast.co.uk/1920x1280/s_v/Taylor-Swift-Kanye-West-2009-Vogue-12Feb15-PA_b.jpg',
+	3);
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'kanyeyeye'), 'Food');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'kanyeyeye'), 'Movies');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'kanyeyeye'), 'Romance');
+
+
+
+
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'snape', 'Snape', SYSDATE, 'Richmond', 29, 'm', 'f', 'hunter2');
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'snape'),
+	'http://vignette1.wikia.nocookie.net/harrypotter/images/c/c1/Severus-snape1.jpg/revision/latest/scale-to-width-down/160?cb=20110316031920',
+	1);
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'snape'),
+	'https://media2.giphy.com/media/5Dv11s9dcqYuY/200_s.gif',
+	2);
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'snape'),
+	'http://cdn.elenalinville.com/wp-content/uploads/2014/02/severus-snape.jpg',
+	3);
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'snape'), 'Nightlife');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'snape'), 'Movies');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'snape'), 'Romance');
+
+
+
+
+INSERT INTO Users VALUES (UserIDSequence.nextval, 'samsmith', 'Sam', SYSDATE, 'Downtown', 22, 'm', 'm', 'hunter2');
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'samsmith'),
+	'http://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/114/2014/10/20100651/Sam-Smith.jpg',
+	1);
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'samsmith'),
+	'http://i3.mirror.co.uk/incoming/article6711045.ece/ALTERNATES/s1200/Sam-Smith-attending-the-World-Premiere-of-Spectre.jpg',
+	2);
+INSERT INTO Image (UserID, ImageURL, DisplayOrder) VALUES ((SELECT userID FROM Users WHERE username = 'samsmith'),
+	'http://www.showbiz411.com/wp-content/uploads/2015/01/sam-smith-.jpg',
+	3);
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'samsmith'), 'Music');
+INSERT INTO InterestedIn VALUES ((SELECT userID FROM Users WHERE username = 'samsmith'), 'Romance');
+
 
 INSERT INTO Match VALUES (1,1, 't');
 INSERT INTO Match VALUES (2,1, 't');
@@ -158,6 +255,7 @@ INSERT INTO Match VALUES (6,6, 't');
 
 INSERT INTO Match VALUES (1,8, 't');
 
+
 INSERT INTO Message VALUES (MessageIDSequence.nextval,
 	(SELECT userID FROM Users WHERE username = 'gina'),
 	(SELECT userID FROM Users WHERE username = 'adam'),
@@ -183,6 +281,18 @@ INSERT INTO Message VALUES (MessageIDSequence.nextval,
 	(SELECT userID FROM Users WHERE username = 'lara'),
 	(SELECT userID FROM Users WHERE username = 'adam'),
 	'Yeah I do, what about you?', SYSDATE);
+
+
+INSERT INTO Match VALUES (
+	(SELECT userID FROM Users WHERE username = 'tarzan'),
+	(SELECT userID FROM Users WHERE username = 'jane'), 't');
+INSERT INTO Match VALUES (
+	(SELECT userID FROM Users WHERE username = 'jane'),
+	(SELECT userID FROM Users WHERE username = 'tarzan'), 't');
+INSERT INTO Message VALUES (MessageIDSequence.nextval,
+	(SELECT userID FROM Users WHERE username = 'tarzan'),
+	(SELECT userID FROM Users WHERE username = 'jane'),
+	'i tarzan', SYSDATE);
 
 INSERT INTO Business VALUES (BusinessIDSequence.nextval, 'DereksMarshmellows', 'Vancouver', 'password');
 

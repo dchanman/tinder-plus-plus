@@ -48,10 +48,11 @@ $name = $_SESSION['login_user'];
 					?>
 				</div>
 			</div>
+			<?php 
+				include 'footer_menu.php';
+			?>
 		</div>
-		<?php 
-			include 'footer_menu.php';
-		?>
+
 		</body>
 </html>
 

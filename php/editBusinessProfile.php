@@ -66,8 +66,8 @@ if ($db_conn) {
 				}
 				echo '</select><br>';
 				?>
-				<input type="submit" class="btn btn-default" value="Edit" action="editBusinessProfile.php" name="editBusinessProfile">
-				<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">
+				<input type="submit" class="btn btn-success" value="Edit" action="editBusinessProfile.php" name="editBusinessProfile">
+				<input type="button" class="btn btn-warning" value="Return to profile" onclick="backToProfile();">
 			</form>
 
 			<form method="POST" action="editBusinessProfile.php" class="form-inline">

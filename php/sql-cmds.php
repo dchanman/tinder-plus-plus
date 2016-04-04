@@ -673,19 +673,38 @@ function query_getLocations() {
 	return $locations;
 }
 
-function query_getActivitiesBasedOnInterestType($interesttype){
+function query_getActivitiesBasedOnInterestType($interesttype) {
 	$result = executePlainSQL(
 		"SELECT Activity FROM Activity WHERE interesttype = $interesttype"
 	);
 
 	$activities = array();
 
-	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false){
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
 		array_push($activities, trim($row[ACTIVITY]));
 	}
 
 	return $activities;
+}
 
+function query_getActivitiesSelectAndFilter($activityProjection, $interestSelection) {
+	$result = executePlainSQL(
+		"SELECT $activityProjection FROM Activity WHERE $interestSelection"
+	);
+
+	$results = array();
+	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+		$resultItem = array(
+			"activity" => trim($row[ACTIVITY]),
+			"businessName" => trim($row[BUSINESSNAME]),
+			"interestType" => trim($row[INTERESTTYPE]),
+			"scheduledTime" => trim($row[SCHEDULEDTIME]),
+			"discount" => trim($row[DISCOUNT])
+			);
+		array_push($results, $resultItem);
+	}
+
+	return $results;
 }
 
 function query_getActivitiesBasedOnTime($scheduledTime){

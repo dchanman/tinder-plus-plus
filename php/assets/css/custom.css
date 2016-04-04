@@ -41,3 +41,8 @@
 label{
 	padding-right: 5px;
 }
+
+.footer{
+    position:fixed;
+    bottom:0;
+}

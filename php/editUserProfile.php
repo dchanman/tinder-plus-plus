@@ -151,6 +151,9 @@ if ($db_conn) {
 				?>
 			</div>
 		</div>
+		<?php 
+			include 'footer_menu.php';
+		?>
 
 	</body>
 </html>

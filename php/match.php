@@ -81,6 +81,10 @@
 		    echo htmlentities($e['message']);
 		}
 		?>
+		<?php 
+			include 'footer_menu.php';
+		?>
+
 		</div>
 	</body>
 </html>

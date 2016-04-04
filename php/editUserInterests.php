@@ -84,5 +84,9 @@ if (array_key_exists('editUserInterests', $_POST)) {
 			OCILogoff($db_conn);
 			?>
 		</div>
+		<?php 
+			include 'footer_menu.php';
+		?>
+
 	</body>
 </html>

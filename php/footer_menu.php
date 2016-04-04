@@ -1,9 +1,13 @@
 <footer class="footer">
-	<div class="container text-muted">
-		<b id="findMatches"><a href="match.php">Find Matches</a></b> |
-		<b id="editProfile"><a href="editUserProfile.php">Edit Profile</a></b> |
-		<b id="editInterests"><a href="editUserInterests.php">Edit Interests</a></b> |
-		<b id="logout"><a href="logout.php">Log Out</a></b>
+	<div class="container">
+		<div class="text-muted">
+			<ul class = "nav nav-tabs">
+					<li role="presentation"><a href="match.php">Find Matches</a></li>
+					<li role="presentation"><a href="editUserProfile.php">Edit Profile</a></li>
+					<li role="presentation"><a href="editUserInterests.php">Edit Interests</a></li>
+					<li role="presentation"><a href="logout.php">Log Out</a></li>
+			</ul>
+		</div>
 	</div>
 </footer>
 

@@ -59,6 +59,7 @@ include 'session.php';
 									echo " $loc <br>";
 								}
 							?>
+							<input type="submit" name="filterActivity" class="btn btn-info">
 						</div>
 						<div class="col-xs-4">
 							<h4><b>Choose what info you would like to see</b></h4>
@@ -67,7 +68,6 @@ include 'session.php';
 							<input type="checkbox" name="scheduledTime" checked>Scheduled Time<br>
 							<input type="checkbox" name="interestType" checked>Interest<br>
 							<input type="checkbox" name="discount" checked>Discount<br>
-							<input type="submit" name="filterActivity" class="btn btn-info">
 						</div>
 					</form>
 				</div>

@@ -21,8 +21,6 @@
 		    	insert_match($user_userid, $_POST['matchwith'], 'f');
 		    }
 
-			echo "<p>Signed in as <b>$user_name</b></p>";
-
 			/* Get all users this user has yet to try matching with */
 			$result = query_getUnmatchedUsers($user_userid);
 			/* Grab the first one */

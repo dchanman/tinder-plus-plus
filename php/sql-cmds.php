@@ -503,6 +503,37 @@ function query_getUnmatchedUsers($userid) {
 	return $returntuple;
 }
 
+function query_getPremiumUnmatchedusers($userid) {
+	$s = executePlainSQL(
+
+		"SELECT userid FROM Users U
+		WHERE NOT EXISTS (
+			SELECT interest FROM InterestedIn I
+			WHERE I.userid = $userid
+			AND NOT EXISTS (
+				SELECT interest FROM InterestedIn I2
+				WHERE I2.userid = U.userid
+				AND I.interest = I2.interest
+			)
+		) AND NOT EXISTS (
+			SELECT matcher, matchee
+			FROM Match
+			WHERE matcher = $userid AND matchee = U.userid
+		)"
+		);
+
+	$unmatchedUsers = array();
+	while (($row = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	   	array_push($unmatchedUsers, $row[USERID]);
+	}
+
+	$returntuple = array(
+		"unmatchedUsers" => $unmatchedUsers
+		);
+
+	return $returntuple;
+}
+
 function query_getActivitiesWithCompanyName($businessname) {
 	$result = executePlainSQL(
 		"SELECT * FROM Activity WHERE businessName = '$businessname'"

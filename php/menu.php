@@ -12,7 +12,7 @@
 		<li role="presentation"><a href='user_login.php'>User Login</a></li>
 		<li role="presentation"><a href='user_profile.php'>User Profile</a></li>
 		<li role="presentation"><a href='match.php'>Find Matches</a></li>
-		<li role="presentation"><a href='supermatch.php'>Super Matches</a></li>
+		<li role="presentation"><a href='supermatch.php'>Premium Matches</a></li>
 		<li role="presentation"><a href='test-messaging.php'>Messages</a></li>
 		<li role="presentation"><a href='activities.php'>Activities</a></li>
 		<li role="presentation"><a href='logout.php'>Log Out</a></li>

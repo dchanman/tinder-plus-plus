@@ -49,11 +49,10 @@
 		      	$result = query_getCommonInterests($user_userid, $unmatchedUser);
 
 		      	/* Display the interests */
-		      	echo "<b>Common Interests</b><ul>";
+		      	echo "<b>Common Interests</b><br>";
 		      	foreach ($result['commonInterests'] as $commonint) {
-		      		echo "<li>$commonint</li>";
+		      		echo "$commonint<br>";
 		      	}
-		      	echo "</ul>";
 
 		      	/* Display HOT/NOT buttons */
 				echo '

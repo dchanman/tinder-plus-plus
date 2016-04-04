@@ -122,20 +122,20 @@
 					if (!isset($commonInterests)) {
 						echo "<h4>Find something in common through messaging!</h4></br>";
 					} else {
-						echo "<h4>Common Interests: </h4><ul>";
+						echo "<h4>Common Interests: </h4><br>";
 						foreach ($commonInterests as $commonInterest){
-							echo "<li>$commonInterest</li>";	
+							echo "$commonInterest<br>";	
 						}
-						echo "</ul>";
 					}
+					echo "<br>";
 								
 					/* Display convo */
 					$convo = query_getConversation($user_userid, $matchId);
 					foreach ($convo as $msg) {
 						echo "<b>".($msg[sender] == $user_userid ? $user_name : $receiverUser)."</b>: ";
-						echo $msg[message];
-						echo "<br>";
+						echo "$msg[message]<br>";
 					}
+					echo "<br>";
 
 					
 					

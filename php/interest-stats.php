@@ -37,26 +37,33 @@ include 'verify.php';
 				<div class="container">
 					<?php
 						if ($db_conn) {
-							
+														
 								if (array_key_exists('mostPopularInterestTypeAtLocation', $_POST)) {
+									if ($_POST['location_text'] == ""){
+										echo "Please select a location!";
+										OCILogoff($db_conn);
+										return;
+									}
+
 									$interests = mostPopularInterestTypeAtLocation($_POST['location_text']);
 
 									echo "<h3>".$_POST['location_text']."'s Most Popular Interests</h3>";
-									echo "<ul>";
 									foreach ($interests as $int) {
-										echo "<li>$int</li>";
+										echo "$int<br>";
 									}
-									echo "</ul>";
 									
 								} else if (array_key_exists('leastPopularInterestTypeAtLocation', $_POST)) {
+									if ($_POST['location_text'] == ""){
+										echo "Please select a location!";
+										OCILogoff($db_conn);
+										return;
+									}
 									$interests = leastPopularInterestTypeAtLocation($_POST['location_text']);
 
 									echo "<h3>".$_POST['location_text']."'s Least Popular Interests</h3>";
-									echo "<ul>";
 									foreach ($interests as $int) {
-										echo "<li>$int</li>";
+										echo "$int<br>";
 									}
-									echo "</ul>";
 								}
 								
 

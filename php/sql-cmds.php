@@ -295,6 +295,14 @@ function delete_user($userid) {
 	return $result;
 }
 
+function delete_business($businessid) {
+	$result = executePlainSQL_errReturn(
+		"DELETE FROM Business WHERE businessid = $businessid"
+		);
+
+	return $result;
+}
+
 function insert_addNewBusiness($username, $location, $password) {
 	$result = executePlainSQL_errReturn(
 		"INSERT INTO Business VALUES (
@@ -486,6 +494,48 @@ function query_getUnmatchedUsers($userid) {
 
 	while (($row = oci_fetch_array($result, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
 	    array_push($unmatchedUsers, $row[USERID]);
+	}
+
+	$returntuple = array(
+		"unmatchedUsers" => $unmatchedUsers
+		);
+
+	return $returntuple;
+}
+
+function query_getPremiumUnmatchedusers($userid) {
+	$s = executePlainSQL(
+
+		"SELECT userid FROM Users U
+		WHERE NOT EXISTS (
+			SELECT interest FROM InterestedIn I
+			WHERE I.userid = $userid
+			AND NOT EXISTS (
+				SELECT interest FROM InterestedIn I2
+				WHERE I2.userid = U.userid
+				AND I.interest = I2.interest
+			)
+		)
+		INTERSECT (
+			SELECT U2.userid
+			FROM Users U1 INNER JOIN Users U2
+			ON
+			U1.userid = $userid AND
+			U1.preference LIKE '%' || U2.gender || '%' AND
+			U2.preference LIKE '%' || U1.gender || '%' AND
+			U1.userid <> U2.userid
+			WHERE
+			NOT EXISTS (
+				SELECT matcher, matchee
+				FROM Match
+				WHERE matcher = $userid AND matchee = U2.userid
+			)
+		)"
+		);
+
+	$unmatchedUsers = array();
+	while (($row = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+	   	array_push($unmatchedUsers, $row[USERID]);
 	}
 
 	$returntuple = array(
@@ -692,7 +742,7 @@ function query_getActivitiesSelectAndFilter($activityProjection, $interestSelect
  	$result = executePlainSQL(
  		"SELECT $activityProjection FROM Activity A
  		INNER JOIN Business B ON A.BusinessName = B.BusinessName
- 		WHERE $interestSelection"
+  		WHERE $interestSelection"
  	);
  
  	$results = array();
@@ -756,42 +806,25 @@ function delete_photo($userid, $displayorder){
 	return $result;
 }
 
-function getAvgNumberInterstType($interesttype){
+// function mostPopularInterestTypeAtLocation($location){
 
-	$result = executePlainSQL(
-		"SELECT avg(count)
-		FROM
-		(
-			SELECT COUNT (*) AS count
-			FROM Activity A, InterestedIn I, Users U
-			WHERE A.interesttype = $interestType AND
-				  I.interest = A.interesttype AND
-				  U.userid = I.userid
-			)
-		");
-
-	return $result;
-}
-
-function getMaxAvgInterstTypeAtLocation($interesttype, $location){
-
-	$result = executePlainSQL(
-		"SELECT MAX(avg_numInterestType)
-		FROM (
-			SELECT AVG(count) as avg_numInterestType
-			FROM (
-				SELECT count(*) as count
-				FROM Activity A, InterestedIn I, Users U
-				WHERE A.interesttype = $interestType AND
-				  	I.interest = A.interesttype AND
-				  	U.userid = I.userid
-				)
-			), Business B
-		WHERE B.location = $location"
-		);
-
-	return $result;
-}
+// 	$result = executePlainSQL(
+// 		"WITH InterestCount AS(
+// 			SELECT interest, COUNT(*) AS count
+// 			FROM (
+// 				SELECT interest FROM InterestedIn I
+// 				INNER JOIN Users U On I.userId = U.userId
+// 				WHERE U.location = $location
+// 				) GROUP BY interest
+// 			)
+// 		SELECT interest FROM InterestCount
+// 		WHERE count = (
+// 			SELECT MAX(count)
+// 			FROM InterestCount)"
+// 	);
+		
+// 	return $result;
+// }
 
 /* OCIParse() Prepares Oracle statement for execution
       The two arguments are the connection and SQL query. */

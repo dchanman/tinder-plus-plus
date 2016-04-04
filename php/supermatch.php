@@ -6,8 +6,9 @@
 	</head>
  	<body>
 		<?php include 'menu.php';?>
-		<h1>SUPER MATCH FINDER: find matches with all your interests!</h1>
 		<div class="maincontent">
+		<h1>Tinder++ Premium</h1>
+		<p> Premium matches share all of your interests </p>
  	 	<?php
  	 	include 'session.php';
 
@@ -21,10 +22,8 @@
 		    	insert_match($user_userid, $_POST['matchwith'], 'f');
 		    }
 
-			echo "<p>Signed in as <b>$user_name</b></p>";
-
 			/* Get all users this user has yet to try matching with */
-			$result = query_getUnmatchedUsers($user_userid);
+			$result = query_getPremiumUnmatchedusers($user_userid);
 			/* Grab the first one */
 			$unmatchedUser = $result['unmatchedUsers'][0];
 
@@ -60,7 +59,7 @@
 		      	/* Display HOT/NOT buttons */
 				echo '
 				<p>
-				<form method="POST" action="match.php">
+				<form method="POST" action="supermatch.php">
 				<input type="hidden" value='.$unmatchedUser.' name="matchwith">
 			 	<input type="submit" value="HOT" name="hot">
 			 	<input type="submit" value="NOT" name="not">

@@ -7,28 +7,30 @@ session_start();
 
 $name = $_SESSION['login_user'];
 if ($db_conn) {
+	$errmsg;
+	global $errmsg;
 
 	if (array_key_exists('editUserProfile', $_POST)) {
 
-		if(!isset($_POST['name_text'])){
-			echo "Name cannot be null";
-			return;
-		}
-		/* gender must be selected */
-		if(!isset($_POST['gender'])){
-			echo "Gender cannot be null";
-			return;
-		}
-		/* age cannot be null */
-		if(!isset($_POST['age_text'])){
-			echo "Age cannot be null;";
-			return;
-		}
-		/* age restriction */
-		if($_POST['age_text'] < 19){
-			echo "Tinder is not available for teenagers.";
-			return;
-		}
+		// if(!isset($_POST['name_text'])){
+		// 	echo "Name cannot be null";
+		// 	return;
+		// }
+		// /* gender must be selected */
+		// if(!isset($_POST['gender'])){
+		// 	echo "Gender cannot be null";
+		// 	return;
+		// }
+		//  age cannot be null 
+		// if(!isset($_POST['age_text'])){
+		// 	echo "Age cannot be null;";
+		// 	return;
+		// }
+		// /* age restriction */
+		// if($_POST['age_text'] < 19){
+		// 	echo "Tinder is not available for teenagers.";
+		// 	return;
+		// }
 
 		$new_preference = '';
 		if($_POST['interestedInMen'] != NULL){
@@ -40,16 +42,28 @@ if ($db_conn) {
 		}
 
 		/* Update */
-		update_userProfile($user_userid, $_POST['name_text'], $_POST['location_text'], $_POST['age_text'], $_POST['gender'], $new_preference);
+		$result = update_userProfile($user_userid, $_POST['name_text'], $_POST['location_text'], $_POST['age_text'], $_POST['gender'], $new_preference);
 
-		/* Commit to save changes... */
-		OCICommit($db_conn);
-		OCILogoff($db_conn);
+		if ($result["SUCCESS"] == 0) {
+			if ($result["ERRCODE"] == 2290) {
+				$errmsg = "Your age is invalid.";
+			} else if ($result["ERRCODE"] == 1407) {
+				$errmsg = "You must fill in all fields.";
+			} else {
+				echo "Uh oh, unrecognized error code: ";
+				echo $result['ERRCODE'];
+			}
+		} else {
+			/* Deleted account successfully */
 
-		/* Redirect to a success page */
+			/* Commit to database */
+			OCICommit($db_conn);
+    		OCILogoff($db_conn);
 
-		header('Location: user_profile.php');
-		exit();
+			/* Redirect to login page */
+    		header('Location: user_profile.php');
+			exit();
+		}	
 
 	} else if (array_key_exists('editUserImage', $_POST)) {
 		$imageindex = $_POST['imgindex'] + 1;
@@ -120,6 +134,8 @@ if ($db_conn) {
 					echo 'Preference: <br>';
 					echo '<input type="checkbox" name="interestedInMen" value="m" '.(strpos($user_preference, 'm') === FALSE ? '' : 'checked').'> Men</checkbox><br>';
 					echo '<input type="checkbox" name="interestedInWomen" value="f" '.(strpos($user_preference, 'f') === FALSE ? '' : 'checked').'> Women</checkbox><br>';
+
+					echo "$errmsg<br>";
 					?>
 					<input type="submit" class="btn btn-default" value="Edit" action="editUserProfile.php" name="editUserProfile">
 					<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">

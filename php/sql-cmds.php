@@ -582,7 +582,7 @@ function insert_match($matcherUserID, $matcheeUserID, $match) {
 
 function update_userProfile($userid, $name, $location, $age, $gender, $preference) {
 	/* INSERT into Match, or UPDATE if entry exists */
-	$result = executePlainSQL(
+	$result = executePlainSQL_errReturn(
 		"UPDATE Users
 		SET name = '$name',
 		location = '$location',
@@ -591,6 +591,8 @@ function update_userProfile($userid, $name, $location, $age, $gender, $preferenc
 		preference = '$preference'
 		WHERE userid = $userid"
 	);
+
+	return $result;
 }
 
 function update_businessProfile($businessid, $location) {

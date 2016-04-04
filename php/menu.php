@@ -26,6 +26,7 @@
 		<li role="presentation"><a href='newbusiness.php'>Business Signup</a></li>
 		<li role="presentation"><a href='business_login.php'>Business Login</a></li>
 		<li role="presentation"><a href='business_profile.php'>Business Profile</a></li>
+		<li role="presentation"><a href='interest-stats.php'>Interest Statistics</a></li>
 		<li role="presentation"><a href='logout.php'>Log Out</a></li>
     </ul>
   	</li>

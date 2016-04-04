@@ -25,9 +25,7 @@ if (isset($_POST['UserLogin'])) {
 
             // grab the information needed for login
             $inputname = $_POST['userName'];
-            echo ($inputname."</br>");
             $inputpwd = $_POST['userPwd'];
-            echo ($inputpwd."</br>");
         
             // query for information obtained
             $s = executePlainSQL("select count (*)
@@ -72,9 +70,7 @@ if(isset($_POST['BusinessLogin'])){
 
             // grab the information needed for login
             $inputname = $_POST['businessName'];
-            echo ($inputname."</br>");
             $inputpwd = $_POST['businessPwd'];
-            echo ($inputpwd."</br>");
         
             // query for information obtained
             $s = executePlainSQL("select count (*)

@@ -31,7 +31,7 @@ include 'verify.php';
 							</div>
 							<input id="BusinessLogin" class="btn btn-success form-control" type="submit" value="Continue" name="BusinessLogin"></p>
 							</div>
-							<span><?php echo $error; ?></span>
+							<span class="error"><?php echo $error; ?></span>
 					</form>
 
 					<div id="signup3 center-text">

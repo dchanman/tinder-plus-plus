@@ -38,38 +38,47 @@ if ($db_conn) {
 		<?php include 'head-includes.php' ?>
 	</head>
 	<script>
-		function backToProfile(){
+		function backToProfile() {
 			window.location = "business_profile.php";
+		}
+
+		function deleteAccount() {
+			window.location = "business_delete.php";
 		}
 	</script>
  	<body>
 		<?php include 'menu.php';?>
 		<div class="maincontent">
-		<?php echo "<h1>Edit Profile ($name)</h1>"; ?>
-		
-		<form method="POST" action="editBusinessProfile.php" class="form-inline">
-		<?php
-			/* Location dropdown box */
-			echo 'Location:
-			<select name="location_text" class="form-control">';
-			$locations = query_getLocations();
-			foreach($locations as $loc) {
-				/* We want to autoselect the current location */
-				if (strcmp($business_location, $loc) == 0)
-					echo "<option value='$loc' selected=selected>$loc</option>";
-				else
-					echo "<option value='$loc'>$loc</option>";
-			}
-			echo '</select><br>';
-			?>
-			<input type="submit" class="btn btn-default" value="Edit" action="editBusinessProfile.php" name="editBusinessProfile">
-			<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">
-		</form>
+			<?php echo "<h1>Edit Profile ($name)</h1>"; ?>
+			
+			<form method="POST" action="editBusinessProfile.php" class="form-inline">
+			<?php
+				/* Location dropdown box */
+				echo 'Location:
+				<select name="location_text" class="form-control">';
+				$locations = query_getLocations();
+				foreach($locations as $loc) {
+					/* We want to autoselect the current location */
+					if (strcmp($business_location, $loc) == 0)
+						echo "<option value='$loc' selected=selected>$loc</option>";
+					else
+						echo "<option value='$loc'>$loc</option>";
+				}
+				echo '</select><br>';
+				?>
+				<input type="submit" class="btn btn-default" value="Edit" action="editBusinessProfile.php" name="editBusinessProfile">
+				<input type="button" class="btn btn-default" value="Return to profile" onclick="backToProfile();">
+			</form>
 
-		<?php
-			/* LOG OFF WHEN YOU'RE DONE! */
-			OCILogoff($db_conn);
-		?>
+			<form method="POST" action="editBusinessProfile.php" class="form-inline">
+			</form>
+			<h2>Delete Account</h2>
+			<input type="submit" class="btn btn-danger" value="Delete Account" onclick="deleteAccount();">
+
+			<?php
+				/* LOG OFF WHEN YOU'RE DONE! */
+				OCILogoff($db_conn);
+			?>
 		</div>
 		</body>
 	</body>
